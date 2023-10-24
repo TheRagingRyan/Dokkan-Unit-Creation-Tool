@@ -7,7 +7,7 @@ from pathlib import Path
 ### Check for modules on run time
 def module_check() -> bool:
     modules_to_check = ['dearpygui', 'pyautogui', 'easygui', 'bs4', 'requests', 'PIL', 'pypresence', 'icecream', 'urllib3']
-    modules_to_install = ['dearpygui', 'pyautogui', 'easygui', 'bs4', 'requests', 'PIL', 'pypresence', 'icecream', 'urllib=1.26.7']
+    modules_to_install = ['dearpygui', 'pyautogui', 'easygui', 'beautifulsoup4', 'requests', 'Pillow', 'pypresence', 'icecream', 'urllib=1.26.7']
     
     for i in range(len(modules_to_check)):
         try:
