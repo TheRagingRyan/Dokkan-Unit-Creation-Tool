@@ -1,9 +1,0 @@
-pip install dearpygui
-pip install pyautogui
-pip install easygui
-pip install beautifulsoup4
-pip install requests
-pip install Pillow
-pip install pypresence
-pip install icecream
-pip install urllib3==1.26.7
