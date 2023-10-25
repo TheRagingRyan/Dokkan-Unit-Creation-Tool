@@ -8,24 +8,34 @@ def module_check() -> bool:
     modules_to_check = ['dearpygui', 'pyautogui', 'easygui', 'bs4', 'requests', 'PIL', 'pypresence', 'icecream', 'urllib3']
     modules_to_install = ['dearpygui', 'pyautogui', 'easygui', 'beautifulsoup4', 'requests', 'Pillow', 'pypresence', 'icecream', 'urllib3==1.26.7']
     
+    python_version = subprocess.check_output(['python', '--version'])
+    
     for i in range(len(modules_to_check)):
         try:
             __import__(modules_to_check[i])
         except Exception as e:
             print(e)
             subprocess.check_call(['pip', 'install', modules_to_install[i]])
+            
+    with open('python_version.txt', 'w') as file:
+        file.write(python_version.decode('utf-8'))
+        
     return True
+
+### Delete log file if it exists (only meant for Leader Skill really, cause that is the most convoluted section of the whole program)
+if os.path.exists('error_log.txt'):
+    os.remove('error_log.txt')
 
 module_check()
 #########################################################################################################################################################  
 from . functions import Config_AIO
 
-Config_Path = str(Path.home()) + '/Unit Creation Tool' + '/config.ini'
+config_path = str(Path.home()) + '/Unit Creation Tool' + '/config.ini'
 
 
 ### Necessary for program to run properly. 
 ### Asks for decrypted database location, as well as grab categories from the Dokkan.wiki and save them to the config.
-if not os.path.exists(Config_Path):
+if not os.path.exists(config_path):
     Config_AIO()
     
 # config = Config_Read()
@@ -39,7 +49,6 @@ if not os.path.exists(Config_Path):
 
 
 
-### Delete log file if it exists (only meant for Leader Skill really, cause that is the most convoluted section of the whole program)
-if os.path.exists('error_log.txt'):
-    os.remove('error_log.txt')
+
+
     
