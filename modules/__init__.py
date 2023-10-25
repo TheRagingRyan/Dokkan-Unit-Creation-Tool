@@ -23,12 +23,14 @@ from . classes import Leader_Skill_Info
 from . configs import Config_Read
 
 Config_Path = str(Path.home()) + '/Unit Creation Tool' + '/config.ini'
-config = Config_Read()
+
 
 ### Necessary for program to run properly. 
 ### Asks for decrypted database location, as well as grab categories from the Dokkan.wiki and save them to the config.
 if not os.path.exists(Config_Path):
     Config_AIO()
+    
+config = Config_Read()
 
 
 
