@@ -6,7 +6,7 @@ This project is in a testing state, so bugs are to be expected. Should you encou
 
 ### How to run the program (Text Walkthrough)  
 
-**Python version >=3.7**  
+**Python version 3.7**  
 ---
 
 Link: [Python Version 3.7.9](https://www.python.org/downloads/release/python-379/)
