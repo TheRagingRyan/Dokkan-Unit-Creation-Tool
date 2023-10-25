@@ -19,8 +19,6 @@ def module_check() -> bool:
 module_check()
 #########################################################################################################################################################  
 from . functions import Config_AIO
-from . classes import Leader_Skill_Info
-from . configs import Config_Read
 
 Config_Path = str(Path.home()) + '/Unit Creation Tool' + '/config.ini'
 
@@ -30,14 +28,14 @@ Config_Path = str(Path.home()) + '/Unit Creation Tool' + '/config.ini'
 if not os.path.exists(Config_Path):
     Config_AIO()
     
-config = Config_Read()
+# config = Config_Read()
 
 
 
 ### Read the config to grab said categories for use in the program
-cat_list = config.get('GLB_Categories', 'categories_list')
-cat_list = ast.literal_eval(cat_list)
-Leader_Skill_Info.cat_list = sorted(cat_list)
+# cat_list = config.get('GLB_Categories', 'categories_list')
+# cat_list = ast.literal_eval(cat_list)
+# Leader_Skill_Info.cat_list = sorted(cat_list)
 
 
 
