@@ -29,14 +29,16 @@ if os.path.exists('error_log.txt'):
 module_check()
 #########################################################################################################################################################  
 from . functions import Config_AIO
-
-config_path = str(Path.home()) + '/Unit Creation Tool' + '/config.ini'
+from . discord import Initialize_Discord_Presence
+config_path = 'config/config.ini'
 
 
 ### Necessary for program to run properly. 
 ### Asks for decrypted database location, as well as grab categories from the Dokkan.wiki and save them to the config.
 if not os.path.exists(config_path):
     Config_AIO()
+
+RPC = Initialize_Discord_Presence()
     
 # config = Config_Read()
 
