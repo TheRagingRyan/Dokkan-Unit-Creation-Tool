@@ -4,6 +4,9 @@
 
 This project is in a testing state, so bugs are to be expected. Should you encounter any bugs please create an issue on this repository, or join the **discord**. **(There is a button in the program that will take you there)**.
 
+### How to run the program (Video Walkthrough)   
+https://youtu.be/-Fb6l0-mqRA   
+
 ### How to run the program (Text Walkthrough)  
 
 **Python version 3.7**  
