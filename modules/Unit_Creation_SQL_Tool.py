@@ -418,7 +418,7 @@ def main():
     # show_style_editor()
     # time.sleep(1)
     setup_dearpygui()
-    show_viewport(minimized=True)
+    show_viewport(minimized=False)
     # time.sleep(1)
     
     set_primary_window('Unit Creation SQL Tool Main Window', True)
