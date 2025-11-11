@@ -12,7 +12,7 @@ https://youtu.be/-Fb6l0-mqRA
 **Python version 3.7**  
 ---
 
-Link: [Python Version 3.7.9](https://www.python.org/downloads/release/python-379/)
+Link: [Python Version 3.12]([https://www.python.org/downloads/release/python-379/](https://www.python.org/ftp/python/3.12.0/python-3.12.0-amd64.exe))
 
 ### Download this specfic one.
 ![image](https://github.com/TheRagingRyan/Dokkan-Unit-Creation-Tool/assets/30947607/d2929809-4066-4e8f-9af3-c1b44efc7276)
