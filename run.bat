@@ -1,3 +1,3 @@
 @echo off
-python main.py
+py main.py -r requirements.txt
 pause
