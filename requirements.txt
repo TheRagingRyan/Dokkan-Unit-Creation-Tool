@@ -1,0 +1,8 @@
+dearpygui
+pyautogui
+easygui
+beautifulsoup4
+requests
+Pillow
+pypresence
+urllib3==1.26.7
