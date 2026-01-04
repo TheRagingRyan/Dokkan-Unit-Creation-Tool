@@ -5,8 +5,8 @@ from pathlib import Path
 
 ### Check for modules on run time
 def module_check() -> bool:
-    modules_to_check = ['dearpygui', 'pyautogui', 'easygui', 'bs4', 'requests<3', 'PIL', 'pypresence', 'urllib3<2']
-    modules_to_install = ['dearpygui', 'pyautogui', 'easygui', 'beautifulsoup4', 'requests<3', 'Pillow', 'pypresence', 'urllib3<2']
+    modules_to_check = ['dearpygui', 'pyautogui', 'easygui', 'bs4', 'requests', 'PIL', 'pypresence', 'urllib3']
+    modules_to_install = ['dearpygui', 'pyautogui', 'easygui', 'beautifulsoup4', 'requests', 'Pillow', 'pypresence', 'urllib3']
     
     python_version = subprocess.check_output(['python', '--version'])
     
