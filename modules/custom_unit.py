@@ -446,8 +446,18 @@ def Thumb_Test(tag_id):
             set_value('log_1', 'If you are seeing this and there is a pixelated image, you didn\'t open a 250x250 image')
         
         thumb_name = os.path.basename(file_path)
+
+        dest_dir = os.path.join('thumbs', 'thumb')
+        os.makedirs(dest_dir, exist_ok=True)
+        dest_path = os.path.join(dest_dir, thumb_name)
+        if not os.path.exists(dest_path):
+            shutil.copy2(file_path, dest_path)
+
+
         if thumb_name not in Custom_Unit.card_thumb_dict:
             Custom_Unit.card_thumb_dict[int(card)] = thumb_name
+
+        
             
     except Exception as e:
         set_value(f'Add_Image_Placeholder_{card}', False)
@@ -457,7 +467,6 @@ def Thumb_Test(tag_id):
     
     print(Custom_Unit.card_thumb_dict)
     set_value(tag_id, False)
-
 ########################################################################################################################################################################################################
 def Custom_Card_Thumb_Display(*, card=int, json_dict=None, json_cards=0):
     card = card
