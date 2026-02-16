@@ -1286,6 +1286,9 @@ def Causality_Type_Callback(tag_id, data):
 #################################################################################################################################################################################################################################################################
 
 def Causality_Creator():
+
+    def hide_window(sender, app_data):
+        hide_item(sender)
     
     causality_combo_list = ['(0) None', '(1) Is HP Over %','(2) Is HP Under %','(3) Ki Over #','(4) Ki Under #','(5) Past Turn #','(6) Deck Has Link Skill',
                            '(7) Enemy Has Link Skill','(8) Is ATK & DEF Over %','(9) Is ATK & DEF Under %',f'(10) Is HP Over % and Ki Above #',
@@ -1306,81 +1309,84 @@ def Causality_Creator():
     ### Queries the database to gather all of the card_unique_info stuff to be used in the rest of the Causality Creator
     Causality.card_unique_info_set_names = Card_Unique_Infos()
 
-    Delete_Items('Causality_Creator_Window');Delete_Items('Causality_Button_Group');Delete_Items('Causality_Add')
-    Delete_Items('Causality_Del');Delete_Items('Causality_JSON_Input');Delete_Items('Causality_JSON_Button')
-    
-    with window(label='Causality Creator',tag='Causality_Creator_Window', width=900, height=400):
-        with group(horizontal=True, tag='Causality_Button_Group'):
-            add_button(label='Add Causality', tag='Causality_Add', callback=Causality_Add)
-            add_button(label='Del Causality', tag='Causality_Del', callback=Causality_Del)
-            add_text('(?)', tag='Causality_?_Text')
-            add_input_text(tag='Causality_JSON_Input', width=String_Length.length[0], hint='Ex. 4&21')
-            add_button(label='Create Causality', tag='Causality_JSON_Button', callback=Create_Causality_JSON)
-            with tooltip('Causality_?_Text'):
-                add_text('The table will only display "cau_val" that are required\nIf none appear it''s because that causality is all 0s' )
-            with tooltip('Causality_JSON_Input'):
-                add_text('\t\t\t\t\t\t(WIP)\n---------------------------------------------------------\nExamples of what currently works\n4&1&69\n5|21|16\n1937&1938|1939&1940\n(1937&1938)|(1939&1940)|(5555&5523)\n(385&(386|387))|(388&9)\n')
+    # Delete_Items('Causality_Creator_Window')
+    # Delete_Items('Causality_Button_Group');Delete_Items('Causality_Add')
+    # Delete_Items('Causality_Del');Delete_Items('Causality_JSON_Input');Delete_Items('Causality_JSON_Button')
+    if not (does_alias_exist('Causality_Creator_Window')):
+        with window(label='Causality Creator',tag='Causality_Creator_Window', width=900, height=400, on_close=hide_window):
+            with group(horizontal=True, tag='Causality_Button_Group'):
+                add_button(label='Add Causality', tag='Causality_Add', callback=Causality_Add)
+                add_button(label='Del Causality', tag='Causality_Del', callback=Causality_Del)
+                add_text('(?)', tag='Causality_?_Text')
+                add_input_text(tag='Causality_JSON_Input', width=String_Length.length[0], hint='Ex. 4&21')
+                add_button(label='Create Causality', tag='Causality_JSON_Button', callback=Create_Causality_JSON)
+                with tooltip('Causality_?_Text'):
+                    add_text('The table will only display "cau_val" that are required\nIf none appear it''s because that causality is all 0s' )
+                with tooltip('Causality_JSON_Input'):
+                    add_text('\t\t\t\t\t\t(WIP)\n---------------------------------------------------------\nExamples of what currently works\n4&1&69\n5|21|16\n1937&1938|1939&1940\n(1937&1938)|(1939&1940)|(5555&5523)\n(385&(386|387))|(388&9)\n')
 
 
 
         
         
-        list_of_inputs = []
-        if does_alias_exist('Causality_Table'):
-            delete_item('Causality_Table')
+            list_of_inputs = []
+        # if does_alias_exist('Causality_Table'):
+        #     delete_item('Causality_Table')
 
-        for last_rows in range(Causality.last_rows):
+        # for last_rows in range(Causality.last_rows):
 
-            for u in range(len(Causality.row_names)):
-                if does_alias_exist(Causality.row_names[u] + '0' + str(last_rows)):
-                    delete_item(Causality.row_names[u] + '0' + str(last_rows))
+        #     for u in range(len(Causality.row_names)):
+        #         if does_alias_exist(Causality.row_names[u] + '0' + str(last_rows)):
+        #             delete_item(Causality.row_names[u] + '0' + str(last_rows))
 
-        Delete_Items('Causality_Table')
-        with table(tag='Causality_Table', width=663, height=46, resizable=True, header_row=True, parent='Causality_Creator_Window'):
-            # Widget_Aliases.tags_to_delete.append('Causality_Table')
-            list_of_inputs.append('Causality_Table')
-            
-            for i in range(len(Causality.row_names)):
-                if Causality.column_names[i] == 'Causality Type':
-                    Delete_Items(Causality.column_names[i])
-                    add_table_column(label=Causality.column_names[i], init_width_or_weight=300, tag=Causality.column_names[i])
-                    list_of_inputs.append(Causality.column_names[i])
-                    # Widget_Aliases.tags_to_delete.append(Causality.column_names[i])
-                else:
-                    add_table_column(label=Causality.column_names[i], init_width_or_weight=75, tag=Causality.column_names[i])
-                    
-            for o in range(Causality.rows):
-                Delete_Items('Causality_Row' + str(o))
-                with table_row(tag='Causality_Row' + str(o)):
-                    # Widget_Aliases.tags_to_delete.append('Causality_Row' + str(o))
-                    list_of_inputs.append('Causality_Row' + str(o))
-                
-            for z in range(Causality.rows):
-                for t in range(len(Causality.row_names)):
-                    # The last number is always 0
-                    if Causality.row_names[t] == 'Causality_Causality_Type':
-                        Delete_Items(Causality.row_names[t] + str(z))
-                        add_combo(tag=Causality.row_names[t] + str(z), items=causality_combo_list, default_value=causality_combo_list[0], width=149, parent='Causality_Row' + str(z), callback=Causality_Type_Callback)
-                        # Widget_Aliases.tags_to_delete.append(Causality.row_names[t] + str(z))
-                        list_of_inputs.append(Causality.row_names[t] + str(z))
+        # Delete_Items('Causality_Table')
+            with table(tag='Causality_Table', width=663, height=46, resizable=True, header_row=True, parent='Causality_Creator_Window'):
+                # Widget_Aliases.tags_to_delete.append('Causality_Table')
+                list_of_inputs.append('Causality_Table')
 
-                    elif Causality.row_names[t] == 'Causality_Cau_Val1':
-                        Delete_Items(Causality.row_names[t] + str(z))
-                        add_input_text(tag=Causality.row_names[t] + str(z), hint=Causality.column_names[t], default_value='69', width=String_Length.length[0], parent='Causality_Row' + str(z), show=False)
-                        # Widget_Aliases.tags_to_delete.append(Causality.row_names[t] + str(z))
-                        list_of_inputs.append(Causality.row_names[t] + str(z))
-                        
-                    elif Causality.row_names[t] == 'Causality_ID':
-                        Delete_Items(Causality.row_names[t] + str(z))
-                        add_input_text(tag=Causality.row_names[t] + str(z), hint=Causality.column_names[t], default_value='0', width=String_Length.length[0], parent='Causality_Row' + str(z))
-                        # Widget_Aliases.tags_to_delete.append(Causality.row_names[t] + str(z))
-                        list_of_inputs.append(Causality.row_names[t] + str(z))
+                for i in range(len(Causality.row_names)):
+                    if Causality.column_names[i] == 'Causality Type':
+                        Delete_Items(Causality.column_names[i])
+                        add_table_column(label=Causality.column_names[i], init_width_or_weight=300, tag=Causality.column_names[i])
+                        list_of_inputs.append(Causality.column_names[i])
+                        # Widget_Aliases.tags_to_delete.append(Causality.column_names[i])
                     else:
-                        Delete_Items(Causality.row_names[t] + str(z))
-                        add_input_text(tag=Causality.row_names[t] + str(z), hint=Causality.column_names[t], default_value='0', width=String_Length.length[0], parent='Causality_Row' + str(z), show=False)
-                        # Widget_Aliases.tags_to_delete.append(Causality.row_names[t] + str(z))
-                        list_of_inputs.append(Causality.row_names[t] + str(z))
-                        
+                        add_table_column(label=Causality.column_names[i], init_width_or_weight=75, tag=Causality.column_names[i])
+
+                for o in range(Causality.rows):
+                    Delete_Items('Causality_Row' + str(o))
+                    with table_row(tag='Causality_Row' + str(o)):
+                        # Widget_Aliases.tags_to_delete.append('Causality_Row' + str(o))
+                        list_of_inputs.append('Causality_Row' + str(o))
+
+                for z in range(Causality.rows):
+                    for t in range(len(Causality.row_names)):
+                        # The last number is always 0
+                        if Causality.row_names[t] == 'Causality_Causality_Type':
+                            Delete_Items(Causality.row_names[t] + str(z))
+                            add_combo(tag=Causality.row_names[t] + str(z), items=causality_combo_list, default_value=causality_combo_list[0], width=149, parent='Causality_Row' + str(z), callback=Causality_Type_Callback)
+                            # Widget_Aliases.tags_to_delete.append(Causality.row_names[t] + str(z))
+                            list_of_inputs.append(Causality.row_names[t] + str(z))
+
+                        elif Causality.row_names[t] == 'Causality_Cau_Val1':
+                            Delete_Items(Causality.row_names[t] + str(z))
+                            add_input_text(tag=Causality.row_names[t] + str(z), hint=Causality.column_names[t], default_value='69', width=String_Length.length[0], parent='Causality_Row' + str(z), show=False)
+                            # Widget_Aliases.tags_to_delete.append(Causality.row_names[t] + str(z))
+                            list_of_inputs.append(Causality.row_names[t] + str(z))
+
+                        elif Causality.row_names[t] == 'Causality_ID':
+                            Delete_Items(Causality.row_names[t] + str(z))
+                            add_input_text(tag=Causality.row_names[t] + str(z), hint=Causality.column_names[t], default_value='0', width=String_Length.length[0], parent='Causality_Row' + str(z))
+                            # Widget_Aliases.tags_to_delete.append(Causality.row_names[t] + str(z))
+                            list_of_inputs.append(Causality.row_names[t] + str(z))
+                        else:
+                            Delete_Items(Causality.row_names[t] + str(z))
+                            add_input_text(tag=Causality.row_names[t] + str(z), hint=Causality.column_names[t], default_value='0', width=String_Length.length[0], parent='Causality_Row' + str(z), show=False)
+                            # Widget_Aliases.tags_to_delete.append(Causality.row_names[t] + str(z))
+                            list_of_inputs.append(Causality.row_names[t] + str(z))
+    else:
+        show_item('Causality_Creator_Window')
+
 def Causality_Add():
     Row_Number = Row_Checker('Causality_Row')
     add_table_row(tag=f'Causality_Row{Row_Number}', parent=f'Causality_Table')
