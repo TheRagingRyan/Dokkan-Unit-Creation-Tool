@@ -246,6 +246,7 @@ def main():
         
         bind_theme(global_theme)
         bind_font(Arial_font)
+        
         with menu_bar():
             presence = False
             if RPC:
@@ -367,6 +368,9 @@ def main():
                             bind_item_font('Down_Desc_Tooltip', Arial_font)
 
                         add_spacer()
+
+                        Causality_Creator()
+                        hide_item('Causality_Creator_Window')
 
 
             ###########################################################################################################

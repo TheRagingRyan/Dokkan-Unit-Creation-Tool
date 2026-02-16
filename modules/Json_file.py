@@ -2,11 +2,12 @@ import json
 from dearpygui.dearpygui import *
 from . passive import Passive_Skill
 from . functions import Card_Checker, Row_Checker, Delete_Items
-from . classes import Custom_Unit, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Effect_Pack, Special_Views
+from . classes import Custom_Unit, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Effect_Pack, Special_Views, Causality
 from . categories import Categories_Activated
 from . effect_pack import Effect_Packs_Widgets
 from . json_functions import Card_Thumb_Display, Card_Widgets, Passive_Widgets, Specials_Widgets, Active_Skill_Widgets, Standby_Skill_Widgets, Finish_Skill_Set_Widgets, Dokkan_Field_Widgets, Battle_Params_Widgets, Leader_Skill_Widgets, Custom_Unit_Categories_Load, Json_Load_Effect_Packs, Json_Load_Special_Views
 from . special_views import Special_View_Widgets
+from . causality import Load_Causalities
 from . configs import Config_Path
 import easygui
 from pypresence import Presence
@@ -331,6 +332,23 @@ def JSON_Save():
         
         else:
             special_views_dict = []
+
+        
+        ##########################################################################################################
+        ##################
+        ### Causality ###
+        ##################
+        causality_dict = []
+        if get_value(f'{Causality.row_names[1]}0') == '(0) None':
+           causality_dict = {}
+
+        else:
+            for row in range(Row_Checker(f'{Causality.row_names[1]}')):
+                causality_set = {Causality.column_names[i] : get_value(Causality.row_names[i] + str(row)) for i in range(len(Causality.row_names))}
+                causality_dict.append(causality_set)
+        #     for u in range(len(Causality.row_names)):
+        #         if does_alias_exist(Causality.row_names[u] + '0' + str(last_rows)):
+        #             delete_item(Causality.row_names[u] + '0' + str(last_rows))
                 
         
         ##########################################################################################################
@@ -356,7 +374,8 @@ def JSON_Save():
             'Transformation' : transformation_dict,
             'Battle Params' : battle_params_dict,
             'Effect Packs' : effect_packs_dict,
-            'Special Views' : special_views_dict
+            'Special Views' : special_views_dict,
+            'Causalities' : causality_dict
         }
         
         data[f'Card {card + 1}'] = card_info 
@@ -471,6 +490,7 @@ def JSON_Load():
             Dokkan_Field_Widgets(number_of_cards, data)
             Battle_Params_Widgets(number_of_cards, data)
             Leader_Skill_Widgets(number_of_cards, data)
+            Load_Causalities(data)
             for card in range(number_of_cards):
                 Json_Load_Effect_Packs(card, data)
                 Json_Load_Special_Views(card, data)
@@ -557,6 +577,7 @@ def JSON_Load():
             Dokkan_Field_Widgets(number_of_cards, data)
             Battle_Params_Widgets(number_of_cards, data)
             Leader_Skill_Widgets(number_of_cards, data)
+            Load_Causalities(data)
             for card in range(number_of_cards):
                 Json_Load_Effect_Packs(card, data)
                 Json_Load_Special_Views(card, data)

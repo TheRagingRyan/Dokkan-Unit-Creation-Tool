@@ -989,10 +989,10 @@ def Causality_Preset(Row_Number, *, hide=False, values_to_hide=[], combo=False, 
             else:
                 add_input_text(tag=f'Causality_Cau_Val{i + 1}{Row_Number}', default_value='0', width=String_Length.length[0], parent=Row_Parent)
                 
-    if hint_cau_vals:
-        for hint in hint_cau_vals:
-            with tooltip(f'Causality_Cau_Val{hint}{Row_Number}'):
-                add_text(hint_text[hint], tag=f'Causality_Cau_Val{hint}{Row_Number}_hint')
+    # if hint_cau_vals:
+        # for hint in hint_cau_vals:
+            # with tooltip(f'Causality_Cau_Val{hint}{Row_Number}'):
+                # add_text(hint_text[hint], tag=f'Causality_Cau_Val{hint}{Row_Number}_hint')
     if hide:
         for value_to_hide in values_to_hide:
             configure_item(f'Causality_Cau_Val{value_to_hide}{Row_Number}', show=False)
@@ -1421,3 +1421,14 @@ def Causality_Del():
         set_item_height('Causality_Table', 24 * (Row_Number - 1) + 23)
     else:
         pass
+
+def Load_Causalities(data):
+
+    for i in range(10):
+        Causality_Del()
+    for index, row in enumerate(data['Card 1']['Causalities']):
+        Causality_Add()
+        for i in range(len(row)):
+            Causality_Type_Callback('Causality_Causality_Type' + str(index), row[Causality.column_names[1]])
+            if does_alias_exist(Causality.row_names[i] + str(index)):
+                set_value(Causality.row_names[i] + str(index), row[Causality.column_names[i]])
