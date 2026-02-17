@@ -952,7 +952,7 @@ def Causality_Preset(Row_Number, *, hide=False, values_to_hide=[], combo=False, 
         hint_text (dict): Dictionary of cau_vals with the hint text.
         
     """
-    
+    # print(Row_Number)
 
     
     if combo:
@@ -976,6 +976,7 @@ def Causality_Preset(Row_Number, *, hide=False, values_to_hide=[], combo=False, 
                     add_input_text(tag=f'Causality_Cau_Val{i + 1}{Row_Number}', default_value='0', width=String_Length.length[0], parent=Row_Parent)
                 
     else:
+         
         Row_Parent = get_item_parent(f'Causality_Cau_Val1{Row_Number}')
         delete_me = [f'Causality_Cau_Val1{Row_Number}', f'Causality_Cau_Val2{Row_Number}', f'Causality_Cau_Val3{Row_Number}']
         Delete_Items(delete_me)
@@ -990,9 +991,13 @@ def Causality_Preset(Row_Number, *, hide=False, values_to_hide=[], combo=False, 
                 add_input_text(tag=f'Causality_Cau_Val{i + 1}{Row_Number}', default_value='0', width=String_Length.length[0], parent=Row_Parent)
                 
     # if hint_cau_vals:
-        # for hint in hint_cau_vals:
-            # with tooltip(f'Causality_Cau_Val{hint}{Row_Number}'):
-                # add_text(hint_text[hint], tag=f'Causality_Cau_Val{hint}{Row_Number}_hint')
+    #     for hint in hint_cau_vals:
+    #         with tooltip(f'Causality_Cau_Val{hint}{Row_Number}'):
+    #             try:
+    #                 add_text(hint_text[hint], tag=f'Causality_Cau_Val{hint}{Row_Number}_hint')
+    #             except Exception as e:
+    #                 set_value(f'Causality_Cau_Val{hint}{Row_Number}_hint', hint_text[hint])
+
     if hide:
         for value_to_hide in values_to_hide:
             configure_item(f'Causality_Cau_Val{value_to_hide}{Row_Number}', show=False)
@@ -1015,7 +1020,15 @@ def Causality_Type_Callback(tag_id, data):
     text_width, text_height = get_text_size(get_value(tag_id), font='fonts/ARIAL.ttf')
     set_item_width(tag_id, text_width + 27)
     ### Table_ID() will grab all numbers from the end of a tag_id, thus resulting in the row number based on how I did the tags.
-    Row_Number = Table_ID(tag_id)
+    ### Old Row Checker was fucked up
+    def get_row_number(tag: str) -> int:
+        match = re.search(r"\d+$", tag)
+        if match:
+            return int(match.group())
+        raise ValueError(f"No row number found in {tag}")
+    Row_Number = get_row_number(tag_id)
+    print(tag_id)
+    print(Row_Number)
     Number_of_Rows = Row_Checker(Causality.row_names[0])
     
     # Checking all of the widgets widths in a row combined
@@ -1390,6 +1403,8 @@ def Causality_Creator():
 def Causality_Add():
     Row_Number = Row_Checker('Causality_Row')
     add_table_row(tag=f'Causality_Row{Row_Number}', parent=f'Causality_Table')
+    print(f'Causality_Row{Row_Number}')
+    print(Causality.row_names[2] + str(Row_Number))
     if does_alias_exist(Causality.row_names[0] + str(Row_Number - 1)):
         add_input_text(tag=Causality.row_names[0] + str(Row_Number), hint=Causality.column_names[0], default_value=str(int(get_value(Causality.row_names[0] + str(Row_Number - 1))) + 1), width=String_Length.length[0], parent='Causality_Row' + str(Row_Number))
     else:
