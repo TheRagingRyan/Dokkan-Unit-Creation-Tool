@@ -171,21 +171,56 @@ def sql_output_data(CardName):
 
 
 def sql_write_to_file(sql_file_name, sql_file_data):
+    from .configs import Config_Read, Config_Path
+    import easygui
+    import os
     
-    if sql_file_name != '.sql':
-        sql_file_name = sql_file_name + '.sql'
-        
     if '.' in sql_file_name:
         dot_index = sql_file_name.index('.')
         sql_file_name = sql_file_name[:dot_index] + '.sql'
     else:
         print('You need to revise your \'sql_write_to_file()\' \'if\' statements, dumbass')
     
-    with open(sql_file_name, 'w', encoding='utf-8') as f:
-        filedata = sql_file_data
-        # print(filedata)
-        # filedata.encode('utf-8', errors='ignore')
-        f.write(filedata)
+    config = Config_Read()
+    ### Checks the config for the saved JSON save location, if it doesn't exist it creates it so the next time it opens in the same spot.
+    if config.has_option('DEFAULT', 'SQL_Save_Location'):
+        
+        filepath = config.get('DEFAULT', 'SQL_Save_Location')
+        sql_file_name = easygui.filesavebox(msg='Input the name of your SQL', default=filepath + '\\' + sql_file_name + '.sql', filetypes=['*.sql'])
+        
+        if sql_file_name and '.sql' in sql_file_name:
+            directory_path = os.path.dirname(sql_file_name)
+            # file_name = os.path.basename(json_file)
+
+            if directory_path != filepath:
+                config.set('DEFAULT', 'SQL_Save_Location', directory_path)
+                with open(Config_Path(), 'w') as config_file:
+                    config.write(config_file)
+
+
+            with open(f"{sql_file_name}", "w") as sql_file:
+                sql_file.write(sql_file_data)
+    else:
+                
+        sql_file_name = easygui.filesavebox(msg='Input the name of your SQL', default=f'{sql_file_name}.sql', filetypes=['*.sql'])
+        if sql_file_name and '.sql' in sql_file_name:
+            # Extract the directory path and file name
+            directory_path = os.path.dirname(sql_file_name)
+            file_name = os.path.basename(sql_file_name)
+
+            config.set('DEFAULT', 'SQL_Save_Location', directory_path)
+            with open(Config_Path(), 'w') as config_file:
+                config.write(config_file)
+                
+            with open(f"{sql_file_name}", "w") as sql_file:
+                sql_file.write(sql_file_data)
+
+    
+    # with open(sql_file_name, 'w', encoding='utf-8') as f:
+    #     filedata = sql_file_data
+    #     # print(filedata)
+    #     # filedata.encode('utf-8', errors='ignore')
+    #     f.write(filedata)
 
 def replace_whitespace_55(description):
     # modified_text = re.sub(r"(.{55}) {2}", r"\1\n", text)
