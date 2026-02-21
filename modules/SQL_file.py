@@ -626,6 +626,49 @@ def Specials_Output():
     
     return card_specials_text, special_set_text, special_skills_text
 
+def Ex_Super_Output():
+    # INSERT OR REPLACE INTO extra_special_options ("id", "card_special_id", "probability", "extra_special_type", "bgm_id", "created_at", "updated_at") VALUES 
+    # (RowID1, CardSpecialID1, Probability, ExtraSpecialType, BGM_ID, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    # (RowID2, CardSpecialID2, Probability, ExtraSpecialType, BGM_ID, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    num_of_cards = Card_Checker()
+    
+    ex_special_text = ''
+
+    for cards in range(num_of_cards):
+            
+            ex_special_text = f'''\n\t\tINSERT OR REPLACE INTO extra_special_options ("id", "card_special_id", "probability", "extra_special_type", "bgm_id", "created_at", "updated_at")
+        VALUES'''
+            CardID1 = int(get_value(Card.row_names[0] + '_Card_' + str(cards) + '_Row_' + '1'))
+
+            for i in range(Row_Checker(f'Ex_Super_Checkbox_Card_{cards}_')):
+                if get_value(f'Ex_Super_Checkbox_Card_{cards}_{i}'):
+                    ex_type = get_value(f'Ex_Super_Combo_Card_{cards}_{i}')
+                    probability = get_value(f'Ex_Super_Combo2_Card_{cards}_{i}')
+                    bgm = get_value(f'Card_Specials_BGM_Text_Card_{cards}_{i}')
+
+                    if ex_type == 'When Super':
+                        ex_type = '0'
+                    elif ex_type == 'When Additional':
+                        ex_type = '1'
+                    elif ex_type == 'When Crit':
+                        ex_type = '2'
+
+                    ex_sql = f'\n\t\t({str(CardID1)}, {str(CardID1)}, {ex_type}, {probability}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                    ex_special_text += ex_sql
+                    CardID1 += 1
+                    ex_sql = f'\n\t\t({str(CardID1)}, {str(CardID1)}, {ex_type}, {probability}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                    ex_special_text += ex_sql
+                    CardID1 += 1
+            
+            if ex_special_text == f'''\n\t\tINSERT OR REPLACE INTO extra_special_options ("id", "card_special_id", "probability", "extra_special_type", "bgm_id", "created_at", "updated_at")
+        VALUES''':
+                ex_special_text = ''
+
+
+            ex_special_text = ex_special_text[:-1] + ';'
+            
+        
+    return ex_special_text
 
 
 ################################################################################################################################################################

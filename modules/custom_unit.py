@@ -1,5 +1,5 @@
 from dearpygui.dearpygui import *
-from . cards import Card_Table_Combos, Link_Skills_Query, Synced_Callback, EZA_Callback, Super_EZA_Callback, Rarity_Callback, Card_Queries, Element_Callback, Name_Change_Callback
+from . cards import Card_Table_Combos, Link_Skills_Query, Synced_Callback, EZA_Callback, Super_EZA_Callback, Ex_Super_Callback, Ex_Super_Combo_Callback, Ex_Super_Probablity_Callback, Rarity_Callback, Card_Queries, Element_Callback, Name_Change_Callback
 from . categories import Card_Categories_Window, Card_Categories_Wiki, Create_New_Category_Tab
 from . download import Lua_Downloader, Create_Tabs, Card_Thumb_Display, Card_Character_Assets
 from . effect_pack import Effect_Packs_Widgets
@@ -821,7 +821,9 @@ def Specials_Widgets():
                      f'Special_Set_Increase_Rate_Input_Card_{cards}_{i}',f'Special_Cond_Text_Card_{cards}_{i}',f'Special_Set_Cond_Input_Card_{cards}_{i}',f'Special_Level_Bonus_Text_Card_{cards}_{i}',f'Special_Set_Level_Bonus_Input_Card_{cards}_{i}',f'Card_Specials_Text_Card_{cards}_{i}',f'Special_Skills_Text_Card_{cards}_{i}',f'Specials_Separator_Card_{cards}_{i}',
                      f'Special_Set_Group_Card_{cards}_1_{i}', f'Special_Set_Group_Card_{cards}_2_{i}', f'Special_Set_Group_Card_{cards}_3_{i}', f'Specials_Table_Group_Card_{cards}_{i}', f'Specials_Aim_Target_Group_Card_{cards}_{i}',
                      f'Special_Aim_Target_Text_Card_{cards}_{i}',f'Special_Set_Aim_Target_Input_Card_{cards}_{i}',f'Specials_Increase_Rate_Group_Card_{cards}_{i}',f'Special_Increase_Rate_Text_Card_{cards}_{i}',
-                     f'Special_Set_Increase_Rate_Input_Card_{cards}_{i}', f'Specials_Level_Bonus_Group_Card_{cards}_{i}', f'Special_Level_Bonus_Text_Card_{cards}_{i}', f'Special_Set_Level_Bonus_Input_Card_{cards}_{i}']
+                     f'Special_Set_Increase_Rate_Input_Card_{cards}_{i}', f'Specials_Level_Bonus_Group_Card_{cards}_{i}', f'Special_Level_Bonus_Text_Card_{cards}_{i}', f'Special_Set_Level_Bonus_Input_Card_{cards}_{i}',
+                     f'Ex_Super_Checkbox_Card_{cards}_{i}', f'Ex_Super_Combo_Card_{cards}_{i}', f'Card_Specials_Text_Group_Card_{cards}_{i}', f'Ex_Super_Combo2_Card_{cards}_{i}',
+                     f'Card_Specials_BGM_Text_Card_{cards}_{i}']
 
         for item in range(len(rows_to_check)):
             Delete_Items(rows_to_check[item])
@@ -851,13 +853,20 @@ def Specials_Widgets():
             Widget_Aliases.tags_to_delete.append(f'Special_Set_Group_Card_{cards}_3_{i}')
             Widget_Aliases.tags_to_delete.append(f'Special_Set_Group_Card_{cards}_3_{i}')
 
-        add_text('Card Specials', color=(255,50,50), parent=f'Specials_Tab_Card_{cards}', tag=f'Card_Specials_Text_Card_{cards}_{i}')
-        Widget_Aliases.tags_to_delete.append(f'Card_Specials_Text_Card_{cards}_{i}')
+        with group(tag=f'Card_Specials_Text_Group_Card_{cards}_{i}', parent=f'Specials_Tab_Card_{cards}', horizontal=True):
+            add_text('Card Specials', color=(255,50,50), parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', tag=f'Card_Specials_Text_Card_{cards}_{i}')
+            add_checkbox(label='Ex Super', default_value=False, tag=f'Ex_Super_Checkbox_Card_{cards}_{i}', callback=Ex_Super_Callback, parent=f'Card_Specials_Text_Group_Card_{cards}_{i}')
+            add_combo(['When Super', 'When Additional', 'When Crit'], tag=f'Ex_Super_Combo_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='When Super', show=False, width=120)
+            add_combo(['10','20','30','40','50', '60', '70', '80', '90', '100'], tag=f'Ex_Super_Combo2_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='60', show=False, width=50)
+            add_input_text(tag=f'Card_Specials_BGM_Text_Card_{cards}_{i}', width=50, callback=Ex_Super_Combo_Callback, default_value='69', show=False, parent=f'Card_Specials_Text_Group_Card_{cards}_{i}')
+            Widget_Aliases.tags_to_delete.append(f'Card_Specials_Text_Card_{cards}_{i}')
             
         Card_Specials.rows = 2
         CS_tags = Table_Inputs(table_name=f'Card_Specials_Card_{cards}_{i}', row_name=f'Card_Specials_Table_Row_Card_{cards}_{i}', class_name=Card_Specials,
                              used_in_loop=True, loop_number=i, use_child_window=False, table_parent=f'Specials_Tab_Card_{cards}', table_height=67, table_width=1150,
                              row_width=75, table_policy=mvTable_SizingStretchSame, transformation=True, transformation_card_num=cards)
+        
+        # print(CS_tags)
 
         with group(tag=f'Special_Skills_Button_Group_Card_{cards}_{i}', parent=f'Specials_Tab_Card_{cards}', horizontal=True):
             add_text('Special Skills', color=(255,50,50), parent=f'Special_Skills_Button_Group_Card_{cards}_{i}', tag=f'Special_Skills_Text_Card_{cards}_{i}')
@@ -869,6 +878,11 @@ def Specials_Widgets():
         Widget_Aliases.tags_to_delete.append(f'Special_Skills_Text_Card_{cards}_{i}')
         Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Add_Card_{cards}_{i}')
         Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Del_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Checkbox_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Combo_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Card_Specials_Text_Group_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Combo2_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Card_Specials_BGM_Text_Card_{cards}_{i}')
             
         Specials.rows = 1
         with group(horizontal=True, parent=f'Specials_Tab_Card_{cards}', tag=f'Specials_Table_Group_Card_{cards}_{i}'):
@@ -960,7 +974,9 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
                      f'Special_Set_Group_Card_{cards}_1_{i}', f'Special_Set_Group_Card_{cards}_2_{i}', f'Special_Set_Group_Card_{cards}_3_{i}', f'Specials_Table_Group_Card_{cards}_{i}', f'Specials_Aim_Target_Group_Card_{cards}_{i}',
                      f'Special_Aim_Target_Text_Card_{cards}_{i}',f'Special_Set_Aim_Target_Input_Card_{cards}_{i}',f'Specials_Increase_Rate_Group_Card_{cards}_{i}',f'Special_Increase_Rate_Text_Card_{cards}_{i}',
                      f'Special_Set_Increase_Rate_Input_Card_{cards}_{i}', f'Specials_Level_Bonus_Group_Card_{cards}_{i}', f'Special_Level_Bonus_Text_Card_{cards}_{i}', f'Special_Set_Level_Bonus_Input_Card_{cards}_{i}',
-                     f'Specials_Button_Separtor_Card_{cards}_{i}', f'Special_Skills_Button_Group_Card_{cards}_{i}', f'Special_Skills_Text_Card_{cards}_{i}']
+                     f'Specials_Button_Separtor_Card_{cards}_{i}', f'Special_Skills_Button_Group_Card_{cards}_{i}', f'Special_Skills_Text_Card_{cards}_{i}',
+                     f'Ex_Super_Checkbox_Card_{cards}_{i}', f'Ex_Super_Combo_Card_{cards}_{i}', f'Card_Specials_Text_Group_Card_{cards}_{i}', f'Ex_Super_Combo2_Card_{cards}_{i}',
+                     f'Card_Specials_BGM_Text_Card_{cards}_{i}']
 
         for item in range(len(rows_to_check)):
             Delete_Items(rows_to_check[item])
@@ -994,7 +1010,13 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
                             #  child_parent=f'Specials_Tab_Card_{cards}',used_in_loop=True, loop_number=i, use_child_window=True)
 
 
-        add_text('Card Specials', color=(255,50,50), parent=f'Specials_Tab_Card_{cards}', tag=f'Card_Specials_Text_Card_{cards}_{i}')
+        with group(tag=f'Card_Specials_Text_Group_Card_{cards}_{i}', parent=f'Specials_Tab_Card_{cards}', horizontal=True):
+            add_text('Card Specials', color=(255,50,50), parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', tag=f'Card_Specials_Text_Card_{cards}_{i}')
+            add_checkbox(label='Ex Super', default_value=False, tag=f'Ex_Super_Checkbox_Card_{cards}_{i}', callback=Ex_Super_Callback, parent=f'Card_Specials_Text_Group_Card_{cards}_{i}')
+            add_combo(['When Super', 'When Additional', 'When Crit'], tag=f'Ex_Super_Combo_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='When Super', show=False, width=125)
+            add_combo(['10','20','30','40','50', '60', '70', '80', '90', '100'], tag=f'Ex_Super_Combo2_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='60', show=False, width=70)
+            add_input_text(tag=f'Card_Specials_BGM_Text_Card_{cards}_{i}', width=50, callback=Ex_Super_Combo_Callback, default_value='69', show=False, parent=f'Card_Specials_Text_Group_Card_{cards}_{i}')
+
         Widget_Aliases.tags_to_delete.append(f'Card_Specials_Text_Card_{cards}_{i}')
         CS_tags = Table_Inputs(table_name=f'Card_Specials_Card_{cards}_{i}', row_name=f'Card_Specials_Table_Row_Card_{cards}_{i}', class_name=Card_Specials,
                              used_in_loop=True, loop_number=i, use_child_window=False, table_parent=f'Specials_Tab_Card_{cards}', table_height=67, table_width=1150,
@@ -1012,6 +1034,12 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
         Widget_Aliases.tags_to_delete.append(f'Special_Skills_Text_Card_{cards}_{i}')
         Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Add_Card_{cards}_{i}')
         Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Del_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Checkbox_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Combo_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Card_Specials_Text_Group_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Combo2_Card_{cards}_{i}')
+        Widget_Aliases.tags_to_delete.append(f'Card_Specials_BGM_Text_Card_{cards}_{i}')
+
         with group(horizontal=True, parent=f'Specials_Tab_Card_{cards}', tag=f'Specials_Table_Group_Card_{cards}_{i}'):
             Specials_tags = Table_Inputs(table_name=f'Specials_Card_{cards}_{i}', row_name=f'Specials_Table_Row_Card_{cards}_{i}', class_name=Specials,
                                      used_in_loop=True, loop_number=i, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{cards}_{i}', child_tag=f'Specials_Child_Window_Card_{cards}_{i}',
@@ -1060,8 +1088,8 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
                 # print(list_of_special_skills)
                 for key, value in list_of_special_skills[tag].items():
                     if f'Specials_{key}' in Specials.row_names:
-                        print(f'Specials_{key}')
-                        print(key, value)
+                        # print(f'Specials_{key}')
+                        # print(key, value)
 
                         if value == '':
                             set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), 'NULL')
@@ -1134,7 +1162,7 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
             Text_Resize(f'Special_Set_Cond_Input_Card_{cards}_{i}')
 
         for tag in range(len(special_sets)):
-            print(f"Special_Set_aim_target" + '_Card_' + str(cards) + '_' + str(i))
+            # print(f"Special_Set_aim_target" + '_Card_' + str(cards) + '_' + str(i))
             set_value(f"Special_Set_Aim_Target_Input" + '_Card_' + str(cards) + '_' + str(i), set['aim_target'])
             set_value(f"Special_Set_Increase_Rate_Input" + '_Card_' + str(cards) + '_' + str(i), set['increase_rate'])
             set_value(f"Special_Set_Level_Bonus_Input" + '_Card_' + str(cards) + '_' + str(i), set['lv_bonus'])

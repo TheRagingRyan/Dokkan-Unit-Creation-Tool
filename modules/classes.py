@@ -183,6 +183,9 @@ class Specials:
     last_rows = 0
     skill_rows = []
     table_row_tags = []
+
+class Ex_Supers:
+    data = {}
     
 class Special_Views:
     row_names = ['SP_ID', 'SP_Script_Name', 'SP_Cut_In_Card_ID', 'SP_Special_Name_No', 'SP_Special_Motion', 'SP_Lite_Flicker_Rate', 'SP_Energy_Color', 'SP_Special_Category_ID']

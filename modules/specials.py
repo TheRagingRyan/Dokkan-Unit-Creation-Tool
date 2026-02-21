@@ -5,6 +5,7 @@ import sqlite3
 from .classes import String_Length, Efficacy_Values, Card_Checks, Widget_Aliases, Card_Specials, Special_Set, Specials, Custom_Unit
 from . configs import Config_Read
 from . functions import Table_Inputs, Delete_Items, Text_Resize, Table_ID, Row_Checker, Get_Card_Number
+from . cards import Ex_Super_Callback, Ex_Super_Combo_Callback, Ex_Super_Probablity_Callback
 
 
 str_length = String_Length.length
@@ -328,99 +329,114 @@ def Specials_Query():
             # print(len(specials_fetch))
     
 def Specials_Add(app_data):
-    Card_Number = Table_ID(app_data)
-    Super_Number = Row_Checker(f'Special#_Text_Card_{Card_Number}_')
-    print(f'Card Number: Card_{Card_Number}')
-    print(f'Super_Number: {Super_Number}')
-    
-    add_text(f'Special #{Super_Number + 1}', color=(255,50,50), parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Special#_Text_Card_{Card_Number}_{Super_Number}')
-    with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Special_Set_Group_Card_{Card_Number}_1_{Super_Number}'):
-        add_text('Name:', tag=f'Special_Name_Text_Card_{Card_Number}_{Super_Number}')
-        add_input_text(tag=f'Special_Set_Name_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Name')
-    with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Special_Set_Group_Card_{Card_Number}_2_{Super_Number}'):
-        add_text('Desc: ', tag=f'Special_Desc_Text_Card_{Card_Number}_{Super_Number}')
-        add_input_text(tag=f'Special_Set_Desc_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Description')
-    with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Special_Set_Group_Card_{Card_Number}_3_{Super_Number}'):
-        add_text('Cond: ', tag=f'Special_Cond_Text_Card_{Card_Number}_{Super_Number}')
-        add_input_text(tag=f'Special_Set_Cond_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Cond Desc')
-    
-    add_text('Card Specials', color=(255,50,50), parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Card_Specials_Text_Card_{Card_Number}_{Super_Number}')
-    CS_tags = Table_Inputs(table_name=f'Card_Specials_Card_{Card_Number}_{Super_Number}', row_name=f'Card_Specials_Table_Row_Card_{Card_Number}_{Super_Number}', class_name=Card_Specials,
-                                 used_in_loop=True, loop_number=Super_Number, use_child_window=False, table_parent=f'Specials_Tab_Card_{Card_Number}', table_height=67, table_width=1150,
-                                 row_width=75, table_policy=mvTable_SizingStretchSame, transformation=True, transformation_card_num=Card_Number)
-    
-    
-    
-    with group(tag=f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}', parent=f'Specials_Tab_Card_{Card_Number}', horizontal=True):
-        add_text('Special Skills', color=(255,50,50), parent=f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}', tag=f'Special_Skills_Text_Card_{Card_Number}_{Super_Number}')
-        add_button(label='Add Skill', tag=f'Special_Skills_Button_Add_Card_{Card_Number}_{Super_Number}', callback=Special_Skills_Add, parent=f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}')
-        add_button(label='Del Skill', tag=f'Special_Skills_Button_Del_Card_{Card_Number}_{Super_Number}', callback=Special_Skills_Del, parent=f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}')
-        # bind_item_theme(f'Special_Skills_Button_Add_Card_{Card_Number}_{Super_Number}', Themes.Buttons)
-        # bind_item_theme(f'Special_Skills_Button_Del_Card_{Card_Number}_{Super_Number}',Themes.Buttons)
-    Widget_Aliases.tags_to_delete.append(f'Special_Skills_Text_Card_{Card_Number}_{Super_Number}')
-    Widget_Aliases.tags_to_delete.append(f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}')
-    Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}')
-    Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Add_Card_{Card_Number}_{Super_Number}')
-    Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Del_Card_{Card_Number}_{Super_Number}')
-    
-    with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}'):
-        Specials_tags = Table_Inputs(table_name=f'Specials_Card_{Card_Number}_{Super_Number}', row_name=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}', class_name=Specials,
-                              used_in_loop=True, loop_number=Super_Number, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}', child_tag=f'Specials_Child_Window_Card_{Card_Number}_{Super_Number}',
-                              table_height=90, table_width=1134, child_height=110, child_width=1139, combo=True, combo_tag=Specials.row_names[1], combo_list=Efficacy_Values.combo_list,
-                              transformation=True, transformation_card_num=Card_Number)
-        print(Specials_tags)
-        
-        with group(horizontal=False, tag=f'Specials_Group_Card_{Card_Number}_{Super_Number}'):
-            with group(horizontal=True, tag=f'Specials_Aim_Target_Group_Card_{Card_Number}_{Super_Number}'):
-                add_text('Aim Target:', tag=f'Special_Aim_Target_Text_Card_{Card_Number}_{Super_Number}')
-                add_input_text(tag=f'Special_Set_Aim_Target_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Aim Target')
-            with group(horizontal=True, tag=f'Specials_Increase_Rate_Group_Card_{Card_Number}_{Super_Number}'):
-                add_text('Inc Rate:    ', tag=f'Special_Increase_Rate_Text_Card_{Card_Number}_{Super_Number}')
-                add_input_text(tag=f'Special_Set_Increase_Rate_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Inc Rate')
-            with group(horizontal=True, tag=f'Specials_Level_Bonus_Group_Card_{Card_Number}_{Super_Number}'):
-                add_text('Lvl Bonus:  ', tag=f'Special_Level_Bonus_Text_Card_{Card_Number}_{Super_Number}')
-                add_input_text(tag=f'Special_Set_Level_Bonus_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Level Bonus')
-                
-    add_separator(parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Specials_Separator_Card_{Card_Number}_{Super_Number}')
-    
-    items_to_delete = [f'Specials_Group_Card_{Card_Number}_{Super_Number}', f'Specials_Aim_Target_Group_Card_{Card_Number}_{Super_Number}', 
-                       f'Special_Aim_Target_Text_Card_{Card_Number}_{Super_Number}', f'Special_Set_Aim_Target_Input_Card_{Card_Number}_{Super_Number}',
-                       f'Specials_Increase_Rate_Group_Card_{Card_Number}_{Super_Number}', f'Special_Increase_Rate_Text_Card_{Card_Number}_{Super_Number}',
-                       f'Special_Set_Increase_Rate_Input_Card_{Card_Number}_{Super_Number}', f'Specials_Level_Bonus_Group_Card_{Card_Number}_{Super_Number}',
-                       f'Special_Level_Bonus_Text_Card_{Card_Number}_{Super_Number}', f'Special_Set_Level_Bonus_Input_Card_{Card_Number}_{Super_Number}',
-                       f'Special_Set_Group_Card_{Card_Number}_1_{Super_Number}', f'Special_Name_Text_Card_{Card_Number}_{Super_Number}',
-                       f'Special_Set_Name_Input_Card_{Card_Number}_{Super_Number}', f'Special_Set_Group_Card_{Card_Number}_2_{Super_Number}',
-                       f'Special_Desc_Text_Card_{Card_Number}_{Super_Number}', f'Special_Set_Desc_Input_Card_{Card_Number}_{Super_Number}',
-                       f'Special_Set_Group_Card_{Card_Number}_3_{Super_Number}', f'Special_Cond_Text_Card_{Card_Number}_{Super_Number}',
-                       f'Special_Set_Cond_Input_Card_{Card_Number}_{Super_Number}', f'Card_Specials_Text_Card_{Card_Number}_{Super_Number}',
-                       f'Special_Skills_Text_Card_{Card_Number}_{Super_Number}', f'Special#_Text_Card_{Card_Number}_{Super_Number}',
-                       f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}', f'Specials_Separator_Card_{Card_Number}_{Super_Number}']
-    
-    for i in range(len(items_to_delete)):
-        Widget_Aliases.tags_to_delete.append(items_to_delete[i])
-    
-    # Widget_Aliases.button_tags_to_delete.append(f'Specials_Group_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Specials_Aim_Target_Group_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Aim_Target_Text_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Aim_Target_Input_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Specials_Increase_Rate_Group_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Increase_Rate_Text_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Increase_Rate_Input_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Specials_Level_Bonus_Group_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Level_Bonus_Text_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Level_Bonus_Input_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Group_{Card_Number}_1_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Name_Text_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Name_Input_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Group_{Card_Number}_2_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Desc_Text_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Desc_Input_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Group_{Card_Number}_3_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Cond_Text_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Cond_Input_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special#_Text_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Card_Specials_Text_{Card_Number}_{Super_Number}')
-    # Widget_Aliases.button_tags_to_delete.append(f'Special_Skills_Text_{Card_Number}_{Super_Number}')
+    try:
+        Card_Number = Table_ID(app_data)
+        Super_Number = Row_Checker(f'Special#_Text_Card_{Card_Number}_')
+        # print(f'Card Number: Card_{Card_Number}')
+        # print(f'Super_Number: {Super_Number}')
+
+        add_text(f'Special #{Super_Number + 1}', color=(255,50,50), parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Special#_Text_Card_{Card_Number}_{Super_Number}')
+        with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Special_Set_Group_Card_{Card_Number}_1_{Super_Number}'):
+            add_text('Name:', tag=f'Special_Name_Text_Card_{Card_Number}_{Super_Number}')
+            add_input_text(tag=f'Special_Set_Name_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Name')
+        with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Special_Set_Group_Card_{Card_Number}_2_{Super_Number}'):
+            add_text('Desc: ', tag=f'Special_Desc_Text_Card_{Card_Number}_{Super_Number}')
+            add_input_text(tag=f'Special_Set_Desc_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Description')
+        with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Special_Set_Group_Card_{Card_Number}_3_{Super_Number}'):
+            add_text('Cond: ', tag=f'Special_Cond_Text_Card_{Card_Number}_{Super_Number}')
+            add_input_text(tag=f'Special_Set_Cond_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Cond Desc')
+
+            with group(tag=f'Card_Specials_Text_Group_Card_{Card_Number}_{Super_Number}', parent=f'Specials_Tab_Card_{Card_Number}', horizontal=True):
+                add_text('Card Specials', color=(255,50,50), parent=f'Card_Specials_Text_Group_Card_{Card_Number}_{Super_Number}', tag=f'Card_Specials_Text_Card_{Card_Number}_{Super_Number}')
+                add_checkbox(label='Ex Super', default_value=False, tag=f'Ex_Super_Checkbox_Card_{Card_Number}_{Super_Number}', callback=Ex_Super_Callback, parent=f'Card_Specials_Text_Group_Card_{Card_Number}_{Super_Number}')
+                add_combo(['When Super', 'When Additional', 'When Crit'], tag=f'Ex_Super_Combo_Card_{Card_Number}_{Super_Number}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{Card_Number}_{Super_Number}', default_value='When Super', show=False, width=120)
+                add_combo(['10','20','30','40','50', '60', '70', '80', '90', '100'], tag=f'Ex_Super_Combo2_Card_{Card_Number}_{Super_Number}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{Card_Number}_{Super_Number}', default_value='60', show=False, width=50)
+                add_input_text(tag=f'Card_Specials_BGM_Text_Card_{Card_Number}_{Super_Number}', width=50, callback=Ex_Super_Combo_Callback, default_value='69', show=False, parent=f'Card_Specials_Text_Group_Card_{Card_Number}_{Super_Number}')
+        CS_tags = Table_Inputs(table_name=f'Card_Specials_Card_{Card_Number}_{Super_Number}', row_name=f'Card_Specials_Table_Row_Card_{Card_Number}_{Super_Number}', class_name=Card_Specials,
+                                     used_in_loop=True, loop_number=Super_Number, use_child_window=False, table_parent=f'Specials_Tab_Card_{Card_Number}', table_height=67, table_width=1150,
+                                     row_width=75, table_policy=mvTable_SizingStretchSame, transformation=True, transformation_card_num=Card_Number)
+
+
+
+        with group(tag=f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}', parent=f'Specials_Tab_Card_{Card_Number}', horizontal=True):
+            add_text('Special Skills', color=(255,50,50), parent=f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}', tag=f'Special_Skills_Text_Card_{Card_Number}_{Super_Number}')
+            add_button(label='Add Skill', tag=f'Special_Skills_Button_Add_Card_{Card_Number}_{Super_Number}', callback=Special_Skills_Add, parent=f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}')
+            add_button(label='Del Skill', tag=f'Special_Skills_Button_Del_Card_{Card_Number}_{Super_Number}', callback=Special_Skills_Del, parent=f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}')
+            # bind_item_theme(f'Special_Skills_Button_Add_Card_{Card_Number}_{Super_Number}', Themes.Buttons)
+            # bind_item_theme(f'Special_Skills_Button_Del_Card_{Card_Number}_{Super_Number}',Themes.Buttons)
+        Widget_Aliases.tags_to_delete.append(f'Special_Skills_Text_Card_{Card_Number}_{Super_Number}')
+        Widget_Aliases.tags_to_delete.append(f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}')
+        Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number}')
+        Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Add_Card_{Card_Number}_{Super_Number}')
+        Widget_Aliases.tags_to_delete.append(f'Special_Skills_Button_Del_Card_{Card_Number}_{Super_Number}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Checkbox_Card_{Card_Number}_{Super_Number}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Combo_Card_{Card_Number}_{Super_Number}')
+        Widget_Aliases.tags_to_delete.append(f'Ex_Super_Combo2_Card_{Card_Number}_{Super_Number}')
+        Widget_Aliases.tags_to_delete.append(f'Card_Specials_BGM_Text_Card_{Card_Number}_{Super_Number}')
+
+        with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}'):
+            Specials_tags = Table_Inputs(table_name=f'Specials_Card_{Card_Number}_{Super_Number}', row_name=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}', class_name=Specials,
+                                  used_in_loop=True, loop_number=Super_Number, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}', child_tag=f'Specials_Child_Window_Card_{Card_Number}_{Super_Number}',
+                                  table_height=90, table_width=1134, child_height=110, child_width=1139, combo=True, combo_tag=Specials.row_names[1], combo_list=Efficacy_Values.combo_list,
+                                  transformation=True, transformation_card_num=Card_Number)
+            # print(Specials_tags)
+
+            with group(horizontal=False, tag=f'Specials_Group_Card_{Card_Number}_{Super_Number}'):
+                with group(horizontal=True, tag=f'Specials_Aim_Target_Group_Card_{Card_Number}_{Super_Number}'):
+                    add_text('Aim Target:', tag=f'Special_Aim_Target_Text_Card_{Card_Number}_{Super_Number}')
+                    add_input_text(tag=f'Special_Set_Aim_Target_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Aim Target')
+                with group(horizontal=True, tag=f'Specials_Increase_Rate_Group_Card_{Card_Number}_{Super_Number}'):
+                    add_text('Inc Rate:    ', tag=f'Special_Increase_Rate_Text_Card_{Card_Number}_{Super_Number}')
+                    add_input_text(tag=f'Special_Set_Increase_Rate_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Inc Rate')
+                with group(horizontal=True, tag=f'Specials_Level_Bonus_Group_Card_{Card_Number}_{Super_Number}'):
+                    add_text('Lvl Bonus:  ', tag=f'Special_Level_Bonus_Text_Card_{Card_Number}_{Super_Number}')
+                    add_input_text(tag=f'Special_Set_Level_Bonus_Input_Card_{Card_Number}_{Super_Number}', width=String_Length.length[0], callback=Text_Resize, hint='Level Bonus')
+
+        add_separator(parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Specials_Separator_Card_{Card_Number}_{Super_Number}')
+
+        items_to_delete = [f'Specials_Group_Card_{Card_Number}_{Super_Number}', f'Specials_Aim_Target_Group_Card_{Card_Number}_{Super_Number}', 
+                           f'Special_Aim_Target_Text_Card_{Card_Number}_{Super_Number}', f'Special_Set_Aim_Target_Input_Card_{Card_Number}_{Super_Number}',
+                           f'Specials_Increase_Rate_Group_Card_{Card_Number}_{Super_Number}', f'Special_Increase_Rate_Text_Card_{Card_Number}_{Super_Number}',
+                           f'Special_Set_Increase_Rate_Input_Card_{Card_Number}_{Super_Number}', f'Specials_Level_Bonus_Group_Card_{Card_Number}_{Super_Number}',
+                           f'Special_Level_Bonus_Text_Card_{Card_Number}_{Super_Number}', f'Special_Set_Level_Bonus_Input_Card_{Card_Number}_{Super_Number}',
+                           f'Special_Set_Group_Card_{Card_Number}_1_{Super_Number}', f'Special_Name_Text_Card_{Card_Number}_{Super_Number}',
+                           f'Special_Set_Name_Input_Card_{Card_Number}_{Super_Number}', f'Special_Set_Group_Card_{Card_Number}_2_{Super_Number}',
+                           f'Special_Desc_Text_Card_{Card_Number}_{Super_Number}', f'Special_Set_Desc_Input_Card_{Card_Number}_{Super_Number}',
+                           f'Special_Set_Group_Card_{Card_Number}_3_{Super_Number}', f'Special_Cond_Text_Card_{Card_Number}_{Super_Number}',
+                           f'Special_Set_Cond_Input_Card_{Card_Number}_{Super_Number}', f'Card_Specials_Text_Card_{Card_Number}_{Super_Number}',
+                           f'Special_Skills_Text_Card_{Card_Number}_{Super_Number}', f'Special#_Text_Card_{Card_Number}_{Super_Number}',
+                           f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}', f'Specials_Separator_Card_{Card_Number}_{Super_Number}',
+                           f'Card_Specials_Text_Group_Card_{Card_Number}_{Super_Number}']
+
+        for i in range(len(items_to_delete)):
+            Widget_Aliases.tags_to_delete.append(items_to_delete[i])
+
+        # Widget_Aliases.button_tags_to_delete.append(f'Specials_Group_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Specials_Aim_Target_Group_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Aim_Target_Text_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Aim_Target_Input_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Specials_Increase_Rate_Group_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Increase_Rate_Text_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Increase_Rate_Input_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Specials_Level_Bonus_Group_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Level_Bonus_Text_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Level_Bonus_Input_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Group_{Card_Number}_1_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Name_Text_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Name_Input_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Group_{Card_Number}_2_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Desc_Text_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Desc_Input_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Group_{Card_Number}_3_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Cond_Text_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Set_Cond_Input_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special#_Text_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Card_Specials_Text_{Card_Number}_{Super_Number}')
+        # Widget_Aliases.button_tags_to_delete.append(f'Special_Skills_Text_{Card_Number}_{Super_Number}')
+    except Exception as e:
+        print(f'Error in Specials_Del: {e}')
+        pass
+
     
 
 def Specials_Del(app_data):
@@ -438,7 +454,9 @@ def Specials_Del(app_data):
                        f'Special_Set_Cond_Input_Card_{Card_Number}_{Super_Number - 1}', f'Card_Specials_Text_Card_{Card_Number}_{Super_Number - 1}',
                        f'Special_Skills_Text_Card_{Card_Number}_{Super_Number - 1}', f'Special#_Text_Card_{Card_Number}_{Super_Number - 1}',
                        f'Specials_Table_Group_Card_{Card_Number}_{Super_Number - 1}', f'Special_Skills_Button_Add_Card_{Card_Number}_{Super_Number - 1}',
-                       f'Special_Skills_Button_Del_Card_{Card_Number}_{Super_Number - 1}', f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number - 1}']
+                       f'Special_Skills_Button_Del_Card_{Card_Number}_{Super_Number - 1}', f'Special_Skills_Button_Group_Card_{Card_Number}_{Super_Number - 1}',
+                       f'Ex_Super_Checkbox_Card_{Card_Number}_{Super_Number - 1}',f'Ex_Super_Combo_Card_{Card_Number}_{Super_Number - 1}', f'Card_Specials_Text_Group_Card_{Card_Number}_{Super_Number - 1}',
+                       f'Ex_Super_Combo2_Card_{Card_Number}_{Super_Number - 1}', f'Card_Specials_BGM_Text_Card_{Card_Number}_{Super_Number - 1}']
     
     for i in range(Row_Checker(f'Specials_Table_Row_Card_{Card_Number}_{Super_Number - 1}')):
         

@@ -111,6 +111,36 @@ def JSON_Save():
                              }
             
             specials_final_output.append(specials_dict)
+
+        ##########################################################################################################
+        #######################
+        ### Extra Specials ###
+        #######################
+        
+        ex_specials_rows = []
+        ex_specials_final_output = []
+
+    
+    ex_special_text = ''
+            
+    CardID1 = int(get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '1'))
+
+    for i in range(Row_Checker(f'Ex_Super_Checkbox_Card_{card}_')):
+        if get_value(f'Ex_Super_Checkbox_Card_{card}_{i}'):
+            super_number = i
+            ex_type = get_value(f'Ex_Super_Combo_Card_{card}_{i}')
+            probability = get_value(f'Ex_Super_Combo2_Card_{card}_{i}')
+            bgm = get_value(f'Card_Specials_BGM_Text_Card_{card}_{i}')
+
+                    # if ex_type == 'When Super':
+                        # ex_type = '0'
+                    # elif ex_type == 'When Additional':
+                        # ex_type = '1'
+                    # elif ex_type == 'When Crit':
+                        # ex_type = '2'
+
+            ex_special_dict = {super_number : {'Type' : ex_type, 'Probability' : probability, 'BGM' : bgm}}
+            ex_specials_final_output.append(ex_special_dict)
             
         ##########################################################################################################
         ####################
@@ -364,6 +394,7 @@ def JSON_Save():
             'Card' : card_rows,
             'Passive' : passive_row_dict,
             'Specials' : specials_final_output,
+            'Extra Specials' : ex_specials_final_output,
             'Leader Skill' : leader_skill_dict,
             'Categories' : categories_dict,
             'Active Skill' : active_skill_dict,
@@ -483,6 +514,7 @@ def JSON_Load():
             Card_Widgets(number_of_cards, data)
             Passive_Widgets(number_of_cards, data)
             Specials_Widgets(number_of_cards, data)
+            Load_Ex_SuperData(number_of_cards, data)
             Custom_Unit_Categories_Load(number_of_cards, data)
             Active_Skill_Widgets(number_of_cards, data)
             Standby_Skill_Widgets(number_of_cards, data)
@@ -570,6 +602,7 @@ def JSON_Load():
             Card_Widgets(number_of_cards, data)
             Passive_Widgets(number_of_cards, data)
             Specials_Widgets(number_of_cards, data)
+            Load_Ex_SuperData(number_of_cards, data)
             Custom_Unit_Categories_Load(number_of_cards, data)
             Active_Skill_Widgets(number_of_cards, data)
             Standby_Skill_Widgets(number_of_cards, data)
@@ -591,3 +624,22 @@ def JSON_Load():
     # with open(f"cards.json", "r") as json_file:
     #     data = json.load(json_file)
         
+def Load_Ex_SuperData(number_of_cards, data):
+    for card in range(number_of_cards):
+        if data[f'Card {card + 1}'].get('Extra Specials'):
+            ex_data = data[f'Card {card + 1}']['Extra Specials']
+            for dict_num in range(len(ex_data)):
+
+                for key, value in ex_data[dict_num].items():
+                    set_value(f'Ex_Super_Checkbox_Card_{card}_{dict_num}', True)
+                    set_value(f'Ex_Super_Combo_Card_{card}_{dict_num}', value['Type'])
+                    show_item(f'Ex_Super_Combo_Card_{card}_{dict_num}')
+                    set_value(f'Ex_Super_Combo2_Card_{card}_{dict_num}', value['Probability'])
+                    show_item(f'Ex_Super_Combo2_Card_{card}_{dict_num}')
+                    set_value(f'Card_Specials_BGM_Text_Card_{card}_{dict_num}', value['BGM'])
+                    show_item(f'Card_Specials_BGM_Text_Card_{card}_{dict_num}')
+            # for extra_special in range(len(data[f'Card {card + 1}']['Extra Specials'])):
+                # set_value(f'Ex_Super_Checkbox_Card_{card}_{extra_special}', True)
+                # set_value(f'Ex_Super_Combo_Card_{card}_{extra_special}', True)
+                # set_value(f'Ex_Super_Combo2_Card_{card}_{extra_special}', True)
+                # set_value(f'Card_Specials_BGM_Text_Card_{card}_{extra_special}', True)

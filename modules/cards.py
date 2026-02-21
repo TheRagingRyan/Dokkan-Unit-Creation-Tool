@@ -1,11 +1,12 @@
 import sqlite3
 from dearpygui.dearpygui import *
 from . configs import Config_Read
-from .classes import String_Length, Widget_Aliases, Database, Card_Table_Combos, Card, Custom_Unit
+from .classes import String_Length, Widget_Aliases, Database, Card_Table_Combos, Card, Custom_Unit, Ex_Supers
 from . functions import Text_Resize, Table_Inputs, Delete_Items, Table_Combo_Inputs, Table_ID, Row_Checker
 from . download import Card_Checks
 # from modules import RPC
 import time
+import re
 # str_length = String_Length.str_length
 
 
@@ -193,6 +194,121 @@ def Super_EZA_Callback(tag_id, user_data, data, sender, app_data):
             if get_value(f'Special_Set_Name_Input_Card_{Card_Number}_{special}'):
                 set_value(f'Special_Set_Name_Input_Card_{Card_Number}_{special}', get_value(f'Special_Set_Name_Input_Card_{Card_Number}_{special}').replace(' (Extreme)', ''))
                 Text_Resize(f'Special_Set_Name_Input_Card_{Card_Number}_{special}')
+
+def Ex_Super_Callback(tag_id, user_data, data, sender, app_data):
+    Super_Number = Table_ID(tag_id)
+    Card_Number = re.search(r'Card_(\d+)', tag_id).group(1)  # "1"
+
+    priority = '20'
+    style = 'Extra'
+    ex_type = '0'
+
+    def set_specials_values():
+        set_value(f'CS_priority_Card_{Card_Number}_Row_{Super_Number}0', priority)
+        set_value(f'CS_priority_Card_{Card_Number}_Row_{Super_Number}1', priority)
+
+        set_value(f'CS_style_Card_{Card_Number}_Row_{Super_Number}0', style)
+        set_value(f'CS_style_Card_{Card_Number}_Row_{Super_Number}1', style)
+
+    if user_data:
+        show_item(f'Ex_Super_Combo_Card_{Card_Number}_{Super_Number}')
+        show_item(f'Ex_Super_Combo2_Card_{Card_Number}_{Super_Number}')
+        show_item(f'Card_Specials_BGM_Text_Card_{Card_Number}_{Super_Number}')
+        probabilty = get_value(f'Ex_Super_Combo2_Card_{Card_Number}_{Super_Number}')
+        BGM = get_value(f'Card_Specials_BGM_Text_Card_{Card_Number}_{Super_Number}')
+
+
+        # Do this to grab the value of the combobox in the case of re enabling it after being disabled
+        combo_data = get_value(f'Ex_Super_Combo_Card_{Card_Number}_{Super_Number}')
+        if combo_data == 'When Super':
+            priority = '20'
+            ex_type = '0'
+        elif combo_data == 'When Additional':
+            priority = '30'
+            ex_type = '1'
+        elif combo_data == 'When Crit':
+            priority = '40'
+            ex_type = '2'
+        # Need this so there is a default value set for the combo box, otherwise just showing the box won't actually have the When Super selected
+        if f'Card {Card_Number}' not in Ex_Supers.data:
+            Ex_Supers.data[f'Card {Card_Number}'] = {}
+        
+        Ex_Supers.data[f'Card {Card_Number}'][Super_Number] = {
+        'Super Number' : Super_Number, 'Priority' : priority, 'Style' : style, 'Ex Type' : ex_type, 'Probability' : probabilty, 'BGM' : BGM
+        }
+
+        set_specials_values()
+
+        print(Ex_Supers.data)
+
+    else:
+        hide_item(f'Ex_Super_Combo_Card_{Card_Number}_{Super_Number}')
+        hide_item(f'Ex_Super_Combo2_Card_{Card_Number}_{Super_Number}')
+        hide_item(f'Card_Specials_BGM_Text_Card_{Card_Number}_{Super_Number}')
+        Ex_Supers.data[f'Card {Card_Number}'][Super_Number] = {}
+        priority = '0'
+        style = 'Normal'
+        set_specials_values()
+        print(Ex_Supers.data)
+
+def Ex_Super_Combo_Callback(tag_id, user_data, data, sender, app_data):
+    Super_Number = Table_ID(tag_id)
+    Card_Number = re.search(r'Card_(\d+)', tag_id).group(1)  # "1"
+
+    priority = '20'
+    style = 'Extra'
+    ex_type = '0'
+    probability = '60'
+    bgm = '69'
+
+    def set_specials_values():
+        set_value(f'CS_priority_Card_{Card_Number}_Row_{Super_Number}0', priority)
+        set_value(f'CS_priority_Card_{Card_Number}_Row_{Super_Number}1', priority)
+
+        set_value(f'CS_style_Card_{Card_Number}_Row_{Super_Number}0', style)
+        set_value(f'CS_style_Card_{Card_Number}_Row_{Super_Number}1', style)
+
+    if user_data == 'When Super':
+        priority = '20'
+        ex_type = '0'
+        set_specials_values()
+    elif user_data == 'When Additional':
+        priority = '30'
+        ex_type = '1'
+        set_specials_values()
+    elif user_data == 'When Crit':
+        priority = '40'
+        ex_type = '2'
+        set_specials_values()
+    
+    if 'Combo2' in tag_id:
+        probability = user_data
+
+    elif 'BGM' in tag_id:
+        bgm = user_data
+
+    Ex_Supers.data[f'Card {Card_Number}'][Super_Number] = {
+        'Super Number' : Super_Number, 'Priority' : priority, 'Style' : style, 'Ex Type' : ex_type, 'Probability' : probability, 'BGM' : bgm
+    }
+    print(Ex_Supers.data)
+
+def Ex_Super_Probablity_Callback(tag_id, user_data, data, sender, app_data):
+    Super_Number = Table_ID(tag_id)
+    Card_Number = re.search(r'Card_(\d+)', tag_id).group(1)
+
+
+    Ex_Supers.data[f'Card {Card_Number}'][Super_Number]['Probability'] = user_data
+
+    # if user_data:
+    #     # set_value(Card.row_names[16] + '_Card_' + str(Card_Number) + '_Row_1', 'NULL')
+    #     for special in range(Row_Checker(f'Special#_Text_Card_{Card_Number}_')):
+    #         for i in range(Row_Checker(f'CS_lv_start_Card_{Card_Number}_Row_{special}')):
+    #             set_value(f'CS_lv_start_Card_{Card_Number}_Row_{special}{i}', '0')
+    # else:
+    #     for special in range(Row_Checker(f'Special#_Text_Card_{Card_Number}_')):
+    #         for i in range(Row_Checker(f'CS_lv_start_Card_{Card_Number}_Row_{special}')):
+    #             set_value(f'CS_lv_start_Card_{Card_Number}_Row_{special}{i}', '0')
+        
             
 
     

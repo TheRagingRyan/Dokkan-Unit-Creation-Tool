@@ -8,9 +8,9 @@ from . categories import  Category_jp_id_List, Load_Category_Images, Card_Catego
 from . causality import Causality_Creator
 from . functions import Delete_Items, Thumb_Display, Clear_Class_Tags_List, Allow_Use_Check, Dokkan_Wiki, Table_ID
 import pyautogui
-from . specials import Specials_Widgets
+# from . specials import Specials_Widgets
 from . Json_file import JSON_Save, JSON_Load
-from . custom_unit import Export_as_SQL, download_callback, get_card_id, save_callback, Widgets_Combined, Custom_Unit_Selectables, Custom_Unit_Hide_Tabs, Custom_Query_Window, Thumb_Test, Set_Main_Card_ID, Card_Widgets, Passive_Widgets, Leader_Skill_Widgets, Main_Tab_Bar_Callback
+from . custom_unit import Export_as_SQL, download_callback, get_card_id, save_callback, Widgets_Combined, Custom_Unit_Selectables, Custom_Unit_Hide_Tabs, Custom_Query_Window, Thumb_Test, Set_Main_Card_ID, Card_Widgets, Passive_Widgets, Leader_Skill_Widgets, Main_Tab_Bar_Callback, Specials_Widgets
 
 
 
