@@ -578,6 +578,90 @@ class Efficacy_Values:
     # Any eff with a '???' is to prevent KeyErrors, I'll have to figure out what some of these eff do.
 
     combo_list = [value for value in eff_dict.values()]
+
+class Exec_Timing:
+    combo = [
+        '1 - Start of Round',
+        '2 - When Linking Skills',
+        '3 - Start of Turn',
+        '4 - When Attacking',
+        '5 - Enemy Turn',
+        '6 - Before Getting Hit',
+        '7 - After Getting Hit',
+        '9 - End of Round',
+        '10 - End of Puzzle Phase',
+        '11 - Start of Puzzle Phase',
+        '14 - After Defeating Enemy',
+        '15 - Upon Acquiring Ki Sphere',
+        '18 - Dokkan Field',
+    ]
+
+    exec_dict = {
+        1 : '1 - Start of Round',
+        2 : '2 - When Linking Skills',
+        3 : '3 - Start of Turn',
+        4 : '4 - When Attacking',
+        5 : '5 - Enemy Turn',
+        6 : '6 - Before Getting Hit',
+        7 : '7 - After Getting Hit',
+        9 : '9 - End of Round',
+        10 : '10 - End of Puzzle Phase',
+        11 : '11 - Start of Puzzle Phase',
+        14 : '14 - After Defeating Enemy',
+        15 : '15 - Upon Acquiring Ki Sphere',
+        18 : '18 - Dokkan Field',
+    }
+
+class Target_Types:
+    combo = [
+        '1 - Self',
+        '2 - Party All',
+        '3 - Enemy',
+        '4 - Random Ally',
+        '5 - Self and Target',
+        '10 - Slot Attacker',
+        '11 - Random Party Slot',
+        '12 - Super Class Allies',
+        '13 - Extreme Class Allies',
+        '14 - Super Class Enemies',
+        '15 - Extreme Class Enemies',
+        '16 - All Allies',
+    ]
+
+    target_dict = {
+        1 : '1 - Self',
+        2 : '2 - Party All',
+        3 : '3 - Enemy',
+        4 : '4 - Random Ally',
+        5 : '5 - Self and Target',
+        10 : '10 - Slot Attacker',
+        11 : '11 - Random Party Slot',
+        12 : '12 - Super Class Allies',
+        13 : '13 - Extreme Class Allies',
+        14 : '14 - Super Class Enemies',
+        15 : '15 - Extreme Class Enemies',
+        16 : '16 - All Allies',
+    }
+
+class Calc_Options:
+    combo = [
+        '0 - Add',
+        '1 - Subtract',
+        '2 - % Plus',
+        '3 - % Minus',
+        '4 - Equal',
+    ]
+
+    calc_dict = {
+        0 : '0 - Add',
+        1 : '1 - Subtract',
+        2 : '2 - % Plus',
+        3 : '3 - % Minus',
+        4 : '4 - Equal',
+    }
+
+class Turns:
+    combo = [i + 1 for i in range(99)]
     
 class String_Length:
     

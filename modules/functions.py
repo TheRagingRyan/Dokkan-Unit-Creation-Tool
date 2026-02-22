@@ -12,7 +12,7 @@ from io import BytesIO
 
 
 def Table_Inputs(*, table_name='', table_width=1190, table_height=200, row_name='', row_width=99, class_name=None, freeze_columns=0, freeze_rows=0, 
-                    child_parent='', child_tag='', child_width=1200, child_height=200, use_child_window=True, combo=False, combo_tag='', combo_list=[],
+                    child_parent='', child_tag='', child_width=1200, child_height=200, use_child_window=True, combo=False, combo_tag={}, combo_list=[],
                     combo_column_name=str, used_in_loop=False, loop_number=int, table_parent=str, table_policy=mvTable_SizingFixedFit, transformation=False, 
                     transformation_card_num=int, child_before='', table_before=''):
     
@@ -74,14 +74,14 @@ def Table_Inputs(*, table_name='', table_width=1190, table_height=200, row_name=
                                 # The last number is always 0
                                 # print(str(z))
                                 # print(class_name.row_names[t] + str(z))
-                                if combo and class_name.row_names[t] == combo_tag:
+                                if combo and class_name.row_names[t] in combo_tag:
                                     if used_in_loop:
-                                        add_combo(tag=class_name.row_names[t] + '0' + str(loop_number) + str(z), items=combo_list, default_value=combo_list[0], width=149, parent=row_name + str(z))
+                                        add_combo(tag=class_name.row_names[t] + '0' + str(loop_number) + str(z), items=combo_tag[class_name.row_names[t]], default_value=combo_tag[class_name.row_names[t]][0], width=149, parent=row_name + str(z))
                                         Widget_Aliases.tags_to_delete.append(class_name.row_names[t] + '0' + str(loop_number) + str(z))
                                         list_of_inputs.append(class_name.row_names[t] + '0' + str(loop_number) + str(z))
                                         table_row_inputs.append(class_name.row_names[t] + '0' + str(loop_number) + str(z))
                                     else:
-                                        add_combo(tag=class_name.row_names[t] + '0' + str(z), items=combo_list, default_value=combo_list[0], width=149, parent=row_name + str(z))
+                                        add_combo(tag=class_name.row_names[t] + '0' + str(z), items=combo_tag[class_name.row_names[t]], default_value=combo_tag[class_name.row_names[t]][0], width=149, parent=row_name + str(z))
                                         Widget_Aliases.tags_to_delete.append(class_name.row_names[t] + '0' + str(z))
                                         list_of_inputs.append(class_name.row_names[t] + '0' + str(z))
                                         table_row_inputs.append(class_name.row_names[t] + '0' + str(z))
@@ -139,14 +139,14 @@ def Table_Inputs(*, table_name='', table_width=1190, table_height=200, row_name=
                         # The last number is always 0
                         # print(str(z))
                         # print(class_name.row_names[t] + str(z))
-                        if combo and class_name.row_names[t] == combo_tag:
+                        if combo and class_name.row_names[t] in combo_tag:
                             if used_in_loop:
-                                add_combo(tag=class_name.row_names[t] + '0' + str(loop_number) + str(z), items=combo_list, default_value=combo_list[0], width=149, parent=row_name + str(z))
+                                add_combo(tag=class_name.row_names[t] + '0' + str(loop_number) + str(z), items=combo_tag[class_name.row_names[t]], default_value=combo_tag[class_name.row_names[t]][0], width=149, parent=row_name + str(z))
                                 Widget_Aliases.tags_to_delete.append(class_name.row_names[t] + '0' + str(loop_number) + str(z))
                                 list_of_inputs.append(class_name.row_names[t] + '0' + str(loop_number) + str(z))
                                 table_row_inputs.append(class_name.row_names[t] + '0' + str(loop_number) + str(z))
                             else:
-                                add_combo(tag=class_name.row_names[t] + '0' + str(z), items=combo_list, default_value=combo_list[0], width=149, parent=row_name + str(z))
+                                add_combo(tag=class_name.row_names[t] + '0' + str(z), items=combo_tag[class_name.row_names[t]], default_value=combo_tag[class_name.row_names[t]][0], width=149, parent=row_name + str(z))
                                 Widget_Aliases.tags_to_delete.append(class_name.row_names[t] + '0' + str(z))
                                 list_of_inputs.append(class_name.row_names[t] + '0' + str(z))
                                 table_row_inputs.append(class_name.row_names[t] + '0' + str(z))
@@ -218,14 +218,14 @@ def Table_Inputs(*, table_name='', table_width=1190, table_height=200, row_name=
                                 # The last number is always 0
                                 # print(str(z))
                                 # print(class_name.row_names[t] + str(z))
-                                if combo and class_name.row_names[t] == combo_tag:
+                                if combo and class_name.row_names[t] in combo_tag:
                                     if used_in_loop:
-                                        add_combo(tag=class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z), items=combo_list, default_value=combo_list[0], width=149, parent=row_name + str(z))
+                                        add_combo(tag=class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z), items=combo_tag[class_name.row_names[t]], default_value=combo_tag[class_name.row_names[t]][0], width=149, parent=row_name + str(z))
                                         Widget_Aliases.tags_to_delete.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z))
                                         list_of_inputs.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z))
                                         table_row_inputs.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z))
                                     else:
-                                        add_combo(tag=class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z), items=combo_list, default_value=combo_list[0], width=149, parent=row_name + str(z))
+                                        add_combo(tag=class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z), items=combo_tag[class_name.row_names[t]], default_value=combo_tag[class_name.row_names[t]][0], width=149, parent=row_name + str(z))
                                         Widget_Aliases.tags_to_delete.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z))
                                         list_of_inputs.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z))
                                         table_row_inputs.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z))
@@ -285,14 +285,14 @@ def Table_Inputs(*, table_name='', table_width=1190, table_height=200, row_name=
                         # The last number is always 0
                         # print(str(z))
                         # print(class_name.row_names[t] + str(z))
-                        if combo and class_name.row_names[t] == combo_tag:
+                        if combo and class_name.row_names[t] in combo_tag:
                             if used_in_loop:
-                                add_combo(tag=class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z), items=combo_list, default_value=combo_list[0], width=149, parent=row_name + str(z))
+                                add_combo(tag=class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z), items=combo_tag[class_name.row_names[t]], default_value=combo_tag[class_name.row_names[t]][0], width=149, parent=row_name + str(z))
                                 Widget_Aliases.tags_to_delete.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z))
                                 list_of_inputs.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z))
                                 table_row_inputs.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(loop_number) + str(z))
                             else:
-                                add_combo(tag=class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z), items=combo_list, default_value=combo_list[0], width=149, parent=row_name + str(z))
+                                add_combo(tag=class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z), items=combo_tag[class_name.row_names[t]], default_value=combo_tag[class_name.row_names[t]][0], width=149, parent=row_name + str(z))
                                 Widget_Aliases.tags_to_delete.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z))
                                 list_of_inputs.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z))
                                 table_row_inputs.append(class_name.row_names[t] + '_Card_' + str(transformation_card_num) + '_Row_' + str(z))
@@ -430,7 +430,11 @@ def Text_Resize(tag_id):
     
 def Text_Resize_2(tag_id):
     text_width, text_height = get_text_size(get_value(tag_id), font='fonts/ARIAL.ttf')
-    set_item_width(tag_id, text_width + 25)
+    set_item_width(tag_id, text_width + 35)
+
+def Text_Resize_Combo(tag_id):
+    text_width, text_height = get_text_size(get_value(tag_id), font='fonts/ARIAL.ttf')
+    set_item_width(tag_id, text_width * 2.5)
     
 def Widget_Value_Grabber(*, class_name, combo=False, combo_tag=None):
     import re

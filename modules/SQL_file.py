@@ -17,6 +17,9 @@ def SQL_Spacer():
         
     return string
 
+def grab_numbers_from_combo_value(string):
+    return re.match(r'^(\d+)', string).group(1)
+
 def sql_output_data(CardName):
     sql_file_data = f'-- {CardName}'
     num_of_cards = Card_Checker()
@@ -510,6 +513,24 @@ def Passive_Output():
             passive_values = [re.sub(r'\D', '', get_value(Passive_Skill.row_names[i] + '_Card_' + str(cards) + '_Row_' + str(rows))) if Passive_Skill.row_names[i] == Passive_Skill.row_names[2] else get_value(Passive_Skill.row_names[i] + '_Card_' + str(cards) + '_Row_' + str(rows)) for i in range(len(Passive_Skill.row_names))]
             passive_values[0] = passive_values[0].replace('\'', '\'\'')
             passive_values[0] = f'\'{passive_values[0]}\''
+        
+            if passive_values[1]:
+                passive_values[1] = grab_numbers_from_combo_value(passive_values[1])
+
+            if passive_values[2]:
+                passive_values[2] = grab_numbers_from_combo_value(passive_values[2])
+
+            if passive_values[3]:
+                passive_values[3] = grab_numbers_from_combo_value(passive_values[3])
+
+            if passive_values[6]:
+                passive_values[6] = grab_numbers_from_combo_value(passive_values[6])
+
+            if passive_values[8]:
+                if passive_values[8] == 'False':
+                    passive_values[8] = '0'
+                else:
+                    passive_values[8] = '1'
             
             if passive_values[10] != 'NULL':
                 passive_values[10] = f'\'{passive_values[10]}\''
@@ -607,6 +628,16 @@ def Specials_Output():
                 
                 special_skill_row = [re.sub(r'\D', '', get_value(Specials.row_names[i] + '_Card_' + str(cards) + '_Row_' + str(special_num) + str(rows))) if Specials.row_names[i] == Specials.row_names[1] else get_value(Specials.row_names[i] + '_Card_' + str(cards) + '_Row_' + str(special_num) + str(rows)) for i in range(len(Specials.row_names))]
                 special_skill_row[0] = f'\'{special_skill_row[0]}\''
+
+                if special_skill_row[1]:
+                    special_skill_row[1] = grab_numbers_from_combo_value(special_skill_row[1])
+
+                if special_skill_row[2]:
+                    special_skill_row[2] = grab_numbers_from_combo_value(special_skill_row[2])
+                
+                if special_skill_row[3]:
+                    special_skill_row[3] = grab_numbers_from_combo_value(special_skill_row[3])
+
                 special_skills_values = ', '.join(map(str, special_skill_row))
                 
                 special_skill_sql = f'\n\t\t({str(special_skill_row_id)}, {str(Special_Set_ID_ + special_num)}, {special_skills_values}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'

@@ -2,9 +2,9 @@ from dearpygui.dearpygui import *
 # from passive import Strings_Length
 from . configs import Config_Read
 import sqlite3
-from .classes import String_Length, Efficacy_Values, Card_Checks, Widget_Aliases, Card_Specials, Special_Set, Specials, Custom_Unit
+from .classes import String_Length, Efficacy_Values, Card_Checks, Widget_Aliases, Card_Specials, Special_Set, Specials, Custom_Unit, Target_Types, Calc_Options, Turns
 from . configs import Config_Read
-from . functions import Table_Inputs, Delete_Items, Text_Resize, Table_ID, Row_Checker, Get_Card_Number
+from . functions import Table_Inputs, Delete_Items, Text_Resize, Table_ID, Row_Checker, Get_Card_Number, Text_Resize_Combo
 from . cards import Ex_Super_Callback, Ex_Super_Combo_Callback, Ex_Super_Probablity_Callback
 
 
@@ -377,7 +377,9 @@ def Specials_Add(app_data):
         with group(horizontal=True, parent=f'Specials_Tab_Card_{Card_Number}', tag=f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}'):
             Specials_tags = Table_Inputs(table_name=f'Specials_Card_{Card_Number}_{Super_Number}', row_name=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}', class_name=Specials,
                                   used_in_loop=True, loop_number=Super_Number, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{Card_Number}_{Super_Number}', child_tag=f'Specials_Child_Window_Card_{Card_Number}_{Super_Number}',
-                                  table_height=90, table_width=1134, child_height=110, child_width=1139, combo=True, combo_tag=Specials.row_names[1], combo_list=Efficacy_Values.combo_list,
+                                  table_height=90, table_width=1270, child_height=87, child_width=1175, combo=True,
+                                  combo_tag={Specials.row_names[1] : Efficacy_Values.combo_list, Specials.row_names[2] : Target_Types.combo, Specials.row_names[3] : Calc_Options.combo, Specials.row_names[4] : Turns.combo},
+                                  combo_list=Efficacy_Values.combo_list,
                                   transformation=True, transformation_card_num=Card_Number)
             # print(Specials_tags)
 
@@ -493,14 +495,19 @@ def Special_Skills_Add(app_data):
         for i in range(len(Specials.row_names)):
                 # Specials.row_names[2] is Efficacy Type
                 if Specials.row_names[i] == Specials.row_names[1]:
-                        add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Efficacy_Values.combo_list, width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
-                        set_value(Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), Efficacy_Values.combo_list[0])
+                    add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Efficacy_Values.combo_list, default_value=Efficacy_Values.combo_list[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                elif Specials.row_names[i] == Specials.row_names[2]:
+                    add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Target_Types.combo, default_value=Target_Types.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                elif Specials.row_names[i] == Specials.row_names[3]:
+                    add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Calc_Options.combo, default_value=Calc_Options.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                elif Specials.row_names[i] == Specials.row_names[4]:
+                    add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Turns.combo, default_value=Turns.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
                 else:
-                        add_input_text(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), hint=Specials.column_names[i], width=99, default_value='', parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                    add_input_text(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), hint=Specials.column_names[i], width=99, default_value='', parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
                         
         # configure_item(f'Passive_Rows_in_Table_Card_{Card_Number}', default_value=f'Rows: {Rows + 1}')
-        set_item_height(f'Specials_Card_{Card_Number}_{Super_Number}', (24 * (Rows + 1) + 23))
-        set_item_height(f'Specials_Child_Window_Card_{Card_Number}_{Super_Number}', (25 * (Rows + 1) + 38))
+        set_item_height(f'Specials_Card_{Card_Number}_{Super_Number}', (24 * (Rows + 1) + 32))
+        set_item_height(f'Specials_Child_Window_Card_{Card_Number}_{Super_Number}', (25 * (Rows + 1) + 50))
                         
         # # Check previous row value for a name, set the new row name if it exists
         # # print(Specials.row_names[0] + str(Rows - 1))
@@ -525,8 +532,8 @@ def Special_Skills_Del(app_data):
                         delete_item(Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows - 1))
                         
         # configure_item(f'Passive_Rows_in_Table_{Table_Number}', default_value=f'Rows: {Rows - 1}')
-        set_item_height(f'Specials_Card_{Card_Number}_{Super_Number}', (24 * (Rows - 1) + 23))
-        set_item_height(f'Specials_Child_Window_Card_{Card_Number}_{Super_Number}', (25 * (Rows - 1) + 38))
+        set_item_height(f'Specials_Card_{Card_Number}_{Super_Number}', (24 * (Rows - 1) + 32))
+        set_item_height(f'Specials_Child_Window_Card_{Card_Number}_{Super_Number}', (25 * (Rows - 1) + 50))
     
 
 def Unit_Checks(card_information):

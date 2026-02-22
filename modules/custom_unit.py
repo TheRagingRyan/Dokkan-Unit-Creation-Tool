@@ -17,10 +17,10 @@ from . download import download_image, Card_Information
 import easygui
 import os
 from . configs import Config_Read
-from . classes import Database, Custom_Unit, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Efficacy_Values, String_Length, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Effect_Pack, Special_Views
+from . classes import Database, Custom_Unit, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Efficacy_Values, String_Length, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Effect_Pack, Special_Views, Exec_Timing, Calc_Options, Target_Types, Turns
 from .functions import Table_ID, Delete_Items, Text_Resize, Table_Combo_Inputs, Table_Inputs, Resize_Table, \
     Delete_Table, Row_Checker, Traceback_Logging, Clear_Class_Tags_List, Text_Resize_2, Resize_Table_Width, load_JSON, \
-    grab_card_id, read_json_from_zip, read_png_from_zip
+    grab_card_id, read_json_from_zip, read_png_from_zip, Text_Resize_Combo
 from . jp_translations import Translations
 import re
 import ast
@@ -707,7 +707,9 @@ def Passive_Widgets():
     configure_item(f'Passive_Rows_in_Table_{cards}', default_value=f'Rows: {Passive_Skill.rows}')
 
     sss = Table_Inputs(table_name=f'Passive_Skill_Table_{cards}', row_name=f'Passive_Skill_Table_Row_{cards}', table_parent=f'Card_Input_Tab_{cards}', use_child_window=False, 
-             class_name=Passive_Skill, combo=True, combo_tag=Passive_Skill.row_names[2], combo_list=Efficacy_Values.combo_list, combo_column_name=Passive_Skill.column_names[2],
+             class_name=Passive_Skill, combo=True, 
+             combo_tag={Passive_Skill.row_names[1] : Exec_Timing.combo,Passive_Skill.row_names[2] : Efficacy_Values.combo_list, Passive_Skill.row_names[3] : Target_Types.combo, Passive_Skill.row_names[6] : Calc_Options.combo, Passive_Skill.row_names[7] : Turns.combo, Passive_Skill.row_names[8] : ['False', 'True']},
+             combo_list=Efficacy_Values.combo_list, combo_column_name=Passive_Skill.column_names[2],
              table_width=1775, row_width=82, freeze_rows=1, transformation=True, transformation_card_num=cards)
     
     
@@ -754,7 +756,9 @@ def Custom_Unit_Passive_Skill_Query(*, card=int, json_cards=0):
 
         Passive_Skill.rows = len(passive_skills)
         sss = Table_Inputs(table_name=f'Passive_Skill_Table_{card}', row_name=f'Passive_Skill_Table_Row_{card}', table_parent=f'Card_Input_Tab_{card}', use_child_window=False,
-                class_name=Passive_Skill, combo=True, combo_tag=Passive_Skill.row_names[2], combo_list=Efficacy_Values.combo_list, combo_column_name=Passive_Skill.column_names[2],
+                class_name=Passive_Skill, combo=True,
+                combo_tag={Passive_Skill.row_names[1] : Exec_Timing.combo,Passive_Skill.row_names[2] : Efficacy_Values.combo_list, Passive_Skill.row_names[3] : Target_Types.combo, Passive_Skill.row_names[6] : Calc_Options.combo, Passive_Skill.row_names[7] : Turns.combo, Passive_Skill.row_names[8] : ['False', 'True']},
+                combo_list=Efficacy_Values.combo_list, combo_column_name=Passive_Skill.column_names[2],
                 table_width=1775, row_width=82, freeze_rows=1, transformation=True, transformation_card_num=card, table_before=f'Passive_Desc_Text_{card}')
         
         print(sss)
@@ -771,12 +775,40 @@ def Custom_Unit_Passive_Skill_Query(*, card=int, json_cards=0):
 
                 if value == '' and key != 'efficacy_values':
                     set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), 'NULL')
-                    # Text_Resize('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
+                    Text_Resize_2('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
+                    
 
                 elif key == 'efficacy_type':
                     set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), Efficacy_Values.eff_dict[int(value)])
-                    # Text_Resize('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
+                    Text_Resize_Combo('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
+                
+                elif key == 'exec_timing_type':
+                    set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), Exec_Timing.exec_dict[int(value)])
+                    Text_Resize_Combo('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
 
+                elif key == 'target_type':
+                    set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), Target_Types.target_dict[int(value)])
+                    Text_Resize_Combo('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
+
+                elif key == 'calc_option':
+                    set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), Calc_Options.calc_dict[int(value)])
+                    Text_Resize_Combo('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
+                
+                elif key == 'is_once':
+                    if value == '0':
+                        value = 'False'
+                    else:
+                        value = 'True'
+                    set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), str(value))
+                    Text_Resize_Combo('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
+
+                elif key == 'turn':
+                    set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), str(value))
+                    Text_Resize_2('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
+                
+                # elif key == 'causality_conditions':
+                #     set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), str(value))
+                #     Text_Resize_2('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
                 else:
                     set_value('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row), value)
                     # Text_Resize('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
@@ -884,14 +916,18 @@ def Specials_Widgets():
         Widget_Aliases.tags_to_delete.append(f'Ex_Super_Combo2_Card_{cards}_{i}')
         Widget_Aliases.tags_to_delete.append(f'Card_Specials_BGM_Text_Card_{cards}_{i}')
             
+        
         Specials.rows = 1
         with group(horizontal=True, parent=f'Specials_Tab_Card_{cards}', tag=f'Specials_Table_Group_Card_{cards}_{i}'):
             Specials_tags = Table_Inputs(table_name=f'Specials_Card_{cards}_{i}', row_name=f'Specials_Table_Row_Card_{cards}_{i}', class_name=Specials,
                          used_in_loop=True, loop_number=i, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{cards}_{i}', child_tag=f'Specials_Child_Window_Card_{cards}_{i}',
-                         table_height=90, table_width=1134, child_height=87, child_width=1139, combo=True, combo_tag=Specials.row_names[1], combo_list=Efficacy_Values.combo_list,
+                         table_height=90, table_width=1270, child_height=87, child_width=1175, combo=True,
+                         combo_tag={Specials.row_names[1] : Efficacy_Values.combo_list, Specials.row_names[2] : Target_Types.combo, Specials.row_names[3] : Calc_Options.combo, Specials.row_names[4] : Turns.combo},
+                         combo_list=Efficacy_Values.combo_list,
                          transformation=True, transformation_card_num=cards, child_before=f'Specials_Group_Card_{cards}_{i}')
                 
-            set_item_height(f'Specials_Card_{cards}_{i}', (24 * (Specials.rows)) + 23)
+            set_item_height(f'Specials_Card_{cards}_{i}', 24 + 42)
+            set_item_height(f'Specials_Child_Window_Card_{cards}_{i}', 25 + 50)
             # print(Specials_tags)
 
             with group(horizontal=False, tag=f'Specials_Group_Card_{cards}_{i}'):
@@ -1043,12 +1079,14 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
         with group(horizontal=True, parent=f'Specials_Tab_Card_{cards}', tag=f'Specials_Table_Group_Card_{cards}_{i}'):
             Specials_tags = Table_Inputs(table_name=f'Specials_Card_{cards}_{i}', row_name=f'Specials_Table_Row_Card_{cards}_{i}', class_name=Specials,
                                      used_in_loop=True, loop_number=i, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{cards}_{i}', child_tag=f'Specials_Child_Window_Card_{cards}_{i}',
-                                     table_height=90, table_width=1134, child_height=87, child_width=1139, combo=True, combo_tag=Specials.row_names[1], combo_list=Efficacy_Values.combo_list,
+                                     table_height=90, table_width=1270, child_height=87, child_width=1175, combo=True,
+                                     combo_tag={Specials.row_names[1] : Efficacy_Values.combo_list, Specials.row_names[2] : Target_Types.combo, Specials.row_names[3] : Calc_Options.combo, Specials.row_names[4] : Turns.combo},
+                                     combo_list=Efficacy_Values.combo_list,
                                      transformation=True, transformation_card_num=cards)
             # print(Specials_tags)
 
-            set_item_height(f'Specials_Card_{cards}_{i}', (24 * len(specials[special_set_ids[i]])) + 23)
-            set_item_height(f'Specials_Child_Window_Card_{cards}_{i}', (25 * len(specials[special_set_ids[i]])) + 38)
+            set_item_height(f'Specials_Card_{cards}_{i}', (24 * len(specials[special_set_ids[i]])) + 42)
+            set_item_height(f'Specials_Child_Window_Card_{cards}_{i}', (25 * len(specials[special_set_ids[i]])) + 50)
 
             with group(horizontal=False, tag=f'Specials_Group_Card_{cards}_{i}'):
                 with group(horizontal=True, tag=f'Specials_Aim_Target_Group_Card_{cards}_{i}'):
@@ -1094,9 +1132,19 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
                         if value == '':
                             set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), 'NULL')
                         elif f'Specials_{key}' == Specials.row_names[1]:
-                                # print(eff_dict[Passive_Skill.query_values[i][z]])
-                                set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), Efficacy_Values.eff_dict[int(value)])
-                                # Text_Resize(Specials.row_names[row_names] + str(i) + str(tag))
+                            # print(eff_dict[Passive_Skill.query_values[i][z]])
+                            set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), Efficacy_Values.eff_dict[int(value)])
+                            Text_Resize_Combo(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag))
+                            # Text_Resize(Specials.row_names[row_names] + str(i) + str(tag))
+                        elif f'Specials_{key}' == Specials.row_names[2]:
+                            set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), Target_Types.target_dict[int(value)])
+                            Text_Resize_Combo(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag))
+                        elif f'Specials_{key}' == Specials.row_names[3]:
+                            set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), Calc_Options.calc_dict[int(value)])
+                            Text_Resize_Combo(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag))
+                        elif f'Specials_{key}' == Specials.row_names[4]:
+                            set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), value)
+                            Text_Resize_2(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag))
                         else:
                             # print(Specials.row_names[row_names] + str(cards) + str(i) + str(tag))
                             set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), value)
@@ -1212,10 +1260,12 @@ def Active_Skill_Widgets(card):
     
     Active_Skill.rows = 1
     sss = Table_Inputs(table_name=f'Active_Skill_Table_Card_{card}', row_name=f'Active_Skill_Row_Card_{card}_', class_name=Active_Skill,
-                        use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1132,
-                        combo=True, combo_list=Efficacy_Values.combo_list, combo_tag=Active_Skill.row_names[3], transformation=True, transformation_card_num=card)
+                        use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1240,
+                        combo=True, combo_list=Efficacy_Values.combo_list,
+                        combo_tag={Active_Skill.row_names[0] : Target_Types.combo,Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[2] : Efficacy_Values.combo_list,Active_Skill.row_names[3] : Efficacy_Values.combo_list},
+                        transformation=True, transformation_card_num=card)
             
-    set_item_height(f'Active_Skill_Table_Card_{card}', (24 * Active_Skill.rows + 23))
+    set_item_height(f'Active_Skill_Table_Card_{card}', (24 * Active_Skill.rows + 42))
     
     add_checkbox(label='Ultimate Special', callback=Custom_Unit_Ultimate_Special_Checkbox, tag=f'Custom_Unit_Ultimate_Special_Checkbox_{card}', parent=f'Active_Skill_Card_{card}')
     configure_item(f'Active_Skill_Card_{card}', show=True)
@@ -1303,8 +1353,10 @@ def Custom_Unit_Active_Skill_Query(*, card=int, json_cards=0):
             Widget_Aliases.tags_to_delete.append(f'Active_Skills_Button_Del_Card_{card}')
 
             sss = Table_Inputs(table_name=f'Active_Skill_Table_Card_{card}', row_name=f'Active_Skill_Row_Card_{card}_', class_name=Active_Skill,
-                                use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1132,
-                                combo=True, combo_list=Efficacy_Values.combo_list, combo_tag=Active_Skill.row_names[3], transformation=True, transformation_card_num=card)
+                                use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1240,
+                                combo=True, combo_list=Efficacy_Values.combo_list,
+                                combo_tag={Active_Skill.row_names[0] : Target_Types.combo,Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[2] : Efficacy_Values.combo_list,Active_Skill.row_names[3] : Efficacy_Values.combo_list},
+                                transformation=True, transformation_card_num=card)
 
             add_checkbox(label='Ultimate Special', callback=Custom_Unit_Ultimate_Special_Checkbox, tag=f'Custom_Unit_Ultimate_Special_Checkbox_{card}', parent=f'Active_Skill_Card_{card}')
 
@@ -1351,12 +1403,18 @@ def Custom_Unit_Active_Skill_Query(*, card=int, json_cards=0):
             Active_Skill.last_rows = len(active_skill)
             # active_skill_set_id = get_value('CardID1')
 
-            set_item_height(f'Active_Skill_Table_Card_{card}', (24 * len(active_skill)) + 23)
+            set_item_height(f'Active_Skill_Table_Card_{card}', (24 * len(active_skill)) + 42)
 
             for i in range(len(active_skill)):
                 for key, value in active_skill[i].items():
                     if value == '':
                         set_value(key + '_Card_' + str(card) + '_Row_' + str(i), 'NULL')
+
+                    elif key == Active_Skill.row_names[0]:
+                        set_value(key + '_Card_' + str(card) + '_Row_' + str(i), Target_Types.target_dict[int(value)])
+
+                    elif key == Active_Skill.row_names[2]:
+                        set_value(key + '_Card_' + str(card) + '_Row_' + str(i), Calc_Options.calc_dict[int(value)])
 
                     elif key == Active_Skill.row_names[3]:
                         set_value(key + '_Card_' + str(card) + '_Row_' + str(i), Efficacy_Values.eff_dict[int(value)])

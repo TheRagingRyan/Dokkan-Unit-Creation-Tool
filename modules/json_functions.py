@@ -9,7 +9,7 @@ from . leader import Leader_Combo, Leader_Cat_Selection, Leader_Efficacy_Value_C
 from . download import download_image
 from . active_skill import Active_Skill_Add, Active_Skill_Del
 import os
-from . classes import Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Efficacy_Values, String_Length, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Special_Views, Effect_Pack
+from . classes import Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Efficacy_Values, String_Length, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Special_Views, Effect_Pack, Exec_Timing, Calc_Options, Target_Types, Turns
 from . functions import Delete_Items, Text_Resize, Table_Combo_Inputs, Table_Inputs, Resize_Table
 from . custom_unit import Main_Tab_Bar_Callback
 import re
@@ -204,7 +204,9 @@ def Passive_Widgets(json_length, json_dict):
                 configure_item(f'Passive_Rows_in_Table_{cards}', default_value=f'Rows: {Passive_Skill.rows}')
 
                 sss = Table_Inputs(table_name=f'Passive_Skill_Table_{cards}', row_name=f'Passive_Skill_Table_Row_{cards}', table_parent=f'Card_Input_Tab_{cards}', use_child_window=False, 
-                         class_name=Passive_Skill, combo=True, combo_tag=Passive_Skill.row_names[2], combo_list=Efficacy_Values.combo_list, combo_column_name=Passive_Skill.column_names[2],
+                         class_name=Passive_Skill, combo=True, 
+                         combo_tag={Passive_Skill.row_names[1] : Exec_Timing.combo,Passive_Skill.row_names[2] : Efficacy_Values.combo_list, Passive_Skill.row_names[3] : Target_Types.combo, Passive_Skill.row_names[6] : Calc_Options.combo, Passive_Skill.row_names[7] : Turns.combo, Passive_Skill.row_names[8] : ['False', 'True']},
+                         combo_list=Efficacy_Values.combo_list, combo_column_name=Passive_Skill.column_names[2],
                          table_width=1775, row_width=82, freeze_rows=1, transformation=True, transformation_card_num=cards)
                 
                 for row in range(len(json_dict[f'Card {cards + 1}']['Passive']['Skills'])):
@@ -348,10 +350,13 @@ def Specials_Widgets(json_length, json_dict):
             with group(horizontal=True, parent=f'Specials_Tab_Card_{cards}', tag=f'Specials_Table_Group_Card_{cards}_{i}'):
                 Specials_tags = Table_Inputs(table_name=f'Specials_Card_{cards}_{i}', row_name=f'Specials_Table_Row_Card_{cards}_{i}', class_name=Specials,
                              used_in_loop=True, loop_number=i, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{cards}_{i}', child_tag=f'Specials_Child_Window_Card_{cards}_{i}',
-                             table_height=90, table_width=1134, child_height=87, child_width=1139, combo=True, combo_tag=Specials.row_names[1], combo_list=Efficacy_Values.combo_list,
-                             transformation=True, transformation_card_num=cards)
+                             table_height=90, table_width=1270, child_height=87, child_width=1175, combo=True,
+                             combo_tag={Specials.row_names[1] : Efficacy_Values.combo_list, Specials.row_names[2] : Target_Types.combo, Specials.row_names[3] : Calc_Options.combo, Specials.row_names[4] : Turns.combo},
+                             combo_list=Efficacy_Values.combo_list,
+                             transformation=True, transformation_card_num=cards, child_before=f'Specials_Group_Card_{cards}_{i}')
                 
-                set_item_height(f'Specials_Card_{cards}_{i}', (24 * (Specials.rows)) + 23)
+                set_item_height(f'Specials_Card_{cards}_{i}', (24 * (Specials.rows)) + 42)
+                set_item_height(f'Specials_Child_Window_Card_{cards}_{i}', (24 * (Specials.rows)) + 50)
                 # print(Specials_tags)
 
                 with group(horizontal=False, tag=f'Specials_Group_Card_{cards}_{i}'):
@@ -435,8 +440,10 @@ def Active_Skill_Widgets(json_length, json_dict):
 
             Active_Skill.rows = len(json_dict[f'Card {card + 1}']['Active Skill']['Skills'])
             sss = Table_Inputs(table_name=f'Active_Skill_Table_Card_{card}', row_name=f'Active_Skill_Row_Card_{card}_', class_name=Active_Skill,
-                                use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1132,
-                                combo=True, combo_list=Efficacy_Values.combo_list, combo_tag=Active_Skill.row_names[3], transformation=True, transformation_card_num=card)
+                                use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1240,
+                                combo=True, combo_list=Efficacy_Values.combo_list,
+                                combo_tag={Active_Skill.row_names[0] : Target_Types.combo,Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[2] : Efficacy_Values.combo_list,Active_Skill.row_names[3] : Efficacy_Values.combo_list},
+                                transformation=True, transformation_card_num=card)
             
             if json_dict[f'Card {card + 1}']['Active Skill']['Skills']:
                 # z = 0
@@ -452,7 +459,7 @@ def Active_Skill_Widgets(json_length, json_dict):
                         set_value(Active_Skill.row_names[index] + '_Card_' + str(card) + '_Row_' + str(skill_num), value)
 
                     
-            set_item_height(f'Active_Skill_Table_Card_{card}', (24 * Active_Skill.rows + 23))
+            set_item_height(f'Active_Skill_Table_Card_{card}', (24 * Active_Skill.rows + 42))
 
             Widget_Aliases.tags_to_delete.append(f'Active_Skill_Text_Card_{card}')
             Widget_Aliases.tags_to_delete.append(f'Active_Skill_Name_Text_Card_{card}')

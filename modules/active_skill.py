@@ -5,7 +5,7 @@ from . cards import String_Length
 from . configs import Config_Read
 from . functions import Table_Inputs, Delete_Items, Table_ID, Row_Checker
 from . passive import Passive_Skill
-from . classes import Efficacy_Values, Widget_Aliases, Card_Checks, Active_Skill, Active_Skill_Set
+from . classes import Efficacy_Values, Widget_Aliases, Card_Checks, Active_Skill, Active_Skill_Set, Target_Types, Calc_Options
 
 #################################################################################################################################################################################################################################################################
 #################################################################################################################################################################################################################################################################    
@@ -267,14 +267,17 @@ def Active_Skill_Add(app_data):
     for i in range(len(Active_Skill.row_names)):
         # print(Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows))
         # Passive_Skill.row_names[2] is Efficacy Type
-        if Active_Skill.row_names[i] == Active_Skill.row_names[3]:
-                add_combo(tag=Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Efficacy_Values.combo_list, width=149, parent=f'Active_Skill_Row_Card_{Table_Number}_{Rows}')
-                set_value(Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), Efficacy_Values.combo_list[0])
+        if Active_Skill.row_names[i] == Active_Skill.row_names[0]:
+            add_combo(tag=Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Target_Types.combo, default_value=Target_Types.combo[0], width=149, parent=f'Active_Skill_Row_Card_{Table_Number}_{Rows}')
+        elif Active_Skill.row_names[i] == Active_Skill.row_names[2]:
+            add_combo(tag=Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Calc_Options.combo, default_value=Calc_Options.combo[0], width=149, parent=f'Active_Skill_Row_Card_{Table_Number}_{Rows}')
+        elif Active_Skill.row_names[i] == Active_Skill.row_names[3]:
+            add_combo(tag=Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Efficacy_Values.combo_list, default_value=Efficacy_Values.combo_list[0], width=149, parent=f'Active_Skill_Row_Card_{Table_Number}_{Rows}')
         else:
-                add_input_text(tag=Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), hint=Active_Skill.column_names[i], width=99, default_value='', parent=f'Active_Skill_Row_Card_{Table_Number}_{Rows}')
+            add_input_text(tag=Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), hint=Active_Skill.column_names[i], width=99, default_value='', parent=f'Active_Skill_Row_Card_{Table_Number}_{Rows}')
         # table_row.append(Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows))
                     
-    set_item_height(f'Active_Skill_Table_Card_{Table_Number}', (24 * (Rows + 1) + 23))
+    set_item_height(f'Active_Skill_Table_Card_{Table_Number}', (24 * (Rows + 1) + 42))
     Active_Skill.table_row_tags[int(Table_Number)].append(table_rows)
 
 def Active_Skill_Del(app_data):
@@ -286,7 +289,7 @@ def Active_Skill_Del(app_data):
     if Rows > 1:
         for i in range(len(Active_Skill.row_names)):
             delete_item(Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows - 1))
-        set_item_height(f'Active_Skill_Table_Card_{Table_Number}', (24 * (Rows - 1) + 23))
+        set_item_height(f'Active_Skill_Table_Card_{Table_Number}', (24 * (Rows - 1) + 42))
         last_list_row = len(Passive_Skill.table_row_tags[int(Table_Number)])
         del Active_Skill.table_row_tags[int(Table_Number)][last_list_row - 1]
     else:
