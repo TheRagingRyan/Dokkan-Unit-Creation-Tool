@@ -966,8 +966,10 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
     else:
         data = Card_Checks.json_data[json_cards]
 
-    card_id_1 = grab_card_id()
+
+    card_id_1 = Card_Checks.json_data[json_cards]['card']['id']
     cardID0 = str(card_id_1[:-1]) + '0'
+    
 
     # Card_Checks.special_set_ids is a list of special set id lists Ex. [[XX, XX], [XX], [X, XX, X]]
     special_sets = data['special_sets']
