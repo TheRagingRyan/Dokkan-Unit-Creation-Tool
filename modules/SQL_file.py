@@ -64,6 +64,7 @@ def sql_output_data(CardName):
         optimal_awakening = Optimal_Awakening_Growth_Output()
     passive = Passive_Output()
     specials = Specials_Output()
+    ex_super = Ex_Super_Output()
     leader = Leader_Output()
     categories = Categories_Output()
     
@@ -83,6 +84,7 @@ def sql_output_data(CardName):
     effect_pack = Effect_Pack_Output()
     special_views = Special_Views_Output()
     
+    
     sql_file_data += cards + '\n'
     if eza:
         sql_file_data += optimal_awakening + '\n\n'
@@ -97,7 +99,11 @@ def sql_output_data(CardName):
     
     sql_file_data += specials[0] + '\n'
     sql_file_data += specials[1] + '\n'
-    sql_file_data += specials[2] + '\n\n'
+    sql_file_data += specials[2] + '\n'
+
+    if ex_super:
+        sql_file_data += ex_super + '\n\n'
+
     
     sql_file_data += SQL_Spacer() + '\n'
     
@@ -201,7 +207,7 @@ def sql_write_to_file(sql_file_name, sql_file_data):
                     config.write(config_file)
 
 
-            with open(f"{sql_file_name}", "w") as sql_file:
+            with open(f"{sql_file_name}", "w", encoding='utf-8') as sql_file:
                 sql_file.write(sql_file_data)
     else:
                 
@@ -215,7 +221,7 @@ def sql_write_to_file(sql_file_name, sql_file_data):
             with open(Config_Path(), 'w') as config_file:
                 config.write(config_file)
                 
-            with open(f"{sql_file_name}", "w") as sql_file:
+            with open(f"{sql_file_name}", "w", encoding='utf-8') as sql_file:
                 sql_file.write(sql_file_data)
 
     

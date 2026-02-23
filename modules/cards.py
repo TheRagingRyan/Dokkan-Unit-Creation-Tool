@@ -245,11 +245,11 @@ def Ex_Super_Callback(tag_id, user_data, data, sender, app_data):
         hide_item(f'Ex_Super_Combo_Card_{Card_Number}_{Super_Number}')
         hide_item(f'Ex_Super_Combo2_Card_{Card_Number}_{Super_Number}')
         hide_item(f'Card_Specials_BGM_Text_Card_{Card_Number}_{Super_Number}')
-        Ex_Supers.data[f'Card {Card_Number}'][Super_Number] = {}
+        # Ex_Supers.data[f'Card {Card_Number}'][Super_Number] = {}
         priority = '0'
         style = 'Normal'
         set_specials_values()
-        print(Ex_Supers.data)
+        # print(Ex_Supers.data)
 
 def Ex_Super_Combo_Callback(tag_id, user_data, data, sender, app_data):
     Super_Number = Table_ID(tag_id)

@@ -1,0 +1,18 @@
+{
+    "18776":	{"probability" : "70", "extra_special_type" :  "0", "bgm_id" : "505"},
+    "18777":	{"probability" : "70", "extra_special_type" :  "0", "bgm_id" : "505"},
+    "18638":	{"probability" : "77", "extra_special_type" :  "2", "bgm_id" : "496"},
+    "18639":	{"probability" : "77", "extra_special_type" :  "2", "bgm_id" : "496"},
+    "18648":	{"probability" : "50", "extra_special_type" :  "1", "bgm_id" : "499"},
+    "18649":	{"probability" : "50", "extra_special_type" :  "1", "bgm_id" : "499"},
+    "18704":	{"probability" : "50", "extra_special_type" :  "0", "bgm_id" : "508"},
+    "18705":	{"probability" : "50", "extra_special_type" :  "0", "bgm_id" : "508"},
+    "18761":	{"probability" : "70", "extra_special_type" :  "0", "bgm_id" : "502"},
+    "18762":	{"probability" : "70", "extra_special_type" :  "0", "bgm_id" : "502"},
+    "18865":	{"probability" : "60", "extra_special_type" :  "2", "bgm_id" : "509"},
+    "18866":	{"probability" : "60", "extra_special_type" :  "2", "bgm_id" : "509"},
+    "18651":	{"probability" : "30", "extra_special_type" :  "1", "bgm_id" : "508"},
+    "18652":	{"probability" : "30", "extra_special_type" :  "1", "bgm_id" : "508"},
+    "18602":	{"probability" : "70", "extra_special_type" :  "2", "bgm_id" : "508"},
+    "18603":	{"probability" : "70", "extra_special_type" :  "2", "bgm_id" : "508"}
+}

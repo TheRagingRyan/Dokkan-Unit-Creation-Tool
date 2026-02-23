@@ -320,7 +320,7 @@ def Specials_Widgets(json_length, json_dict):
     
             Card_Specials.rows = len(json_dict[f'Card {cards + 1}']['Specials'][i]['Card Specials'])
             CS_tags = Table_Inputs(table_name=f'Card_Specials_Card_{cards}_{i}', row_name=f'Card_Specials_Table_Row_Card_{cards}_{i}', class_name=Card_Specials,
-                                 used_in_loop=True, loop_number=i, use_child_window=False, table_parent=f'Specials_Tab_Card_{cards}', table_height=67, table_width=1150,
+                                 used_in_loop=True, loop_number=i, use_child_window=False, table_parent=f'Specials_Tab_Card_{cards}', table_height=67, table_width=1200,
                                  row_width=75, table_policy=mvTable_SizingStretchSame, transformation=True, transformation_card_num=cards)
             for row in range(Card_Specials.rows):
                 z = 0

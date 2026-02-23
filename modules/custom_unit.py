@@ -26,7 +26,7 @@ import re
 import ast
 import sqlite3
 import threading
-import time
+import json
 
 db = Database()
 
@@ -895,7 +895,7 @@ def Specials_Widgets():
             
         Card_Specials.rows = 2
         CS_tags = Table_Inputs(table_name=f'Card_Specials_Card_{cards}_{i}', row_name=f'Card_Specials_Table_Row_Card_{cards}_{i}', class_name=Card_Specials,
-                             used_in_loop=True, loop_number=i, use_child_window=False, table_parent=f'Specials_Tab_Card_{cards}', table_height=67, table_width=1150,
+                             used_in_loop=True, loop_number=i, use_child_window=False, table_parent=f'Specials_Tab_Card_{cards}', table_height=67, table_width=1200,
                              row_width=75, table_policy=mvTable_SizingStretchSame, transformation=True, transformation_card_num=cards)
         
         # print(CS_tags)
@@ -978,6 +978,7 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
     card_special_ids = [key for key in data['card_specials']]
     card_specials_base_card_ids = [key for key in card_specials_base_card]
     num_of_special_sets = len(special_sets)
+    
 
 
 
@@ -1000,6 +1001,7 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
         Widget_Aliases.tags_to_delete.append(f'Specials_Button_Del_Card_{cards}')
 
     for i in range(num_of_special_sets):
+        ex_super_id = ''
 
 
         # Only setting the Specials rows to a different value as Card_Specials and Special_Set will always be the same num of rows.
@@ -1055,10 +1057,10 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
 
         Widget_Aliases.tags_to_delete.append(f'Card_Specials_Text_Card_{cards}_{i}')
         CS_tags = Table_Inputs(table_name=f'Card_Specials_Card_{cards}_{i}', row_name=f'Card_Specials_Table_Row_Card_{cards}_{i}', class_name=Card_Specials,
-                             used_in_loop=True, loop_number=i, use_child_window=False, table_parent=f'Specials_Tab_Card_{cards}', table_height=67, table_width=1150,
+                             used_in_loop=True, loop_number=i, use_child_window=False, table_parent=f'Specials_Tab_Card_{cards}', table_height=67, table_width=1200,
                              row_width=75, table_policy=mvTable_SizingStretchSame, transformation=True, transformation_card_num=cards)
 
-        set_item_height(f'Card_Specials_Card_{cards}_{i}', (24 * len(card_specials) * 2) + 23)
+        set_item_height(f'Card_Specials_Card_{cards}_{i}', (24 * len(card_specials)) + 23)
 
         with group(tag=f'Special_Skills_Button_Group_Card_{cards}_{i}', parent=f'Specials_Tab_Card_{cards}', horizontal=True):
             add_text('Special Skills', color=(255,50,50), parent=f'Special_Skills_Button_Group_Card_{cards}_{i}', tag=f'Special_Skills_Text_Card_{cards}_{i}')
@@ -1178,14 +1180,38 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
                             set_value(f'CS_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), 'NULL')
                         elif key == 'view_id':
                             set_value(f'CS_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), str(int(value) - 1))
+                        elif key == 'style' and value == 'Extra':
+                            set_value(f'CS_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), value)
+                            ex_super_id = card_special_ids[i]
                         else:
                             set_value(f'CS_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), value)
                 else:
                     if f'CS_{key}' in Card_Specials.row_names:
                         if value == '':
                             set_value(f'CS_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), 'NULL')
+                        elif key == 'style' and value == 'Extra':
+                            set_value(f'CS_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), value)
+                            ex_super_id = card_special_ids[i]
                         else:
                             set_value(f'CS_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), value)
+
+            if ex_super_id:
+                ex_type = 'When Super'
+                with open('jsons/extra_special_options.json', 'r') as f:
+                    ex_super = json.load(f)
+                ex_super = ex_super[ex_super_id]
+                set_value(f'Ex_Super_Checkbox_Card_{cards}_{i}', True)
+                if ex_super['extra_special_type'] == '1':
+                    ex_type = 'When Additional'
+                elif ex_super['extra_special_type'] == '2':
+                    ex_type = 'When Crit'
+
+                set_value(f'Ex_Super_Combo_Card_{cards}_{i}', ex_type)
+                show_item(f'Ex_Super_Combo_Card_{cards}_{i}')
+                set_value(f'Ex_Super_Combo2_Card_{cards}_{i}', ex_super['probability'])
+                show_item(f'Ex_Super_Combo2_Card_{cards}_{i}')
+                set_value(f'Card_Specials_BGM_Text_Card_{cards}_{i}', ex_super['bgm_id'])
+                show_item(f'Card_Specials_BGM_Text_Card_{cards}_{i}')
 
         # Special_Sets
         ########################################################################################################

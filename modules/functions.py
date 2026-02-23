@@ -434,7 +434,14 @@ def Text_Resize_2(tag_id):
 
 def Text_Resize_Combo(tag_id):
     text_width, text_height = get_text_size(get_value(tag_id), font='fonts/ARIAL.ttf')
-    set_item_width(tag_id, text_width * 2.5)
+    multiplier = 2.5
+    if text_width < 50:
+        multiplier = 2.5
+    elif text_width < 100 and text_width > 50:
+        multiplier = 2
+    else:
+        multiplier = 1.5
+    set_item_width(tag_id, text_width * multiplier)
     
 def Widget_Value_Grabber(*, class_name, combo=False, combo_tag=None):
     import re
