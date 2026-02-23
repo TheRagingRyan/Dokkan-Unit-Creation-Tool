@@ -154,7 +154,7 @@ def Leader_Skills_User_Data_Check(user_data, tag_id):
     if not get_value('CardID1'):
         sub_target_set = 'CardID from Card Input not found'
     else:
-        sub_target_set = get_value('CardID1')
+        sub_target_set = Card_Checks.json_data[0]['card']['id']
     # if not get_value('Custom_Unit'):
         # Leader_Skill_Widgets()
     # Element Type uses the Bitsets AGL = 1, TEQ = 2, INT = 4, STR = 8, PHY = 16
@@ -414,7 +414,7 @@ def Leader_Efficacy_Value_Changer(tag_id, sender):
                     efficacy_values[1] = int(sender)
                 except ValueError:
                     efficacy_values[1] = 0
-                set_value(Leader_Skill_Info.row_names[6] + '_Card_' + str(card) + '_Row_' + str(i), efficacy_values)
+                set_value(Leader_Skill_Info.row_names[5] + '_Card_' + str(card) + '_Row_' + str(i), efficacy_values)
                 
         elif get_value(Leader_Skill_Info.row_names[4] + '_Card_' + str(card) + '_Row_' + str(i)) == '104':
             efficacy_values = get_value(Leader_Skill_Info.row_names[5] + '_Card_' + str(card) + '_Row_' + str(i))
