@@ -10,7 +10,7 @@ from . download import download_image
 from . active_skill import Active_Skill_Add, Active_Skill_Del
 import os
 from . classes import Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Efficacy_Values, String_Length, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Special_Views, Effect_Pack, Exec_Timing, Calc_Options, Target_Types, Turns
-from . functions import Delete_Items, Text_Resize, Table_Combo_Inputs, Table_Inputs, Resize_Table
+from . functions import Delete_Items, Text_Resize, Table_Combo_Inputs, Table_Inputs, Resize_Table, Resize_Table_Width
 from . custom_unit import Main_Tab_Bar_Callback
 import re
 
@@ -244,6 +244,7 @@ def Passive_Widgets(json_length, json_dict):
                         max_width = width
                 print(max_width)
                 set_item_width(f'Passive_Skill_Table_{cards}', max_width + 140)
+                Resize_Table_Width(cards, Passive_Skill, Passive_Skill.rows, f'Passive_Skill_Table_{cards}')
 
                 Delete_Items(f'Passive_Desc_Text_{cards}')
                 Delete_Items(f'Passive_Desc_Text_Input_{cards}')
