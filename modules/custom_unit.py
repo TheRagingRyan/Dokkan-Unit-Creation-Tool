@@ -654,8 +654,8 @@ def Custom_Unit_Card_Queries(*, card=int, json_cards=0):
             # data['id'] = str(int(data['id']) - 1)
         # print(data)
         for row_names in Card.row_names:
-            print(row_names)
-            print(row_names + '_Card_' + str(card_num) + '_Row_' + str(i))
+            # print(row_names)
+            # print(row_names + '_Card_' + str(card_num) + '_Row_' + str(i))
             # Time for some shitty checks
 
             if data[row_names] == "":

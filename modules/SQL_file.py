@@ -676,6 +676,8 @@ def Ex_Super_Output():
             ex_special_text = f'''\n\t\tINSERT OR REPLACE INTO extra_special_options ("id", "card_special_id", "probability", "extra_special_type", "bgm_id", "created_at", "updated_at")
         VALUES'''
             CardID1 = int(get_value(Card.row_names[0] + '_Card_' + str(cards) + '_Row_' + '1'))
+            card_specials_ids = {str(i): [CardID1 + i*2, CardID1 + i*2 + 1] for i in range(5)}
+            print(card_specials_ids)
 
             for i in range(Row_Checker(f'Ex_Super_Checkbox_Card_{cards}_')):
                 if get_value(f'Ex_Super_Checkbox_Card_{cards}_{i}'):
@@ -690,10 +692,10 @@ def Ex_Super_Output():
                     elif ex_type == 'When Crit':
                         ex_type = '2'
 
-                    ex_sql = f'\n\t\t({str(CardID1)}, {str(CardID1)}, {ex_type}, {probability}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                    ex_sql = f'\n\t\t({str(CardID1)}, {str(card_specials_ids[str(i)][0])}, {ex_type}, {probability}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                     ex_special_text += ex_sql
                     CardID1 += 1
-                    ex_sql = f'\n\t\t({str(CardID1)}, {str(CardID1)}, {ex_type}, {probability}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                    ex_sql = f'\n\t\t({str(CardID1)}, {str(card_specials_ids[str(i)][1])}, {ex_type}, {probability}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                     ex_special_text += ex_sql
                     CardID1 += 1
             

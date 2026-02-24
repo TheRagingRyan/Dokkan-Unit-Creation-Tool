@@ -1,6 +1,6 @@
 from dearpygui.dearpygui import *
 from . configs import Config_Read
-from . classes import String_Length, Leader_Skill_Info, Widget_Aliases, Card_Checks
+from . classes import String_Length, Leader_Skill_Info, Widget_Aliases,Card_Checks, Card, Custom_Unit
 from . functions import Delete_Items, Table_Inputs, Row_Checker, Table_ID
 # from . categories import Category_Icon_Download
 import sqlite3
@@ -148,13 +148,12 @@ def Leader_Create_Combos(*, card=0, custom_combo=[], num_of_combos=1, custom_com
 def Leader_Skills_User_Data_Check(user_data, tag_id):
     ### Defaults to 0, thus can be used in this instance for both custom unit and regular EZAs
     card = Table_ID(tag_id)
+
+    leader_number = card [:-1]
     # for i in range(10):
         # Delete_Items(f'Leader_Skill_Category_Selection_0_{i + 1}')
-    sub_target_set = ''
-    if not get_value('CardID1'):
-        sub_target_set = 'CardID from Card Input not found'
-    else:
-        sub_target_set = Card_Checks.json_data[0]['card']['id']
+    sub_target_set = get_value(f'id_Card_{card}_Row_1')
+        
     # if not get_value('Custom_Unit'):
         # Leader_Skill_Widgets()
     # Element Type uses the Bitsets AGL = 1, TEQ = 2, INT = 4, STR = 8, PHY = 16
