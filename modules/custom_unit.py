@@ -921,7 +921,7 @@ def Specials_Widgets():
         with group(horizontal=True, parent=f'Specials_Tab_Card_{cards}', tag=f'Specials_Table_Group_Card_{cards}_{i}'):
             Specials_tags = Table_Inputs(table_name=f'Specials_Card_{cards}_{i}', row_name=f'Specials_Table_Row_Card_{cards}_{i}', class_name=Specials,
                          used_in_loop=True, loop_number=i, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{cards}_{i}', child_tag=f'Specials_Child_Window_Card_{cards}_{i}',
-                         table_height=90, table_width=1270, child_height=87, child_width=1175, combo=True,
+                         table_height=90, table_width=1270, child_height=87, child_width=1300, combo=True,
                          combo_tag={Specials.row_names[1] : Efficacy_Values.combo_list, Specials.row_names[2] : Target_Types.combo, Specials.row_names[3] : Calc_Options.combo, Specials.row_names[4] : Turns.combo},
                          combo_list=Efficacy_Values.combo_list,
                          transformation=True, transformation_card_num=cards, child_before=f'Specials_Group_Card_{cards}_{i}')
@@ -1083,7 +1083,7 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
         with group(horizontal=True, parent=f'Specials_Tab_Card_{cards}', tag=f'Specials_Table_Group_Card_{cards}_{i}'):
             Specials_tags = Table_Inputs(table_name=f'Specials_Card_{cards}_{i}', row_name=f'Specials_Table_Row_Card_{cards}_{i}', class_name=Specials,
                                      used_in_loop=True, loop_number=i, use_child_window=True, child_parent=f'Specials_Table_Group_Card_{cards}_{i}', child_tag=f'Specials_Child_Window_Card_{cards}_{i}',
-                                     table_height=90, table_width=1270, child_height=87, child_width=1175, combo=True,
+                                     table_height=90, table_width=1270, child_height=87, child_width=1300, combo=True,
                                      combo_tag={Specials.row_names[1] : Efficacy_Values.combo_list, Specials.row_names[2] : Target_Types.combo, Specials.row_names[3] : Calc_Options.combo, Specials.row_names[4] : Turns.combo},
                                      combo_list=Efficacy_Values.combo_list,
                                      transformation=True, transformation_card_num=cards)

@@ -631,13 +631,13 @@ def Load_Ex_SuperData(number_of_cards, data):
             for dict_num in range(len(ex_data)):
 
                 for key, value in ex_data[dict_num].items():
-                    set_value(f'Ex_Super_Checkbox_Card_{card}_{dict_num}', True)
-                    set_value(f'Ex_Super_Combo_Card_{card}_{dict_num}', value['Type'])
-                    show_item(f'Ex_Super_Combo_Card_{card}_{dict_num}')
-                    set_value(f'Ex_Super_Combo2_Card_{card}_{dict_num}', value['Probability'])
-                    show_item(f'Ex_Super_Combo2_Card_{card}_{dict_num}')
-                    set_value(f'Card_Specials_BGM_Text_Card_{card}_{dict_num}', value['BGM'])
-                    show_item(f'Card_Specials_BGM_Text_Card_{card}_{dict_num}')
+                    set_value(f'Ex_Super_Checkbox_Card_{card}_{key}', True)
+                    set_value(f'Ex_Super_Combo_Card_{card}_{key}', value['Type'])
+                    show_item(f'Ex_Super_Combo_Card_{card}_{key}')
+                    set_value(f'Ex_Super_Combo2_Card_{card}_{key}', value['Probability'])
+                    show_item(f'Ex_Super_Combo2_Card_{card}_{key}')
+                    set_value(f'Card_Specials_BGM_Text_Card_{card}_{key}', value['BGM'])
+                    show_item(f'Card_Specials_BGM_Text_Card_{card}_{key}')
             # for extra_special in range(len(data[f'Card {card + 1}']['Extra Specials'])):
                 # set_value(f'Ex_Super_Checkbox_Card_{card}_{extra_special}', True)
                 # set_value(f'Ex_Super_Combo_Card_{card}_{extra_special}', True)
