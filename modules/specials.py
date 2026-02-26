@@ -495,15 +495,17 @@ def Special_Skills_Add(app_data):
         for i in range(len(Specials.row_names)):
                 # Specials.row_names[2] is Efficacy Type
                 if Specials.row_names[i] == Specials.row_names[1]:
-                    add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Efficacy_Values.combo_list, default_value=Efficacy_Values.combo_list[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                    test = f'{Specials.row_names[i]}_Card_{str(Card_Number)}_Row_{str(Super_Number)}{str(Rows)}'
+                    print(test)
+                    add_combo(tag=f'{Specials.row_names[i]}_Card_{str(Card_Number)}_Row_{str(Super_Number)}{str(Rows)}', items=Efficacy_Values.combo_list, default_value=Efficacy_Values.combo_list[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
                 elif Specials.row_names[i] == Specials.row_names[2]:
-                    add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Target_Types.combo, default_value=Target_Types.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                    add_combo(tag=f'{Specials.row_names[i]}_Card_{str(Card_Number)}_Row_{str(Super_Number)}{str(Rows)}', items=Target_Types.combo, default_value=Target_Types.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
                 elif Specials.row_names[i] == Specials.row_names[3]:
-                    add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Calc_Options.combo, default_value=Calc_Options.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                    add_combo(tag=f'{Specials.row_names[i]}_Card_{str(Card_Number)}_Row_{str(Super_Number)}{str(Rows)}', items=Calc_Options.combo, default_value=Calc_Options.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
                 elif Specials.row_names[i] == Specials.row_names[4]:
-                    add_combo(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), items=Turns.combo, default_value=Turns.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                    add_combo(tag=f'{Specials.row_names[i]}_Card_{str(Card_Number)}_Row_{str(Super_Number)}{str(Rows)}', items=Turns.combo, default_value=Turns.combo[0], width=149, parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
                 else:
-                    add_input_text(tag=Specials.row_names[i] + str(Card_Number) + str(Super_Number) + str(Rows), hint=Specials.column_names[i], width=99, default_value='', parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
+                    add_input_text(tag=f'{Specials.row_names[i]}_Card_{str(Card_Number)}_Row_{str(Super_Number)}{str(Rows)}', hint=Specials.column_names[i], width=99, default_value='', parent=f'Specials_Table_Row_Card_{Card_Number}_{Super_Number}{Rows}')
                         
         # configure_item(f'Passive_Rows_in_Table_Card_{Card_Number}', default_value=f'Rows: {Rows + 1}')
         set_item_height(f'Specials_Card_{Card_Number}_{Super_Number}', (24 * (Rows + 1) + 32))

@@ -1441,9 +1441,21 @@ def Load_Causalities(data):
 
     for i in range(10):
         Causality_Del()
-    for index, row in enumerate(data['Card 1']['Causalities']):
-        Causality_Add()
-        for i in range(len(row)):
-            Causality_Type_Callback('Causality_Causality_Type' + str(index), row[Causality.column_names[1]])
-            if does_alias_exist(Causality.row_names[i] + str(index)):
-                set_value(Causality.row_names[i] + str(index), row[Causality.column_names[i]])
+    if data['Card 1']['Causalities']:
+        for index, row in enumerate(data['Card 1']['Causalities']):
+            Causality_Add()
+            Causality_Type_Callback('Causality_Causality_Type' + str(index), row["Causality Type"])
+            set_value(Causality.row_names[0] + str(index), row['ID'])
+            set_value(Causality.row_names[1] + str(index), row['Causality Type'])
+            if does_alias_exist(Causality.row_names[2] + str(index)):
+                set_value(Causality.row_names[2] + str(index), row['Cau_Val1'])
+            if does_alias_exist(Causality.row_names[3] + str(index)):
+                set_value(Causality.row_names[3] + str(index), row['Cau_Val2'])
+            if does_alias_exist(Causality.row_names[4] + str(index)):
+                set_value(Causality.row_names[4] + str(index), row['Cau_Val3'])
+
+        
+
+            # if row:
+                # print(row[Causality.column_names[i]])
+                # set_value(Causality.row_names[i] + str(index), row[Causality.column_names[i]])
