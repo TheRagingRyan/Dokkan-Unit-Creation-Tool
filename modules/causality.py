@@ -10,7 +10,7 @@ from . passive import Passive_Skill
 from . specials import Card_Specials
 from . active_skill import Active_Skill_Set
 from . classes import Causality, Widget_Aliases, String_Length, Database
-from . functions import Delete_Items, Row_Checker, Table_ID, Text_Resize, Card_Checker
+from . functions import Delete_Items, Row_Checker, Table_ID, Text_Resize, Text_Resize_2, Card_Checker
 from . leader import Leader_Skill_Info
 
 os.system("")
@@ -1331,7 +1331,7 @@ def Causality_Creator():
                 add_button(label='Add Causality', tag='Causality_Add', callback=Causality_Add)
                 add_button(label='Del Causality', tag='Causality_Del', callback=Causality_Del)
                 add_text('(?)', tag='Causality_?_Text')
-                add_input_text(tag='Causality_JSON_Input', width=String_Length.length[0], hint='Ex. 4&21')
+                add_input_text(tag='Causality_JSON_Input', width=String_Length.length[0], hint='Ex. 4&21', callback=Text_Resize_2)
                 add_button(label='Create Causality', tag='Causality_JSON_Button', callback=Create_Causality_JSON)
                 with tooltip('Causality_?_Text'):
                     add_text('The table will only display "cau_val" that are required\nIf none appear it''s because that causality is all 0s' )

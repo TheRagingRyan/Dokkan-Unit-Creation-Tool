@@ -443,7 +443,7 @@ def Active_Skill_Widgets(json_length, json_dict):
             sss = Table_Inputs(table_name=f'Active_Skill_Table_Card_{card}', row_name=f'Active_Skill_Row_Card_{card}_', class_name=Active_Skill,
                                 use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1240,
                                 combo=True, combo_list=Efficacy_Values.combo_list,
-                                combo_tag={Active_Skill.row_names[0] : Target_Types.combo,Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[2] : Efficacy_Values.combo_list,Active_Skill.row_names[3] : Efficacy_Values.combo_list},
+                                combo_tag={Active_Skill.row_names[0] : Target_Types.combo,Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[3] : Efficacy_Values.combo_list},
                                 transformation=True, transformation_card_num=card)
             
             if json_dict[f'Card {card + 1}']['Active Skill']['Skills']:

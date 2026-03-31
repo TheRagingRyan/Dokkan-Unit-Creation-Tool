@@ -1,7 +1,7 @@
 from dearpygui.dearpygui import *
 from . configs import Config_Read
 # from download import Category_Downloads
-from .classes import String_Length, Efficacy_Values, Card_Checks, Widget_Aliases, Passive_Skill, Custom_Unit, Exec_Timing, Calc_Options, Target_Types
+from .classes import String_Length, Efficacy_Values, Card_Checks, Widget_Aliases, Passive_Skill, Custom_Unit, Exec_Timing, Calc_Options, Target_Types, Turns
 import sqlite3
 import requests
 import re
@@ -219,24 +219,24 @@ def Passive_Add(app_data):
                         elif Passive_Skill.row_names[i] == Passive_Skill.row_names[6]:
                                 add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Calc_Options.combo, default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                         elif Passive_Skill.row_names[i] == Passive_Skill.row_names[7]:
-                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=[i + 1 for i in range(99)], default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
+                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Turns.combo, default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                         elif Passive_Skill.row_names[i] == Passive_Skill.row_names[8]:
                                 add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=['False', 'True'], default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                         else:
                                 add_input_text(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), hint=Passive_Skill.column_names[i], width=82, default_value=previous_row_values[i], parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                 else:
                         if Passive_Skill.row_names[i] == Passive_Skill.row_names[1]:
-                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Exec_Timing.combo, default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
+                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Exec_Timing.combo, default_value=Exec_Timing.combo[0], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                         elif Passive_Skill.row_names[i] == Passive_Skill.row_names[2]:
                                 add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Efficacy_Values.combo_list, default_value=Efficacy_Values.combo_list[0], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                         elif Passive_Skill.row_names[i] == Passive_Skill.row_names[3]:
-                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Target_Types.combo, default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
+                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Target_Types.combo, default_value=Target_Types.combo[0], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                         elif Passive_Skill.row_names[i] == Passive_Skill.row_names[6]:
-                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Calc_Options.combo, default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
+                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=Calc_Options.combo, default_value=Calc_Options.combo[0], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                         elif Passive_Skill.row_names[i] == Passive_Skill.row_names[7]:
-                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=[i + 1 for i in range(99)], default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
+                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=[i + 1 for i in range(99)], default_value=Turns.combo[0], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
                         elif Passive_Skill.row_names[i] == Passive_Skill.row_names[8]:
-                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=['False', 'True'], default_value=previous_row_values[i], width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
+                                add_combo(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), items=['False', 'True'], default_value='False', width=149, parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')
 
                         else:
                                 add_input_text(tag=Passive_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows), hint=Passive_Skill.column_names[i], width=82, default_value='', parent=f'Passive_Skill_Table_Row_{Table_Number}{Rows}')   
@@ -277,5 +277,7 @@ def Passive_Del(app_data):
         
 
 
+def passivePresets():
+        pass
 
 

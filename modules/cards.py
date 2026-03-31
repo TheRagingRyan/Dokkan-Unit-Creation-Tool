@@ -287,17 +287,17 @@ def Ex_Super_Combo_Callback(tag_id, user_data, data, sender, app_data):
     elif 'BGM' in tag_id:
         bgm = user_data
 
-    Ex_Supers.data[f'Card {Card_Number}'][Super_Number] = {
-        'Super Number' : Super_Number, 'Priority' : priority, 'Style' : style, 'Ex Type' : ex_type, 'Probability' : probability, 'BGM' : bgm
-    }
-    print(Ex_Supers.data)
+    # Ex_Supers.data[f'Card {Card_Number}'][Super_Number] = {
+    #     'Super Number' : Super_Number, 'Priority' : priority, 'Style' : style, 'Ex Type' : ex_type, 'Probability' : probability, 'BGM' : bgm
+    # }
+    # print(Ex_Supers.data)
 
 def Ex_Super_Probablity_Callback(tag_id, user_data, data, sender, app_data):
     Super_Number = Table_ID(tag_id)
     Card_Number = re.search(r'Card_(\d+)', tag_id).group(1)
 
 
-    Ex_Supers.data[f'Card {Card_Number}'][Super_Number]['Probability'] = user_data
+    # Ex_Supers.data[f'Card {Card_Number}'][Super_Number]['Probability'] = user_data
 
     # if user_data:
     #     # set_value(Card.row_names[16] + '_Card_' + str(Card_Number) + '_Row_1', 'NULL')

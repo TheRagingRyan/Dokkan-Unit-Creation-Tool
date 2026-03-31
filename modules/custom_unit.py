@@ -470,24 +470,26 @@ def Thumb_Test(tag_id):
 ########################################################################################################################################################################################################
 def Custom_Card_Thumb_Display(*, card=int, json_dict=None, json_cards=0):
     card = card
-    if json_dict:
-        card_id_0_assets = json_dict[f'Card {card + 1}']['Card Thumb']
-        width, height, channels, thumb_data = load_image(f'assets/character/thumb/{card_id_0_assets}')
-        Custom_Unit.card_thumb_dict[int(card)] = card_id_0_assets
-        set_value(f'Card_Name_Display_{card}', json_dict[f'Card {card + 1}']['Card']['Name'])
-        configure_item(f'Card_Name_Display_{card}', show=True)
-    else:
-        card_id_assets = str(Card_Checks.card_ids[json_cards])
-        card_id_0_assets = str(card_id_assets[:-1]) + '0'
-        print(card_id_0_assets)
+    try:
+        if json_dict:
+            card_id_0_assets = json_dict[f'Card {card + 1}']['Card Thumb']
+            width, height, channels, thumb_data = load_image(f'assets/character/thumb/{card_id_0_assets}')
+            Custom_Unit.card_thumb_dict[int(card)] = card_id_0_assets
+            set_value(f'Card_Name_Display_{card}', json_dict[f'Card {card + 1}']['Card']['Name'])
+            configure_item(f'Card_Name_Display_{card}', show=True)
+        else:
+            card_id_assets = str(Card_Checks.card_ids[json_cards])
+            card_id_0_assets = str(card_id_assets[:-1]) + '0'
+            print(card_id_0_assets)
 
-        # width, height, channels, thumb_data = read_png_from_zip(card_id_0_assets)
-        width, height, channels, thumb_data = load_image(f'thumbs/thumb/card_{card_id_0_assets}_thumb.png')
-        Custom_Unit.card_thumb_dict[int(card)] = f'card_{card_id_0_assets}_thumb.png'
-        set_value(f'Card_Name_Display_{card}', Card_Checks.card_names[json_cards])
-        configure_item(f'Card_Name_Display_{card}', show=True)
-        configure_item(f'Main_Card_Tab_{card}', label=Card_Checks.card_names[json_cards])
-        
+            # width, height, channels, thumb_data = read_png_from_zip(card_id_0_assets)
+            width, height, channels, thumb_data = load_image(f'thumbs/thumb/card_{card_id_0_assets}_thumb.png')
+            Custom_Unit.card_thumb_dict[int(card)] = f'card_{card_id_0_assets}_thumb.png'
+            set_value(f'Card_Name_Display_{card}', Card_Checks.card_names[json_cards])
+            configure_item(f'Card_Name_Display_{card}', show=True)
+            configure_item(f'Main_Card_Tab_{card}', label=Card_Checks.card_names[json_cards])
+    except Exception as e:
+        return
     
     
     if not get_value('Transformation_Check'):
@@ -1290,7 +1292,7 @@ def Active_Skill_Widgets(card):
     sss = Table_Inputs(table_name=f'Active_Skill_Table_Card_{card}', row_name=f'Active_Skill_Row_Card_{card}_', class_name=Active_Skill,
                         use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1240,
                         combo=True, combo_list=Efficacy_Values.combo_list,
-                        combo_tag={Active_Skill.row_names[0] : Target_Types.combo,Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[2] : Efficacy_Values.combo_list,Active_Skill.row_names[3] : Efficacy_Values.combo_list},
+                        combo_tag={Active_Skill.row_names[0] : Target_Types.combo, Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[3] : Efficacy_Values.combo_list},
                         transformation=True, transformation_card_num=card)
             
     set_item_height(f'Active_Skill_Table_Card_{card}', (24 * Active_Skill.rows + 42))
@@ -1383,7 +1385,7 @@ def Custom_Unit_Active_Skill_Query(*, card=int, json_cards=0):
             sss = Table_Inputs(table_name=f'Active_Skill_Table_Card_{card}', row_name=f'Active_Skill_Row_Card_{card}_', class_name=Active_Skill,
                                 use_child_window=False, table_parent=f'Active_Skill_Card_{card}', table_height=80, table_width=1240,
                                 combo=True, combo_list=Efficacy_Values.combo_list,
-                                combo_tag={Active_Skill.row_names[0] : Target_Types.combo,Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[2] : Efficacy_Values.combo_list,Active_Skill.row_names[3] : Efficacy_Values.combo_list},
+                                combo_tag={Active_Skill.row_names[0] : Target_Types.combo,Active_Skill.row_names[2] : Calc_Options.combo, Active_Skill.row_names[3] : Efficacy_Values.combo_list},
                                 transformation=True, transformation_card_num=card)
 
             add_checkbox(label='Ultimate Special', callback=Custom_Unit_Ultimate_Special_Checkbox, tag=f'Custom_Unit_Ultimate_Special_Checkbox_{card}', parent=f'Active_Skill_Card_{card}')

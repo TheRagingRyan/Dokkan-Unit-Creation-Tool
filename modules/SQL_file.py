@@ -2,7 +2,7 @@ from dearpygui.dearpygui import *
 import re
 from .functions import Widget_Value_Grabber, Card_Checker, Row_Checker, Value_Grabber
 from .categories import Categories_Activated
-from . classes import Causality, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Battle_Params, Specials, Card_Specials, Export, Special_Views, Effect_Pack
+from . classes import Causality, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Battle_Params, Specials, Card_Specials, Export, Special_Views, Effect_Pack, Calc_Options, Target_Types
 from .cards import Card
 import ast
 left_bracket = '{'
@@ -570,7 +570,7 @@ def Specials_Output():
     
     
     card_specials_text = f'''\n\t-- Specials (card_specials, specials, special_sets, special_views)
-    \tINSERT OR REPLACE INTO card_specials ("id", "card_id", "special_set_id", "priority", "style", "lv_start", "eball_num_start", "view_id", "card_costume_condition_id", "special_bonus_id1", "special_bonus_lv1", "bonus_view_id1", "special_bonus_id2", "special_bonus_lv2", "bonus_view_id2", "causality_conditions", "special_asset_id", "created_at", "updated_at")
+    \tINSERT OR REPLACE INTO card_specials ("id", "card_id", "special_set_id", "priority", "style", "lv_start", "eball_num_start", "view_id", "card_costume_condition_id", "special_bonus_id1", "special_bonus_lv1", "bonus_view_id1", "special_bonus_id2", "special_bonus_lv2", "bonus_view_id2", "causality_conditions", "special_asset_id", "detail_view_priority", "created_at", "updated_at")
     \tVALUES'''
     
     special_set_text = f'''\n\t\tINSERT OR REPLACE INTO special_sets ("id", "name", "description", "causality_description", "aim_target", "increase_rate", "lv_bonus", "is_inactive", "created_at", "updated_at")
@@ -618,12 +618,12 @@ def Specials_Output():
                 
                 if rows % 2 == 0:
                     # print('First Option')
-                    card_specials_sql = f'\n\t\t({str(card_special_row_id)}, {str(CardID0)}, {str(Special_Set_ID)}, {card_specials_values}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                    card_specials_sql = f'\n\t\t({str(card_special_row_id)}, {str(CardID0)}, {str(Special_Set_ID)}, {card_specials_values}, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                     card_specials_text += card_specials_sql
                     card_special_row_id += 1
                     # 
                 else:
-                    card_specials_sql = f'\n\t\t({str(card_special_row_id)}, {str(CardID1)}, {str(Special_Set_ID)}, {card_specials_values}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                    card_specials_sql = f'\n\t\t({str(card_special_row_id)}, {str(CardID1)}, {str(Special_Set_ID)}, {card_specials_values}, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                     card_specials_text += card_specials_sql + '\n'
                     card_special_row_id += 1
                     Special_Set_ID += 1
@@ -692,10 +692,10 @@ def Ex_Super_Output():
                     elif ex_type == 'When Crit':
                         ex_type = '2'
 
-                    ex_sql = f'\n\t\t({str(CardID1)}, {str(card_specials_ids[str(i)][0])}, {ex_type}, {probability}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                    ex_sql = f'\n\t\t({str(CardID1)}, {str(card_specials_ids[str(i)][0])}, {probability}, {ex_type}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                     ex_special_text += ex_sql
                     CardID1 += 1
-                    ex_sql = f'\n\t\t({str(CardID1)}, {str(card_specials_ids[str(i)][1])}, {ex_type}, {probability}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                    ex_sql = f'\n\t\t({str(CardID1)}, {str(card_specials_ids[str(i)][1])}, {probability}, {ex_type}, {bgm} , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                     ex_special_text += ex_sql
                     CardID1 += 1
             
@@ -753,6 +753,8 @@ def Active_Skill_Output():
                 active_skill_values = [re.sub(r'\D', '', get_value(Active_Skill.row_names[i] + '_Card_' + str(card) + '_Row_' + str(rows))) if Active_Skill.row_names[i] == Active_Skill.row_names[3] else get_value(Active_Skill.row_names[i] + '_Card_' + str(card) + '_Row_' + str(rows)) for i in range(len(Active_Skill.row_names))]
                 # active_skill_values = [get_value(Active_Skill.row_names[i] + '_Card_' + str(card) + '_Row_' + str(rows)) for i in range(len(Active_Skill.row_names))]
                 active_skill_values[7] = f'\'{active_skill_values[7]}\''
+                active_skill_values[0] = grab_numbers_from_combo_value(active_skill_values[0])
+                active_skill_values[2] = grab_numbers_from_combo_value(active_skill_values[2])
                 active_skill_values = ', '.join(map(str, active_skill_values))  # Convert card values to a comma-separated string
                 active_skill_sql = f'\n\t\t({str(active_skill_set_id + rows)}, {str(active_skill_set_id)}, {active_skill_values}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                 active_skill_text += active_skill_sql
