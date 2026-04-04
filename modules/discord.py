@@ -56,5 +56,5 @@ def Discord_Presence_Menu(data, sender):
         
         
 def Discord_Server():
-    url = 'https://discord.gg/fGdxkZpUyz'
+    url = 'https://discord.gg/K7XcfPHuKj'
     webbrowser.open(url)
