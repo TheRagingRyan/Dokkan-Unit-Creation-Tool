@@ -458,7 +458,9 @@ class Card_Checks:
     json_unit_card_ids = []
     
 class Efficacy_Values:
-    eff_dict = {1 : '1 - ATK', 
+    eff_dict = {
+                0 : '0 - IDFK',
+                1 : '1 - ATK', 
                 2 : '2 - DEF', 
                 3 : '3 - ATK & DEF', 
                 4 : '4 - Heal HP', 

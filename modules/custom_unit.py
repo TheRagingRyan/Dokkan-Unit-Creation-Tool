@@ -891,7 +891,7 @@ def Specials_Widgets():
             add_text('Card Specials', color=(255,50,50), parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', tag=f'Card_Specials_Text_Card_{cards}_{i}')
             add_checkbox(label='Ex Super', default_value=False, tag=f'Ex_Super_Checkbox_Card_{cards}_{i}', callback=Ex_Super_Callback, parent=f'Card_Specials_Text_Group_Card_{cards}_{i}')
             add_combo(['When Super', 'When Additional', 'When Crit'], tag=f'Ex_Super_Combo_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='When Super', show=False, width=120)
-            add_combo(['10','20','30','40','50', '60', '70', '80', '90', '100'], tag=f'Ex_Super_Combo2_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='60', show=False, width=50)
+            add_combo([i for i in range(101)], tag=f'Ex_Super_Combo2_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='60', show=False, width=50)
             add_input_text(tag=f'Card_Specials_BGM_Text_Card_{cards}_{i}', width=50, callback=Ex_Super_Combo_Callback, default_value='69', show=False, parent=f'Card_Specials_Text_Group_Card_{cards}_{i}')
             Widget_Aliases.tags_to_delete.append(f'Card_Specials_Text_Card_{cards}_{i}')
             
@@ -1056,7 +1056,7 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
             add_text('Card Specials', color=(255,50,50), parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', tag=f'Card_Specials_Text_Card_{cards}_{i}')
             add_checkbox(label='Ex Super', default_value=False, tag=f'Ex_Super_Checkbox_Card_{cards}_{i}', callback=Ex_Super_Callback, parent=f'Card_Specials_Text_Group_Card_{cards}_{i}')
             add_combo(['When Super', 'When Additional', 'When Crit'], tag=f'Ex_Super_Combo_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='When Super', show=False, width=125)
-            add_combo(['10','20','30','40','50', '60', '70', '80', '90', '100'], tag=f'Ex_Super_Combo2_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='60', show=False, width=70)
+            add_combo([i for i in range(101)], tag=f'Ex_Super_Combo2_Card_{cards}_{i}', callback=Ex_Super_Combo_Callback,parent=f'Card_Specials_Text_Group_Card_{cards}_{i}', default_value='60', show=False, width=70)
             add_input_text(tag=f'Card_Specials_BGM_Text_Card_{cards}_{i}', width=50, callback=Ex_Super_Combo_Callback, default_value='69', show=False, parent=f'Card_Specials_Text_Group_Card_{cards}_{i}')
 
         Widget_Aliases.tags_to_delete.append(f'Card_Specials_Text_Card_{cards}_{i}')
