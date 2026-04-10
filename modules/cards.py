@@ -143,7 +143,7 @@ def EZA_Callback(tag_id, user_data, data, sender, app_data):
             
         
     else: ### checkbox is False
-        set_value(Card_Number.row_names[16] + '_Card_' + str(Card_Number) + '_Row_1', 'NULL')
+        set_value(Card.row_names[16] + '_Card_' + str(Card_Number) + '_Row_1', 'NULL')
         for special in range(num_of_specials):
             for i in range(Row_Checker(f'CS_lv_start_Card_{Card_Number}_Row_{special}')):
                 set_value(f'CS_lv_start_Card_{Card_Number}_Row_{special}{i}', '0')
@@ -186,7 +186,7 @@ def Super_EZA_Callback(tag_id, user_data, data, sender, app_data):
                 set_value(f'CS_lv_start_Card_{Card_Number}_Row_{special}{i}', lvl_start)
 
     else: ### checkbox is False
-        set_value(Card_Number.row_names[16] + '_Card_' + str(Card_Number) + '_Row_1', 'NULL')
+        set_value(Card.row_names[16] + '_Card_' + str(Card_Number) + '_Row_1', 'NULL')
         for special in range(num_of_specials):
             for i in range(Row_Checker(f'CS_lv_start_Card_{Card_Number}_Row_{special}')):
                 set_value(f'CS_lv_start_Card_{Card_Number}_Row_{special}{i}', '0')

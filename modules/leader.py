@@ -224,7 +224,7 @@ def Leader_Skills_User_Data_Check(user_data, tag_id):
         Leader_Skill_tags = Table_Inputs(table_name=f'Leader_Skill_Table_{card}', row_name=f'Leader_Skill_Row_{card}_', class_name=Leader_Skill_Info,
                         use_child_window=False, table_parent=f'Leader_Skill_{card}', transformation=True, transformation_card_num=card, table_height=66, table_width=760)
         Leader_Skills_Value_Presets(card=card, row_num='0', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='83', efficacy_values='[31, 3, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
         leader_description = '\"XXX0\" Category Ki +3 and HP, ATK, DEF +170%'
         set_value(f'Leader_Desc_Text_Input_{card}', leader_description)
         Resize_Description(f'Leader_Desc_Text_Input_{card}', leader_description)
@@ -237,7 +237,7 @@ def Leader_Skills_User_Data_Check(user_data, tag_id):
         Leader_Skill_tags = Table_Inputs(table_name=f'Leader_Skill_Table_{card}', row_name=f'Leader_Skill_Row_{card}_', class_name=Leader_Skill_Info,
                         use_child_window=False, table_parent=f'Leader_Skill_{card}', transformation=True, transformation_card_num=card, table_height=115, table_width=760)
         Leader_Skills_Value_Presets(card=card, row_num='0', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='83', efficacy_values='[31, 3, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
         Leader_Skills_Value_Presets(card=card, row_num='2', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='83', efficacy_values='[4, 3, 0]', calc_option='0')
         Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='82', efficacy_values='[4, 170, 0]', calc_option='2')
         leader_description = '\"XXX0\" Category Ki +3 \nand HP, ATK, DEF +170%; \nor INT Type Ki +3 \nand HP, ATK, DEF +170%'
@@ -272,11 +272,11 @@ def Leader_Skills_User_Data_Check(user_data, tag_id):
         Leader_Skill_tags = Table_Inputs(table_name=f'Leader_Skill_Table_{card}', row_name=f'Leader_Skill_Row_{card}_', class_name=Leader_Skill_Info,
                         use_child_window=False, table_parent=f'Leader_Skill_{card}', transformation=True, transformation_card_num=card, table_height=163, table_width=760)
         Leader_Skills_Value_Presets(card=card, row_num='0', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
         Leader_Skills_Value_Presets(card=card, row_num='2', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='4', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='4', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
         leader_description = f'\"XXX0\" or \"XXX1\" \nCategory Ki +3 and HP, ATK & DEF +170%, \nplus an additional HP, ATK & DEF +30% \nfor characters who also belong to the \n\"XXX2\" Category'
         set_value(f'Leader_Desc_Text_Input_{card}', leader_description)
         Resize_Description(f'Leader_Desc_Text_Input_{card}', leader_description)
@@ -289,18 +289,39 @@ def Leader_Skills_User_Data_Check(user_data, tag_id):
         Leader_Skill_tags = Table_Inputs(table_name=f'Leader_Skill_Table_{card}', row_name=f'Leader_Skill_Row_{card}_', class_name=Leader_Skill_Info,
                         use_child_window=False, table_parent=f'Leader_Skill_{card}', transformation=True, transformation_card_num=card, table_height=(24 * 8) + 23, table_width=760)
         Leader_Skills_Value_Presets(card=card, row_num='0', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
         Leader_Skills_Value_Presets(card=card, row_num='2', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='4', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='6', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '5', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='7', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '6', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='4', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='6', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '5', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='7', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '6', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
         leader_description = f'\"XXX0\" or \"XXX1\" \nCategory Ki +3 and HP, ATK & DEF +170%, \nplus an additional HP, ATK & DEF +30% \nfor characters who also belong to the \n\"XXX2\" or \"XXX3\" Category'
         set_value(f'Leader_Desc_Text_Input_{card}', leader_description)
         Resize_Description(f'Leader_Desc_Text_Input_{card}', leader_description)
         Leader_Create_Combos(card=card, num_of_combos=4)
         Leader_Skill_Info.last_rows = 8
+
+###################################################################################################################################################################################################
+    elif user_data == '2 Categories & 3 Extra':
+        Leader_Skill_Info.rows = 10
+        Leader_Skill_tags = Table_Inputs(table_name=f'Leader_Skill_Table_{card}', row_name=f'Leader_Skill_Row_{card}_', class_name=Leader_Skill_Info,
+                        use_child_window=False, table_parent=f'Leader_Skill_{card}', transformation=True, transformation_card_num=card, table_height=260, table_width=760)
+        Leader_Skills_Value_Presets(card=card, row_num='0', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
+        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='2', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
+        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='4', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
+        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='6', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='7', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '5', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='8', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '6', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='9', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '7', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        leader_description = f'\"XXX0\" or \"XXX1\" \nCategory Ki +3 and HP, ATK & DEF +170%, \nplus an additional HP, ATK & DEF +30% \nfor characters who also belong to the \n\"XXX3\", \"XXX4\", or \"XXX5\" Category'
+        set_value(f'Leader_Desc_Text_Input_{card}', leader_description)
+        Resize_Description(f'Leader_Desc_Text_Input_{card}', leader_description)
+        Leader_Create_Combos(card=card, num_of_combos=5)
+        Leader_Skill_Info.last_rows = 10
         
     ###################################################################################################################################################################################################
     elif user_data == '3 Categories & 2 Extra':
@@ -308,17 +329,17 @@ def Leader_Skills_User_Data_Check(user_data, tag_id):
         Leader_Skill_tags = Table_Inputs(table_name=f'Leader_Skill_Table_{card}', row_name=f'Leader_Skill_Row_{card}_', class_name=Leader_Skill_Info,
                         use_child_window=False, table_parent=f'Leader_Skill_{card}', transformation=True, transformation_card_num=card, table_height=307, table_width=760)
         Leader_Skills_Value_Presets(card=card, row_num='0', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
         Leader_Skills_Value_Presets(card=card, row_num='2', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
         Leader_Skills_Value_Presets(card=card, row_num='4', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='6', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='7', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '5', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='8', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '6', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='9', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '7', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='10', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '8', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='11', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '9', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='6', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='7', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '5', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='8', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '6', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='9', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '7', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='10', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '8', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='11', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '9', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
         leader_description = f'\"XXX0\", \"XXX1\" or \"XXX2\" \nCategory Ki +3 and HP, ATK & DEF +170%, \nplus an additional HP, ATK & DEF +30% \nfor characters who also belong to the \n\"XXX3\" or \"XXX4\" Category'
         set_value(f'Leader_Desc_Text_Input_{card}', leader_description)
         Resize_Description(f'Leader_Desc_Text_Input_{card}', leader_description)
@@ -331,17 +352,17 @@ def Leader_Skills_User_Data_Check(user_data, tag_id):
         Leader_Skill_tags = Table_Inputs(table_name=f'Leader_Skill_Table_{card}', row_name=f'Leader_Skill_Row_{card}_', class_name=Leader_Skill_Info,
                         use_child_window=False, table_parent=f'Leader_Skill_{card}', transformation=True, transformation_card_num=card, table_height=360, table_width=760)
         Leader_Skills_Value_Presets(card=card, row_num='0', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
         Leader_Skills_Value_Presets(card=card, row_num='2', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
         Leader_Skills_Value_Presets(card=card, row_num='4', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='0')
-        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='82', efficacy_values='[31, 170, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='6', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='7', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '5', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='8', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '6', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='9', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '7', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='10', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '8', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
-        Leader_Skills_Value_Presets(card=card, row_num='11', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '9', causality='NULL', efficacy_type='82', efficacy_values='[31, 30, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='104', efficacy_values='[170, 170, 170]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='6', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='7', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '5', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='8', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '6', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='9', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '7', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='10', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '8', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='11', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '9', causality='NULL', efficacy_type='104', efficacy_values='[30, 30, 30]', calc_option='2')
         Leader_Skills_Value_Presets(card=card, row_num='12', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '10', causality='NULL', efficacy_type='83', efficacy_values='[64, 3, 0]', calc_option='0')
         Leader_Skills_Value_Presets(card=card, row_num='13', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '10', causality='NULL', efficacy_type='82', efficacy_values='[64, 150, 0]', calc_option='2')
         leader_description = f'\"XXX0\", \"XXX1\" or \n\"XXX2\" Category Ki +3 and \nHP, ATK & DEF +170%, \nplus an additional \nHP, ATK & DEF +30% for characters who \nalso belong to the \"XXX3\" or \n\"XXX4\" Category; Extreme Class \nKi +3 and HP, ATK & DEF +150% \n(\"XXX0\", \"XXX1\", or \n\"XXX2\" Category characters excluded)'
@@ -352,7 +373,35 @@ def Leader_Skills_User_Data_Check(user_data, tag_id):
         # add_combo(['Extreme Class', 'Super Class'], default_value='Extreme Class', tag=f'Leader_Skill_Category_Selection_0_5', width=String_Length.length[11], callback=Leader_Class_Selection, parent='Leader_Skill_Widgets_Group_1')
         Text_Resize(f'Leader_Skill_Category_Selection_{card}_5')
         # print('Leader_Skill_Category_Selection_0_5')
+
     ###################################################################################################################################################################################################
+    elif user_data == '3 Categories & 3 Extra':
+        Leader_Skill_Info.rows = 15
+        Leader_Skill_tags = Table_Inputs(table_name=f'Leader_Skill_Table_{card}', row_name=f'Leader_Skill_Row_{card}_', class_name=Leader_Skill_Info,
+                        use_child_window=False, table_parent=f'Leader_Skill_{card}', transformation=True, transformation_card_num=card, table_height=380, table_width=760)
+        Leader_Skills_Value_Presets(card=card, row_num='0', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='104', efficacy_values='[200, 170, 170]', calc_option='0')
+        Leader_Skills_Value_Presets(card=card, row_num='1', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '1', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='2', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='104', efficacy_values='[200, 170, 170]', calc_option='0')
+        Leader_Skills_Value_Presets(card=card, row_num='3', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '2', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='4', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='104', efficacy_values='[200, 170, 170]', calc_option='0')
+        Leader_Skills_Value_Presets(card=card, row_num='5', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '3', causality='NULL', efficacy_type='5', efficacy_values='[3, 0, 0]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='6', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '4', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='7', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '5', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='8', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '6', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='9', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '7', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='10', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '8', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='11', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '9', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='12', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '10', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='0')
+        Leader_Skills_Value_Presets(card=card, row_num='13', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '11', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='2')
+        Leader_Skills_Value_Presets(card=card, row_num='14', exec_timing_type='1', target_type='2', sub_target=sub_target_set + '12', causality='NULL', efficacy_type='104', efficacy_values='[50, 50, 50]', calc_option='2')
+        leader_description = f'\"XXX0\", \"XXX1\" or \n\"XXX2\" Category Ki +3, \nHP +200% and ATK & DEF +170%, \nplus an additional \nHP, ATK & DEF +50% for characters who \nalso belong to the \"XXX3\", \n\"XXX4\" or \"XXX5\" Category'
+        set_value(f'Leader_Desc_Text_Input_{card}', leader_description)
+        Resize_Description(f'Leader_Desc_Text_Input_{card}', leader_description)
+        Leader_Create_Combos(card=card, num_of_combos=6)
+        Leader_Skill_Info.last_rows = 15
+        # add_combo(['Extreme Class', 'Super Class'], default_value='Extreme Class', tag=f'Leader_Skill_Category_Selection_0_5', width=String_Length.length[11], callback=Leader_Class_Selection, parent='Leader_Skill_Widgets_Group_1')
+        Text_Resize(f'Leader_Skill_Category_Selection_{card}_5')
+        # print('Leader_Skill_Category_Selection_0_5')
    
 def Leader_Combo(tag_id, user_data):
     card = Table_ID(tag_id)
@@ -472,6 +521,9 @@ def Leader_Cat_Selection(tag_id, user_data):
     elif tag_id == f'Leader_Skill_Category_Selection_{card}_4':
         Desc_Replace('4')
         Text_Resize(tag_id)
+    elif tag_id == f'Leader_Skill_Category_Selection_{card}_5':
+        Desc_Replace('5')
+        Text_Resize(tag_id)
     pass
 
 def Leader_Class_Selection(tag_id, user_data):
@@ -545,7 +597,7 @@ def Leader_Ki_Selection(tag_id, user_data):
 
 def Leader_Skill_Widgets():
     str_length = String_Length.length
-    leader_options = ['Element Type', 'Extreme Class', 'Super Class', 'All Types', '1 Category', '1 Category & 1 Element', '2 Categories', '2 Categories & 1 Extra', '2 Categories & 2 Extra', '3 Categories & 2 Extra', '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)']
+    leader_options = ['Element Type', 'Extreme Class', 'Super Class', 'All Types', '1 Category', '1 Category & 1 Element', '2 Categories', '2 Categories & 1 Extra', '2 Categories & 2 Extra', '3 Categories & 2 Extra', '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)', '3 Categories & 3 Extra']
     leader_categories = Leader_Skill_Info.cat_list
     ### Defaults to 0 so can be used in both custom and EZA as queried units will only have one leader skill
     card = 0

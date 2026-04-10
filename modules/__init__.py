@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+### Check for modules on run time
 
 ### Delete log file if it exists (only meant for Leader Skill really, cause that is the most convoluted section of the whole program)
 if os.path.exists('error_log.txt'):

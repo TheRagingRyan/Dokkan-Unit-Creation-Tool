@@ -1,8 +1,8 @@
 import json
 from dearpygui.dearpygui import *
-from . passive import Passive_Skill
+from . passive import Passive_Skill, EfficacyPresets
 from . functions import Card_Checker, Row_Checker, Delete_Items
-from . classes import Custom_Unit, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Effect_Pack, Special_Views, Causality
+from . classes import Custom_Unit, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Effect_Pack, Special_Views, Causality, Efficacy_Values
 from . categories import Categories_Activated
 from . effect_pack import Effect_Packs_Widgets
 from . json_functions import Card_Thumb_Display, Card_Widgets, Passive_Widgets, Specials_Widgets, Active_Skill_Widgets, Standby_Skill_Widgets, Finish_Skill_Set_Widgets, Dokkan_Field_Widgets, Battle_Params_Widgets, Leader_Skill_Widgets, Custom_Unit_Categories_Load, Json_Load_Effect_Packs, Json_Load_Special_Views
@@ -25,6 +25,7 @@ import os
 
 def JSON_Save():
     print('Cards' + str(Card_Checker()))
+    passivePresetClass = EfficacyPresets()
     data = {}
     for card in range(Card_Checker()):
         ############
@@ -58,7 +59,14 @@ def JSON_Save():
             passive_rows_values = (get_values(passive_row))
             ### Instead I'll leave the text in the efficacy type, then when I code the loading portion of the json, I'll just remove the text then use the number to set the eff value in the combo.
             ### This way if someone were to want to change the efficacy type in the json, they still can as it will just grab the number still
-            
+            if passivePresetClass.presetData[passive_rows_values[1]]['eff_value1'].get('exportData'):
+                passive_rows_values[10] = passivePresetClass.presetData[passive_rows_values[1]]['eff_value1']['exportData'][passive_rows_values[10]]
+
+            if passivePresetClass.presetData[passive_rows_values[1]]['eff_value2'].get('exportData'):
+                passive_rows_values[11] = passivePresetClass.presetData[passive_rows_values[1]]['eff_value2']['exportData'][passive_rows_values[11]]
+
+            if passivePresetClass.presetData[passive_rows_values[1]]['eff_value3'].get('exportData'):
+                passive_rows_values[12] = passivePresetClass.presetData[passive_rows_values[1]]['eff_value3']['exportData'][passive_rows_values[12]]
             # number_match = re.search(r'\d+', passive_rows_values[2])
             # if number_match:
                 # extracted_number = number_match.group()

@@ -141,10 +141,10 @@ class Leader_Skill_Info:
     row_names = ['l_exec_timing_type', 'l_target_type', 'l_sub_target_type_set_id', 'l_causality_conditions', 'l_efficacy_type', 'l_efficacy_values', 'l_calc_option']
     column_names = ['Exec Timing', 'Target Type', 'Sub Target Set ID', 'Causality', 'Eff Type', 'Eff Values', 'Calc Option']
     input_text_widgets_hints = ['leader_skill_set_id', 'exec_timing_type', 'target_type', 'sub_target_type_set_id', 'causality_conditions', 'efficacy_type', 'efficacy_values', 'calc_option']
-    leader_combo_rows = {'Element Type' : 2, 'Extreme Class' : 2, 'Super Class' : 2, 'All Types' : 2, '1 Category' : 2, '1 Category & 1 Element' : 4, '2 Categories' : 4, '2 Categories & 1 Extra' : 6, '2 Categories & 2 Extra' : 8, '3 Categories & 2 Extra' : 12, '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)' : 14}
-    leader_sub_target_types_rows = {'1 Category' : 1, '1 Category & 1 Element' : 2, '2 Categories' : 3, '2 Categories & 1 Extra' : 8, '2 Categories & 2 Extra' : 15, '3 Categories & 2 Extra' : 27, '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)' : 30}
-    leader_sub_target_types_sets_rows = {'1 Category' : 1, '1 Category & 1 Element' : 2, '2 Categories' : 2, '2 Categories & 1 Extra' : 4, '2 Categories & 2 Extra' : 6, '3 Categories & 2 Extra' : 9, '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)' : 10}
-    leader_cat_combo_rows = {'Element Type' : 0, 'Extreme Class' : 0, 'Super Class' : 0, 'All Types' : 0, '1 Category' : 0, '1 Category & 1 Element' : 0, '2 Categories' : 1, '2 Categories & 1 Extra' : 2, '2 Categories & 2 Extra' : 3, '3 Categories & 2 Extra' : 4, '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)' : 4}
+    leader_combo_rows = {'Element Type' : 2, 'Extreme Class' : 2, 'Super Class' : 2, 'All Types' : 2, '1 Category' : 2, '1 Category & 1 Element' : 4, '2 Categories' : 4, '2 Categories & 1 Extra' : 6, '2 Categories & 2 Extra' : 8, '3 Categories & 3 Extra' : 10, '3 Categories & 2 Extra' : 12, '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)' : 14, '3 Categories & 3 Extra' : 15}
+    leader_sub_target_types_rows = {'1 Category' : 1, '1 Category & 1 Element' : 2, '2 Categories' : 3, '2 Categories & 1 Extra' : 8, '2 Categories & 2 Extra' : 15, '2 Categories & 3 Extra' : 24, '3 Categories & 2 Extra' : 27, '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)' : 30, '3 Categories & 3 Extra' : 42}
+    leader_sub_target_types_sets_rows = {'1 Category' : 1, '1 Category & 1 Element' : 2, '2 Categories' : 2, '2 Categories & 1 Extra' : 4, '2 Categories & 2 Extra' : 6, '3 Categories & 2 Extra' : 9, '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)' : 10, '3 Categories & 3 Extra' : 12}
+    leader_cat_combo_rows = {'Element Type' : 0, 'Extreme Class' : 0, 'Super Class' : 0, 'All Types' : 0, '1 Category' : 0, '1 Category & 1 Element' : 0, '2 Categories' : 1, '2 Categories & 1 Extra' : 2, '2 Categories & 2 Extra' : 3, '3 Categories & 2 Extra' : 4, '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)' : 4, '3 Categories & 3 Extra' : 5}
     leader_cat_combo_names = ['Element Type', 'Extreme Class', 'Super Class', 'All Types', '1 Category', '1 Category & 1 Element', '2 Categories', '2 Categories & 1 Extra', '2 Categories & 2 Extra', '3 Categories & 2 Extra', '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)']
     # tags_to_remove = ['Leader_Skill_Widgets_Group_1','Leader_Skill_Text','Leader_Skill_Preset_List','Leader_Skill_Category_Selection_0','Leader_Skill_Widgets_Group_2','Leader_Efficacy_Value_Changer','Leader_Efficacy_Value_Changer_Text','Leader_Efficacy_Value_Changer_Tooltip','Leader_Skill_Widgets_Group_3','Leader_Name_Text_Input','Leader_Desc_Text_Input']
     last_cat_combo_selection = ''
@@ -522,7 +522,6 @@ class Efficacy_Values:
                 77 : '77 - Reset Ball Color', 
                 78 : '78 - Guard', 
                 79 : '79 - Rage Transformation', 
-                80 : '80 - Counter Attack', 
                 81 : '81 - Additional Attack', # From folder [lua] > [ab_script] > [attack_counter] > cXXXX.lua
                 82 : '82 - Element Type HP ATK DEF', 
                 83 : '83 - Element Type Energy Bitpattern', 
@@ -537,45 +536,44 @@ class Efficacy_Values:
                 92 : '92 - Always Hit', 
                 93 : '93 - Element Type Bitpattern HP', # For Leader Skills
                 94 : '94 - Immune to Stun', 
-                95 : '95 - Dodge Counter Attack', 
                 96 : '96 - Ki Sphere Additional Point', 
-                97 : '97 - Super Nullification', # From folder [lua] > [ab_script] > [ab_sys] > cXXXX.lua
+                97 : '97 - Super Nullification & Heal', # From folder [lua] > [ab_script] > [ab_sys] > cXXXX.lua
                 98 : '98 - Incremental Param', 
                 99 : '99 - Immune to Status Down', 
                 100 : '100 - Invalidate Astute', 
                 101 : '101 - Forsee Super Attacks', 
                 102 : '102 - Metamorphic Probability Count Limit', # For Leader Skills
                 103 : '103 - Transformation',
-                104 : '104 - HP ATK DEF', # For Leader Skills 
+                # 104 : '104 - HP ATK DEF', # For Leader Skills 
                 105 : '105 - Change Ki Sphere',
-                106 : '106 - Potential Heal',
+                # 106 : '106 - Potential Heal',
                 107 : '107 - Delay (Stackable)',
-                108 : '108 - Add Potential Skill',
+                # 108 : '108 - Add Potential Skill',
                 109 : '109 - Revive', 
                 110 : '110 - Passive Reset', 
                 111 : '111 - Disable Action', 
                 112 : '112 - Immune to Attack Break', 
                 113 : '113 - Threshold Damage', 
-                114 : '114 - ???', 
+                114 : '114 - Unable to Attack', 
                 115 : '115 - Update Standby Mode', 
                 116 : '116 - Charge Start', 
                 117 : '117 - End Transformation', 
                 118 : '118 - ATK Rate per Charge Count', 
                 119 : '119 - Nullify Super' ,
                 120 : '120 - Counter Attack',
-                121 : '121 - ???',
+                # 121 : '121 - ???',
                 122 : '122 - Increased Received DMG',
-                123 : '123 - ???',
-                124 : '124 - ???',
-                125 : '125 - ???',
-                126 : '126 - ???',
-                127 : '127 - ???',
-                128 : '128 - ???',
-                129 : '129 - ???',
-                130 : '130 - ???',
+                123 : '123 - Target Focus',
+                # 124 : '124 - ???',
+                # 125 : '125 - ???',
+                # 126 : '126 - ???',
+                # 127 : '127 - ???',
+                128 : '128 - Dodge Counter',
+                129 : '129 - Invalidate Guaranteed Hits',
+                # 130 : '130 - ???',
                 131 : '131 - Reversible Exchange',
-                132 : '132 - ???',
-                133 : '133 - ???'
+                # 132 : '132 - ???',
+                # 133 : '133 - ???'
                 }
     # Any eff with a '???' is to prevent KeyErrors, I'll have to figure out what some of these eff do.
 

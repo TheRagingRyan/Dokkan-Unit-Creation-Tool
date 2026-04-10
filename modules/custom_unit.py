@@ -3,7 +3,7 @@ from . cards import Card_Table_Combos, Link_Skills_Query, Synced_Callback, EZA_C
 from . categories import Card_Categories_Window, Card_Categories_Wiki, Create_New_Category_Tab
 from . download import Lua_Downloader, Create_Tabs, Card_Thumb_Display, Card_Character_Assets
 from . effect_pack import Effect_Packs_Widgets
-from . passive import Passive_Add, Passive_Del, Passive_Skill_Query
+from . passive import Passive_Add, Passive_Del, Passive_Skill_Query, EfficacyPresets
 from . specials import Special_Skills_Add, Special_Skills_Del, Specials_Add, Specials_Del, Specials_Query
 from . special_views import Special_View_Widgets
 from . SQL_file import sql_write_to_file,sql_output_data
@@ -20,7 +20,7 @@ from . configs import Config_Read
 from . classes import Database, Custom_Unit, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Efficacy_Values, String_Length, Transformation_Descriptions, Battle_Params, Widget_Aliases, Special_Set, Specials, Card_Specials, Dokkan_Field, Effect_Pack, Special_Views, Exec_Timing, Calc_Options, Target_Types, Turns
 from .functions import Table_ID, Delete_Items, Text_Resize, Table_Combo_Inputs, Table_Inputs, Resize_Table, \
     Delete_Table, Row_Checker, Traceback_Logging, Clear_Class_Tags_List, Text_Resize_2, Resize_Table_Width, load_JSON, \
-    grab_card_id, read_json_from_zip, read_png_from_zip, Text_Resize_Combo
+    grab_card_id, read_json_from_zip, read_png_from_zip, Text_Resize_Combo, Get_Card_Number, get_last_number
 from . jp_translations import Translations
 import re
 import ast
@@ -29,6 +29,19 @@ import threading
 import json
 
 db = Database()
+
+def cardIDCallback(sender, data, app_data):
+    card_number = Get_Card_Number(sender)
+    # row = get_last_number(sender)
+
+    optimal_awakening_growth_tags = [f'optimal_awakening_grow_type_Card_{card_number}_Row_0', f'optimal_awakening_grow_type_Card_{card_number}_Row_1']
+
+    if get_value(f'EZA_Checkbox_{card_number}') or get_value(f'Super_EZA_Checkbox_{card_number}') and sender == f'id_Card_{card_number}_Row_0':
+        for tag in optimal_awakening_growth_tags:
+            try:
+                set_value(tag, data)
+            except ValueError as e:
+                pass
 
 def Main_Tab_Bar_Callback():
     # if sender == 451:
@@ -198,7 +211,7 @@ def edit_callback():
 
 def Export_as_SQL():
 
-    sql_file_data = sql_output_data(get_value(Card.row_names[1] + '_Card_0_Row_0'))
+    sql_file_data = sql_output_data(get_value(Card.row_names[1] + '_Card_0_Row_0').replace('\n', ''))
 
     sql_file_name = get_value('Filename')
     sql_write_to_file(sql_file_name, sql_file_data)
@@ -636,7 +649,7 @@ def Card_Widgets():
     sss = Table_Combo_Inputs(table_name=f'Card{card_num}_Table', row_name=f'Card{card_num}_Table_Row', class_name=Card,
                  table_parent=f'Card_Input_Tab_{card_num}', table_height=83, table_width=1650,
                  row_width=85, transformation_card_num=card_num, combo_columns=[5,12,23,24,25,26,27,28,29,52], 
-                 callback_columns=[1, 5, 12, 23, 24, 25, 26, 27, 28, 29, 52], callback={1 : Name_Change_Callback, 5 : Rarity_Callback, 12 : Element_Callback, 23 : Synced_Callback, 24 : Synced_Callback, 25 : Synced_Callback, 26 : Synced_Callback, 27 : Synced_Callback, 28 : Synced_Callback, 29 : Synced_Callback, 52 : Synced_Callback}, combo_list=combos)
+                 callback_columns=[0, 1, 5, 12, 23, 24, 25, 26, 27, 28, 29, 52], callback={0 : cardIDCallback,1 : Name_Change_Callback, 5 : Rarity_Callback, 12 : Element_Callback, 23 : Synced_Callback, 24 : Synced_Callback, 25 : Synced_Callback, 26 : Synced_Callback, 27 : Synced_Callback, 28 : Synced_Callback, 29 : Synced_Callback, 52 : Synced_Callback}, combo_list=combos)
     
 ########################################################################################################################################################################################################
 def Custom_Unit_Card_Queries(*, card=int, json_cards=0):
@@ -687,6 +700,7 @@ def Custom_Unit_Card_Queries(*, card=int, json_cards=0):
 ########################################################################################################################################################################################################       
 def Passive_Widgets():
     cards = Custom_Unit.card_number
+    passivePresetClass = EfficacyPresets()
     Delete_Items(f'Passive_Desc_Text_{cards}')    
     Delete_Items(f'Passive_Desc_Text_Input_{cards}')
     Delete_Items(f'Passive_Text_Group_{cards}')
@@ -713,6 +727,20 @@ def Passive_Widgets():
              combo_tag={Passive_Skill.row_names[1] : Exec_Timing.combo,Passive_Skill.row_names[2] : Efficacy_Values.combo_list, Passive_Skill.row_names[3] : Target_Types.combo, Passive_Skill.row_names[6] : Calc_Options.combo, Passive_Skill.row_names[7] : Turns.combo, Passive_Skill.row_names[8] : ['False', 'True']},
              combo_list=Efficacy_Values.combo_list, combo_column_name=Passive_Skill.column_names[2],
              table_width=1775, row_width=82, freeze_rows=1, transformation=True, transformation_card_num=cards)
+    
+    set_item_callback(Passive_Skill.row_names[2] + '_Card_0_Row_0', passivePresetClass.passivePresetsCallback)
+    for i in range(3):
+        set_value(Passive_Skill.row_names[4] + '_Card_0_Row_0', '0')
+        set_value(Passive_Skill.row_names[5] + '_Card_0_Row_0', 'NULL')
+        set_value(Passive_Skill.row_names[9] + '_Card_0_Row_0', '100')
+        set_value(Passive_Skill.row_names[10] + '_Card_0_Row_0', 'NULL')
+        set_value(Passive_Skill.row_names[11] + '_Card_0_Row_0', '0')
+        set_value(Passive_Skill.row_names[12] + '_Card_0_Row_0', '0')
+        set_value(Passive_Skill.row_names[13] + '_Card_0_Row_0', '0')
+        set_value(Passive_Skill.row_names[14] + '_Card_0_Row_0', '{}')
+        configure_item(Passive_Skill.row_names[11] + '_Card_0_Row_0', show=False)
+        configure_item(Passive_Skill.row_names[12] + '_Card_0_Row_0', show=False)
+        configure_item(Passive_Skill.row_names[13] + '_Card_0_Row_0', show=False)
     
     
     set_item_height(f'Passive_Skill_Table_{cards}', (24 * Passive_Skill.rows + 23))
@@ -748,7 +776,7 @@ def Custom_Unit_Passive_Skill_Query(*, card=int, json_cards=0):
         data = read_json_from_zip(card_id)
     else:
         data = Card_Checks.json_data[json_cards]
-
+    passivePresetClass = EfficacyPresets()
     passive_name = data['passive_skill']['name']
     passive_desc = data['passive_skill']['itemized_description']
     passive_skills = data['passive_skill']['skills']
@@ -763,14 +791,14 @@ def Custom_Unit_Passive_Skill_Query(*, card=int, json_cards=0):
                 combo_list=Efficacy_Values.combo_list, combo_column_name=Passive_Skill.column_names[2],
                 table_width=1775, row_width=82, freeze_rows=1, transformation=True, transformation_card_num=card, table_before=f'Passive_Desc_Text_{card}')
         
-        print(sss)
+        # print(sss)
 
         set_item_height(f'Passive_Skill_Table_{card}', 24 * Passive_Skill.rows + 23)
         # set_item_height(f'Passive_Skill_Table_{card}', 47)
         set_value(f'Passive_Desc_Text_Input_{card}', passive_desc)
 
         for row, skill in enumerate(passive_skills):
-            print(skill)
+            # print(skill)
             set_value(f'Passive_name_Card_{card}_Row_{row}', passive_name)
             for key, value in skill.items():
                 # print('Passive_' + key + '_Card_' + str(card) + '_Row_' + str(row))
@@ -817,10 +845,13 @@ def Custom_Unit_Passive_Skill_Query(*, card=int, json_cards=0):
 
 
         configure_item(f'Passive_Rows_in_Table_{card}', default_value=f'Rows: {len(passive_skills)}')
+        passivePresetClass.passivePresetsQueryCallback(card)
+
         
         widget_widths_list = []
         for row in range(Passive_Skill.rows):
             widget_widths = 0
+            set_item_callback(Passive_Skill.row_names[2] + '_Card_' + str(card) + '_Row_' + str(row), passivePresetClass.passivePresetsCallback)
             for column in range(len(Passive_Skill.row_names)):
                 widget_widths += get_item_width(Passive_Skill.row_names[column] + '_Card_' + str(card) + '_Row_' + str(row))
             widget_widths_list.append(widget_widths)
@@ -982,6 +1013,7 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
     card_special_ids = [key for key in data['card_specials']]
     card_specials_base_card_ids = [key for key in card_specials_base_card]
     num_of_special_sets = len(special_sets)
+    specialsPresetClass = EfficacyPresets()
     
 
 
@@ -1093,6 +1125,7 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
 
             set_item_height(f'Specials_Card_{cards}_{i}', (24 * len(specials[special_set_ids[i]])) + 42)
             set_item_height(f'Specials_Child_Window_Card_{cards}_{i}', (25 * len(specials[special_set_ids[i]])) + 50)
+            specialsPresetClass.specialPresetsQueryCallback(card)
 
             with group(horizontal=False, tag=f'Specials_Group_Card_{cards}_{i}'):
                 with group(horizontal=True, tag=f'Specials_Aim_Target_Group_Card_{cards}_{i}'):
@@ -1141,6 +1174,7 @@ def Custom_Unit_Specials_Query(*, card=int, json_cards=0):
                             # print(eff_dict[Passive_Skill.query_values[i][z]])
                             set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), Efficacy_Values.eff_dict[int(value)])
                             Text_Resize_Combo(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag))
+                            set_item_callback(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), specialsPresetClass.specialPresetsCallback)
                             # Text_Resize(Specials.row_names[row_names] + str(i) + str(tag))
                         elif f'Specials_{key}' == Specials.row_names[2]:
                             set_value(f'Specials_{key}' + '_Card_' + str(cards) + '_Row_' + str(i) + str(tag), Target_Types.target_dict[int(value)])
@@ -1994,7 +2028,7 @@ def Leader_Skill_Widgets(card):
         # text_width, text_height = get_text_size(get_value(tag_id), font='fonts/ARIAL.ttf')
         # set_item_width(tag_id, text_width + 27)
     
-    leader_options = ['Element Type', 'Extreme Class', 'Super Class', 'All Types', '1 Category', '1 Category & 1 Element', '2 Categories', '2 Categories & 1 Extra', '2 Categories & 2 Extra', '3 Categories & 2 Extra', '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)']
+    leader_options = ['Element Type', 'Extreme Class', 'Super Class', 'All Types', '1 Category', '1 Category & 1 Element', '2 Categories', '2 Categories & 1 Extra', '2 Categories & 2 Extra', '2 Categories & 3 Extra', '3 Categories & 2 Extra', '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)', '3 Categories & 3 Extra']
     leader_categories = Leader_Skill_Info.cat_list
     # for i in range(len(Leader_Skill_Info.tags_to_remove)):
         # Delete_Items(Leader_Skill_Info.tags_to_remove[i])

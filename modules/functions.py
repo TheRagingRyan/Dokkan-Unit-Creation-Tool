@@ -58,10 +58,10 @@ def Table_Inputs(*, table_name='', table_width=1190, table_height=200, row_name=
                         list_of_inputs.append(table_name)
                         for i in range(len(class_name.row_names)):
                             if combo and class_name.column_names[i] == combo_column_name:
-                                add_table_column(label=class_name.column_names[i], init_width_or_weight=150)
+                                add_table_column(label=class_name.column_names[i], init_width_or_weight=150, tag=table_name + class_name.column_names[i])
 
                             else:
-                                add_table_column(label=class_name.column_names[i])
+                                add_table_column(label=class_name.column_names[i], tag=table_name + class_name.column_names[i])
                         for o in range(class_name.rows):
                             with table_row(tag=row_name + str(o)):
                                 Widget_Aliases.tags_to_delete.append(row_name + str(o))
@@ -758,3 +758,46 @@ def read_png_from_zip(card_id: str):
             image_data = img_file.read()
             image = Image.open(BytesIO(image_data))
             return image
+        
+def get_last_number(s):
+    import re
+    return int(re.search(r'\d+$', s).group())
+
+
+def ResizePassiveTableWidth(card_number):
+    for i in range(Row_Checker(f'Passive_name_Card_{card_number}_Row_')):
+        for index in range(len(Passive_Skill.row_names)):
+            if Passive_Skill.row_names[index] == 'Passive_name':
+                text_width = get_text_size(f'Passive_name_Card_{card_number}_Row_0', font='fonts/ARIAL.tff')[0]
+                set_item_width(f'Passive_name_Card_{card_number}_Row_{i}', text_width - 15)
+                    
+            else:
+                set_item_width(f'{Passive_Skill.row_names[index]}_Card_{card_number}_Row_{i}', 125)
+
+            if i == 0:
+                set_item_width(f'Passive_Skill_Table_{card_number}{Passive_Skill.column_names[index]}', get_text_size(f'{Passive_Skill.row_names[index]}_Card_{card_number}_Row_0', font='fonts/ARIAL.tff')[0])
+
+    sizes = get_column_widths(Passive_Skill, card_number, Row_Checker(f'Passive_name_Card_{card_number}_Row_'))
+    apply_column_widths(f'Passive_Skill_Table_{card_number}', sizes)
+    resize_table(f'Passive_Skill_Table_{card_number}')
+
+
+def get_column_widths(class_name, card, num_rows):
+    column_widths = {}
+    for i, col_name in enumerate(class_name.column_names):
+        max_len = len(col_name)  # start with header length
+        for row in range(num_rows):
+            tag = class_name.row_names[i] + '_Card_' + str(card) + '_Row_' + str(row)
+            value = get_value(tag)
+            max_len = max(max_len, len(str(value)))
+        column_widths[col_name] = max_len * 7
+    return column_widths
+
+def apply_column_widths(table_name, column_widths):
+    split_frame()
+    for col_name, width in column_widths.items():
+        set_item_width(table_name + col_name, width)
+
+def resize_table(table_tag):
+    split_frame()
+    configure_item(table_tag, policy=mvTable_SizingFixedFit)

@@ -105,7 +105,7 @@ def Button_Test(app_data):
         elif state == 1:
                 configure_item(app_data, texture_tag=f'Category_{cat_num}_off')
                 set_value(f'Image_State_Check_{cat_num}', 0)
-                Categories_Activated.card_categories_dict[card].remove(int(cat_num))
+                Categories_Activated.card_categories_dict[card].remove(cat_num)
         
         print(Categories_Activated.card_categories_dict)
         

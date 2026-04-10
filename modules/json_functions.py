@@ -1,8 +1,8 @@
 from dearpygui.dearpygui import *
-from . cards import Card_Table_Combos, Link_Skills_Query, Synced_Callback, EZA_Callback, Rarity_Callback, Element_Callback, Name_Change_Callback,Ex_Super_Callback, Ex_Super_Combo_Callback, Ex_Super_Probablity_Callback
+from . cards import Card_Table_Combos, Link_Skills_Query, Synced_Callback, EZA_Callback, Rarity_Callback, Element_Callback, Name_Change_Callback,Ex_Super_Callback, Ex_Super_Combo_Callback, Ex_Super_Probablity_Callback, Super_EZA_Callback
 from . categories import Categories_Activated
 from . effect_pack import Effect_Packs_Widgets
-from . passive import Passive_Add, Passive_Del
+from . passive import Passive_Add, Passive_Del, EfficacyPresets
 from . specials import Special_Skills_Add, Special_Skills_Del, Specials_Add, Specials_Del
 from . special_views import Special_View_Widgets
 from . leader import Leader_Combo, Leader_Cat_Selection, Leader_Efficacy_Value_Changer, Leader_Resize, Resize_Widget, Resize_Description
@@ -159,6 +159,7 @@ def Card_Widgets(json_length, json_dict):
         with group(horizontal=True, tag=f'Card_Information_Text_Group_{card_num}', parent=f'Card_Input_Tab_{card_num}'):
             add_text('Card Information', color=(255,50,50), parent=f'Card_Information_Text_Group', tag=f'Card_Information_Text_{card_num}')
             add_checkbox(label='EZA', default_value=False, tag=f'EZA_Checkbox_{card_num}', callback=EZA_Callback, parent='Card_Information_Text_Group')
+            add_checkbox(label='Super EZA', default_value=False, tag=f'Super_EZA_Checkbox_{card_num}', callback=Super_EZA_Callback, parent='Card_Information_Text_Group')
             set_value(f'EZA_Checkbox_{card_num}', json_dict[f'Card {card_num + 1}']['EZA'])
         Widget_Aliases.tags_to_delete.append(f'Card_Information_Text_{card_num}')
         Widget_Aliases.tags_to_delete.append(f'EZA_Checkbox_{card_num}')
@@ -181,6 +182,7 @@ def Card_Widgets(json_length, json_dict):
 
 ########################################################################################################################################################################################################       
 def Passive_Widgets(json_length, json_dict):
+        passivePresetClass = EfficacyPresets()
         for cards in range(json_length):
                 Delete_Items(f'Passive_Desc_Text_{cards}')    
                 Delete_Items(f'Passive_Desc_Text_Input_{cards}')
@@ -228,6 +230,8 @@ def Passive_Widgets(json_length, json_dict):
                         # Table_Combo_Inputs(table_name=f'Passive_Skill_Table_{cards}', row_name=f'Passive_Skill_Table_Row_{cards}', table_parent=f'Card_Input_Tab_{cards}', class_name=Passive_Skill,
                         #                    combo_columns=[5,12,23,24,25,26,27,28,29,52])
                 set_item_height(f'Passive_Skill_Table_{cards}', (24 * Passive_Skill.rows + 23))
+
+                passivePresetClass.passivePresetsQueryCallback(cards)
                 widget_widths_list = []
                 for row in range(Passive_Skill.rows):
                     widget_widths = 0
@@ -792,7 +796,7 @@ def Leader_Skill_Widgets(json_length, json_dict):
         text_width, text_height = get_text_size(get_value(tag_id), font='fonts/ARIAL.ttf')
         set_item_width(tag_id, text_width + 27)
     
-    leader_options = ['Element Type', 'Extreme Class', 'Super Class', 'All Types', '1 Category', '1 Category & 1 Element', '2 Categories', '2 Categories & 1 Extra', '2 Categories & 2 Extra', '3 Categories & 2 Extra', '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)']
+    leader_options = ['Element Type', 'Extreme Class', 'Super Class', 'All Types', '1 Category', '1 Category & 1 Element', '2 Categories', '2 Categories & 1 Extra', '2 Categories & 2 Extra', '2 Categories & 3 Extra', '3 Categories & 2 Extra', '3 Categories & 2 Extra & 1 Class (3 Categories Excluded)', '3 Categories & 3 Extra']
     leader_categories = Leader_Skill_Info.cat_list
         
     for card in range(json_length):

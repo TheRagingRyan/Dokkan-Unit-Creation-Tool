@@ -1,8 +1,9 @@
 from dearpygui.dearpygui import *
 import re
 from .functions import Widget_Value_Grabber, Card_Checker, Row_Checker, Value_Grabber
+from .passive import EfficacyPresets
 from .categories import Categories_Activated
-from . classes import Causality, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Battle_Params, Specials, Card_Specials, Export, Special_Views, Effect_Pack, Calc_Options, Target_Types
+from . classes import Causality, Card_Checks, Card, Passive_Skill, Active_Skill, Active_Skill_Set, Leader_Skill_Info, Standby_Skill_Set, Standby_Skill, Finish_Skill_Set, Finish_Skill, Battle_Params, Specials, Card_Specials, Export, Special_Views, Effect_Pack, Calc_Options, Target_Types, Efficacy_Values
 from .cards import Card
 import ast
 left_bracket = '{'
@@ -30,6 +31,7 @@ def sql_output_data(CardName):
     causalities = False
     dokkan_field = False
     eza = False
+    seza = False
     
     
     
@@ -56,12 +58,18 @@ def sql_output_data(CardName):
     
     if get_value(Card.row_names[16] + '_Card_' + str(0) + '_Row_' + '1'):
         eza = True
+
+    if get_value(f'Super_EZA_Checkbox_{card}'):
+        seza = True
         
     if causalities:
         causalities = Causality_Output()
     cards = Card_Output()
     if eza:
-        optimal_awakening = Optimal_Awakening_Growth_Output()
+        optimal_awakening_data = Optimal_Awakening_Growth_Output()
+        optimal_awakening = optimal_awakening_data[0]
+        seza = optimal_awakening_data[1]
+
     passive = Passive_Output()
     specials = Specials_Output()
     ex_super = Ex_Super_Output()
@@ -88,6 +96,8 @@ def sql_output_data(CardName):
     sql_file_data += cards + '\n'
     if eza:
         sql_file_data += optimal_awakening + '\n\n'
+        if seza:
+            sql_file_data += seza + '\n\n'
         
     sql_file_data += SQL_Spacer() + '\n'
         
@@ -430,6 +440,8 @@ def Card_Output():
 def Optimal_Awakening_Growth_Output():
     optimal_awakening_growth_text =f'''\n\t\tINSERT OR REPLACE INTO optimal_awakening_growths ("id", "optimal_awakening_grow_type", "step", "lv_max", "skill_lv_max", "passive_skill_set_id", "leader_skill_set_id")
     \tVALUES'''
+    card_awakening_routes_text = f'''\n\t\tINSERT OR REPLACE INTO card_awakening_routes ("id", "type", "card_id", "awaked_card_id", "num", "card_awakening_set_id", "optimal_awakening_step", "optimal_awakening_type", "description", "priority", "open_at", "created_at", "updated_at")
+    \tVALUES'''
     cards = Card_Checker()
     for card in range(cards):
         if get_value(f'EZA_Checkbox_{card}'):
@@ -460,8 +472,14 @@ def Optimal_Awakening_Growth_Output():
                 optimal_awakening_growth_sql = f'\n\t\t({CardID}, {CardID0}, 1, 150, 25, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 1)}, {CardID0}, 2, 150, 25, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 2)}, {CardID0}, 3, 150, 25, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 3)}, {CardID0}, 4, 150, 25, {CardID[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 3)}, {CardID0}, 4, 150, 25, {CardID[:-1]}, {CardID});'
                 optimal_awakening_growth_text += optimal_awakening_growth_sql
+
+                card_awakening_routes_sql = f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 4, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);'
+                card_awakening_routes_text += card_awakening_routes_sql
             else:
                 optimal_awakening_growth_sql = f'\n\t\t({CardID}, {CardID0}, 1, 140, 15, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 1)}, {CardID0}, 2, 140, 15, {CardID[:-1]}, {CardID}),'
@@ -470,8 +488,18 @@ def Optimal_Awakening_Growth_Output():
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 4)}, {CardID0}, 5, 140, 15, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 5)}, {CardID0}, 6, 140, 15, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 6)}, {CardID0}, 7, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 7)}, {CardID0}, 8, 140, 15, {CardID[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 7)}, {CardID0}, 8, 140, 15, {CardID[:-1]}, {CardID});'
                 optimal_awakening_growth_text += optimal_awakening_growth_sql
+
+                card_awakening_routes_sql = f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 4, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 5, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 6, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 7, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 8, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);'
+                card_awakening_routes_text += card_awakening_routes_sql
 
             if cards - 1 == card:
                 optimal_awakening_growth_text = optimal_awakening_growth_text[:-1] + ';'
@@ -479,11 +507,16 @@ def Optimal_Awakening_Growth_Output():
     if len(optimal_awakening_growth_text) < 200:
         optimal_awakening_growth_text = ''
 
+    if len(card_awakening_routes_text) < 300:
+        card_awakening_routes_text = ''
+
             
-    return optimal_awakening_growth_text
+    return optimal_awakening_growth_text, card_awakening_routes_text
 
 def Passive_Output():
     num_of_cards = Card_Checker()
+    passivePresetClass = EfficacyPresets()
+    # efficacyClass = Efficacy_Values()
     
     # passive_skills = Widget_Value_Grabber(class_name=Passive_Skill, combo=True, combo_tag=Passive_Skill.row_names[2])
     passive = f'''\n\t\tINSERT OR REPLACE INTO passive_skills ("id", "name", "exec_timing_type", "efficacy_type", "target_type", "sub_target_type_set_id", "passive_skill_effect_id", "calc_option", "turn", "is_once", "probability", "causality_conditions", "eff_value1", "eff_value2", "eff_value3", "efficacy_values", "created_at", "updated_at")
@@ -519,6 +552,8 @@ def Passive_Output():
             passive_values = [re.sub(r'\D', '', get_value(Passive_Skill.row_names[i] + '_Card_' + str(cards) + '_Row_' + str(rows))) if Passive_Skill.row_names[i] == Passive_Skill.row_names[2] else get_value(Passive_Skill.row_names[i] + '_Card_' + str(cards) + '_Row_' + str(rows)) for i in range(len(Passive_Skill.row_names))]
             passive_values[0] = passive_values[0].replace('\'', '\'\'')
             passive_values[0] = f'\'{passive_values[0]}\''
+
+
         
             if passive_values[1]:
                 passive_values[1] = grab_numbers_from_combo_value(passive_values[1])
@@ -537,6 +572,17 @@ def Passive_Output():
                     passive_values[8] = '0'
                 else:
                     passive_values[8] = '1'
+
+            if passivePresetClass.presetData[Efficacy_Values.eff_dict[int(passive_values[2])]]['eff_value1'].get('exportData'):
+                passive_values[11] = passivePresetClass.presetData[Efficacy_Values.eff_dict[int(passive_values[2])]]['eff_value1']['exportData'][passive_values[11]]
+
+            if passivePresetClass.presetData[Efficacy_Values.eff_dict[int(passive_values[2])]]['eff_value2'].get('exportData'):
+                passive_values[12] = passivePresetClass.presetData[Efficacy_Values.eff_dict[int(passive_values[2])]]['eff_value2']['exportData'][passive_values[12]]
+
+            if passivePresetClass.presetData[Efficacy_Values.eff_dict[int(passive_values[2])]]['eff_value3'].get('exportData'):
+                passive_values[13] = passivePresetClass.presetData[Efficacy_Values.eff_dict[int(passive_values[2])]]['eff_value3']['exportData'][passive_values[13]]
+
+
             
             if passive_values[10] != 'NULL':
                 passive_values[10] = f'\'{passive_values[10]}\''
@@ -880,8 +926,24 @@ def Leader_Output():
 
             # print(leader_skill_categories_ids)
             try:
+                # 3 Categories & 3 Extra
+                if Leader_Skill_Info.leader_sub_target_types_rows[leader_skill_preset_selection] == 42:
+                
+                    sub_target_type_set_ids = ['leadid11','leadid12','leadid12','leadid13','leadid13','leadid13','leadid14','leadid14','leadid15','leadid15','leadid15','leadid16','leadid16','leadid16','leadid16','leadid17','leadid17','leadid17','leadid18','leadid18','leadid18','leadid18','leadid19','leadid19','leadid19','leadid19','leadid19','leadid20','leadid20','leadid20','leadid20','leadid21','leadid21','leadid21','leadid21','leadid21', 'leadid22', 'leadid22', 'leadid22', 'leadid22', 'leadid22', 'leadid22']
+                    target_value_type = ['1', '2', '1', '2', '2', '1', '1', '1', '1', '2', '1', '1', '2', '2', '1', '2', '1', '1', '2', '1', '2', '1', '2', '1', '2', '2', '1', '1', '2', '2', '1', '1', '2', '2', '2', '1', '1', '2', '2', '2', '2', '1']
+                    category_list = ['cat1', 'cat1', 'cat2', 'cat1', 'cat2', 'cat3', 'cat1', 'extra1', 'cat1', 'extra1', 'extra2', 'cat1', 'extra1', 'extra2', 'extra3', 'cat1', 'cat2', 'extra1', 'cat1', 'cat2', 'extra1', 'extra2', 'cat1', 'cat2', 'extra1', 'extra2', 'extra3', 'cat3', 'cat1', 'cat2', 'extra1', 'cat3', 'cat1', 'cat2', 'extra1', 'extra2', 'cat3', 'cat1', 'cat2', 'extra1', 'extra2', 'extra3']
+
+                    for i in range(Leader_Skill_Info.leader_sub_target_types_rows[leader_skill_preset_selection]):
+                        sub_target_type_sql = f'\n\t\t({Row_ID}, {sub_target_type_set_ids[i]}, {target_value_type[i]}, {category_list[i]}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                        sub_target_type_text += sub_target_type_sql
+                        Row_ID += 1
+
+                    sub_target_type_text = sub_target_type_text.replace('leadid', leader_skill_set_id[:-1]).replace('cat1', leader_skill_categories_ids[0]).replace('cat2', leader_skill_categories_ids[1]).replace('cat3', leader_skill_categories_ids[2]).replace('extra1', leader_skill_categories_ids[3]).replace('extra2', leader_skill_categories_ids[4]).replace('extra3', leader_skill_categories_ids[5]) + '\n'
+
+                    sub_target_type_set_text = Create_Sub_Target_Type_Set(10)
+
                 # 3 Categories & 2 Extra & 1 Class (3 Categories Excluded)
-                if Leader_Skill_Info.leader_sub_target_types_rows[leader_skill_preset_selection] == 30:
+                elif Leader_Skill_Info.leader_sub_target_types_rows[leader_skill_preset_selection] == 30:
                 
                     sub_target_type_set_ids = ['leadid11','leadid12','leadid12','leadid13','leadid13','leadid13','leadid14','leadid14','leadid15','leadid15','leadid15','leadid16','leadid16','leadid16','leadid17','leadid17','leadid17','leadid17','leadid18','leadid18','leadid18','leadid18','leadid19','leadid19','leadid19','leadid19','leadid19','leadid20','leadid20','leadid20']
                     target_value_type = ['1','1','2','1','2','2','1','1','1','1','2','1','1','2','1','1','2','2','1','1','2','2','1','1','2','2','2','2','2','2']
@@ -910,6 +972,21 @@ def Leader_Output():
                     sub_target_type_text = sub_target_type_text.replace('leadid', leader_skill_set_id).replace('cat1', leader_skill_categories_ids[0]).replace('cat2', leader_skill_categories_ids[1]).replace('cat3', leader_skill_categories_ids[2]).replace('extra1', leader_skill_categories_ids[3]).replace('extra2', leader_skill_categories_ids[4]) + '\n'
 
                     sub_target_type_set_text = Create_Sub_Target_Type_Set(9)
+
+                # 3 Categories 3 Extra
+                elif Leader_Skill_Info.leader_sub_target_types_rows[leader_skill_preset_selection] == 24:
+                    sub_target_type_set_ids = ['leadid1','leadid2','leadid2','leadid3','leadid3','leadid4','leadid4','leadid4','leadid5','leadid5','leadid5','leadid6','leadid6','leadid6','leadid6','leadid7','leadid7','leadid7','leadid7','leadid8','leadid8','leadid8','leadid8','leadid8']
+                    target_value_type = ['1','2','1','1','1','2','1','1','2','1','1','2','1','2','1','2','2','1','1','2','2','1','2','1']
+                    category_list = ['cat1', 'cat1', 'cat2', 'cat1', 'extra1', 'cat1', 'cat2', 'extra1', 'extra1', 'extra2', 'cat1', 'extra1', 'extra2', 'cat1', 'cat2', 'extra1', 'extra2', 'extra3', 'cat1', 'extra1', 'extra2', 'extra3', 'cat1', 'cat2']
+
+                    for i in range(Leader_Skill_Info.leader_sub_target_types_rows[leader_skill_preset_selection]):
+                        sub_target_type_sql = f'\n\t\t({Row_ID}, {sub_target_type_set_ids[i]}, {target_value_type[i]}, {category_list[i]}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                        sub_target_type_text += sub_target_type_sql
+                        Row_ID += 1
+                    sub_target_type_text = sub_target_type_text.replace('leadid', leader_skill_set_id).replace('cat1', leader_skill_categories_ids[0]).replace('cat2', leader_skill_categories_ids[1]).replace('cat3', leader_skill_categories_ids[2]).replace('extra1', leader_skill_categories_ids[3]).replace('extra2', leader_skill_categories_ids[4]) + '\n'
+
+                    sub_target_type_set_text = Create_Sub_Target_Type_Set(8)
+
 
                 # 2 Categories 2 Extra
                 elif Leader_Skill_Info.leader_sub_target_types_rows[leader_skill_preset_selection] == 15:

@@ -290,7 +290,7 @@ def Active_Skill_Del(app_data):
         for i in range(len(Active_Skill.row_names)):
             delete_item(Active_Skill.row_names[i] + '_Card_' + str(Table_Number) + '_Row_' + str(Rows - 1))
         set_item_height(f'Active_Skill_Table_Card_{Table_Number}', (24 * (Rows - 1) + 42))
-        last_list_row = len(Passive_Skill.table_row_tags[int(Table_Number)])
+        last_list_row = len(Active_Skill.table_row_tags[int(Table_Number)])
         del Active_Skill.table_row_tags[int(Table_Number)][last_list_row - 1]
     else:
         pass
