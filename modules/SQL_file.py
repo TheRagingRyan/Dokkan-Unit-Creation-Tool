@@ -135,8 +135,8 @@ def sql_output_data(CardName):
     
     if standby_skill:
         sql_file_data += standby_finish[0] + '\n'
-        sql_file_data += standby_finish[1] + '\n'
-        sql_file_data += standby_finish[2] + '\n\n'
+        sql_file_data += standby_finish[1] + '\n\n'
+        sql_file_data += standby_finish[2] + '\n'
         sql_file_data += standby_finish[3] + '\n'
         sql_file_data += standby_finish[4] + '\n\n'
         sql_file_data += standby_finish[5] + '\n'
@@ -472,13 +472,13 @@ def Optimal_Awakening_Growth_Output():
                 optimal_awakening_growth_sql = f'\n\t\t({CardID}, {CardID0}, 1, 150, 25, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 1)}, {CardID0}, 2, 150, 25, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 2)}, {CardID0}, 3, 150, 25, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 3)}, {CardID0}, 4, 150, 25, {CardID[:-1]}, {CardID});'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 3)}, {CardID0}, 4, 150, 25, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_text += optimal_awakening_growth_sql
 
-                card_awakening_routes_sql = f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 4, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);'
+                card_awakening_routes_sql = f'\n\t\t({str(int(CardID))}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1312, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1313, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 2)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1314, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 3)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 4574, 4, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                 card_awakening_routes_text += card_awakening_routes_sql
             else:
                 optimal_awakening_growth_sql = f'\n\t\t({CardID}, {CardID0}, 1, 140, 15, {CardID[:-1]}, {CardID}),'
@@ -488,21 +488,22 @@ def Optimal_Awakening_Growth_Output():
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 4)}, {CardID0}, 5, 140, 15, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 5)}, {CardID0}, 6, 140, 15, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 6)}, {CardID0}, 7, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 7)}, {CardID0}, 8, 140, 15, {CardID[:-1]}, {CardID});'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 7)}, {CardID0}, 8, 140, 15, {CardID[:-1]}, {CardID}),'
                 optimal_awakening_growth_text += optimal_awakening_growth_sql
 
-                card_awakening_routes_sql = f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 4, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 5, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 6, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 7, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 8, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);'
+                card_awakening_routes_sql = f'\n\t\t({str(int(CardID))}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 343, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 344, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 2)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 345, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 3)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 346, 4, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 4)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 347, 5, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 5)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 348, 6, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 6)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 349, 7, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 7)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 4184, 8, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                 card_awakening_routes_text += card_awakening_routes_sql
 
-            if cards - 1 == card:
-                optimal_awakening_growth_text = optimal_awakening_growth_text[:-1] + ';'
+            # if cards - 1 == card:
+    optimal_awakening_growth_text = optimal_awakening_growth_text[:-1] + ';'
+    card_awakening_routes_text = card_awakening_routes_text[:-1] + ';'
                 
     if len(optimal_awakening_growth_text) < 200:
         optimal_awakening_growth_text = ''
@@ -867,7 +868,7 @@ def Leader_Output():
     \tVALUES'''
     leader_skill_text = f'''\t\tINSERT OR REPLACE INTO leader_skills ("id", "leader_skill_set_id", "exec_timing_type", "target_type", "sub_target_type_set_id", "causality_conditions", "efficacy_type", "efficacy_values", "calc_option", "created_at", "updated_at")
     \tVALUES'''
-    sub_target_type_text = f'''\tINSERT OR REPLACE INTO sub_target_types ("id", "sub_target_type_set_id", "target_value_type", "target_value", "created_at", "updated_at")
+    sub_target_type_text = f'''\t\tINSERT OR REPLACE INTO sub_target_types ("id", "sub_target_type_set_id", "target_value_type", "target_value", "created_at", "updated_at")
     \tVALUES'''
     sub_target_type_set_text = f'''\tINSERT OR REPLACE INTO sub_target_type_sets ("id", "created_at", "updated_at")
     \tVALUES'''
@@ -1102,10 +1103,11 @@ def Standby_Finish_Output():
     standby_skill_set_finish_skills_set_relations_text = f'''\n\t\tINSERT OR REPLACE INTO standby_skill_set_finish_skill_set_relations ("id", "standby_skill_set_id", "finish_skill_set_id", "created_at", "updated_at")
     \tVALUES'''
     
-    finish_skill_set_text = f'''\n\t\tINSERT OR REPLACE INTO finish_skill_sets ("id", "name", "effect_description", "condition_description", "dialog_order", "dialog_images", "exec_timing_type", "exec_limit", "causality_conditions", "finish_special_id", "special_view_id", "costume_special_view_id", "bgm_id", "is_dialog_view_visible", "created_at", "updated_at")
+    finish_skill_set_text = f'''\t-- Finish Skill
+    \tINSERT OR REPLACE INTO finish_skill_sets ("id", "name", "effect_description", "condition_description", "dialog_order", "dialog_images", "exec_timing_type", "exec_limit", "causality_conditions", "finish_special_id", "special_view_id", "costume_special_view_id", "bgm_id", "is_dialog_view_visible", "created_at", "updated_at")
     \tVALUES'''
     
-    finish_skills_text = f'''\t-- Finish Skill
+    finish_skills_text = f'''
     \tINSERT OR REPLACE INTO finish_skills ("id", "finish_skill_set_id", "target_type", "target_type_values", "sub_target_type_set_id", "turn", "efficacy_type", "calc_option", "efficacy_values", "thumb_effect_id", "effect_se_id", "created_at", "updated_at")
     \tVALUES'''
     
@@ -1193,7 +1195,7 @@ def Standby_Finish_Output():
         if does_alias_exist(f'Finish_Skill_Set_Text_{card}_0'):
             num_of_finish_skills = Row_Checker(f'Finish_Skill_Set_Text_{card}_')
             finish_skill_set_id = int(get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '0'))
-            standby_skill_set_id = int(get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '1'))
+            standby_skill_set_id = int(get_value(Card.row_names[0] + '_Card_' + str(card - 1) + '_Row_' + '1')) # card - 1 to get the standby skill card
             finish_skills_row_ids = finish_skill_set_id
             card_finish_skills_set_relations_row_ids = finish_skill_set_id
             ### Remove this later, gotta add the increase rate and aim target as widgets on the GUI

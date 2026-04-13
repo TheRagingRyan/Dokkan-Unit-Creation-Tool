@@ -7,7 +7,7 @@ from . passive import Passive_Add, Passive_Del, Passive_Skill_Query, EfficacyPre
 from . specials import Special_Skills_Add, Special_Skills_Del, Specials_Add, Specials_Del, Specials_Query
 from . special_views import Special_View_Widgets
 from . SQL_file import sql_write_to_file,sql_output_data
-from . leader import Leader_Combo, Leader_Cat_Selection, Leader_Efficacy_Value_Changer, Leader_Resize, Resize_Widget, Resize_Description, Leader_Skill_Set_Values, Leader_Create_Combos, Leader_Ki_Selection, Leader_Skill_Query
+from . leader import Leader_Combo, Leader_Cat_Selection, Leader_Efficacy_Value_Changer, Leader_Resize, Resize_Widget, Resize_Description, Leader_Skill_Set_Values, Leader_Create_Combos, Leader_Ki_Selection, Leader_Skill_Query, Define_Leader_Skill_Type
 from . active_skill import Active_Skill_Add, Active_Skill_Del, Active_Skill_Query
 from . standby_finish import Standby_Skill_Query, Finish_Skill_Query
 from . battle_params import Battle_Params_Information, Battle_Param_Presets
@@ -219,8 +219,11 @@ def Export_as_SQL():
     set_value('log_1', 'SQL Exported')
     
 def Custom_Query_Window(tag_id):
-    card = Custom_Unit.card_number
-    Custom_Unit.custom_execute_number = Table_ID(tag_id)
+    card = int(Table_ID(tag_id))
+    # Custom_Unit.card_number = card
+    Custom_Unit.custom_execute_number = card
+    # card = Custom_Unit.card_number
+    # Custom_Unit.custom_execute_number = Table_ID(tag_id)
     selectable_labels = ['Card', 'Passive', 'Specials', 'Categories', 'Leader Skill', 'Active Skill', 'Standby Skill', 'Finish Skill', 'Dokkan Field', 'Battle Params']
     selectable_tags = ['Card_Query_Selectable', 'Passive_Query_Selectable', 'Specials_Query_Selectable','Category_Query_Selectable', 'Leader_Skill_Query_Selectable', 'Active_Skill_Query_Selectable',
                         'Standby_Skill_Query_Selectable', 'Finish_Skill_Query_Selectable', 'Dokkan_Field_Query_Selectable', 'Battle_Params_Query_Selectable']
@@ -291,7 +294,10 @@ def Execute_Custom_Query(tag_id):
             
             if i != len(Card_Checks.json_data) - 1:
                 Main_Tab_Bar_Callback()
-        card_id = data['card']['id']
+
+
+            # Custom_Unit.card_number += 1
+        # card_id = data['card']['id']
         # url = f'https://dokkan.wiki/cards/{card_id}'
         # if RPC:
         #     RPC.update(
@@ -1704,6 +1710,8 @@ def Custom_Unit_Finish_Skill_Query(*, card=int, json_cards=0):
     # if Card_Checks.finish_skill_ids.get(json_cards, None):
     # if len(Card_Checks.finish_skill_cards) > 0 and Card_Checks.finish_skill_cards[0]:
         
+        if not get_value(f'Special_Set_Name_Input_Card_{cards}_0'):
+            Specials_Del(f'Special_Set_Name_Input_Card_{cards}_1')
         
         for skills in range(len(finish_skill_set)):
             Finish_Skill_Set_Widgets(z=cards, finish_skills=skills)
@@ -1937,8 +1945,8 @@ def Battle_Params_Widgets(card):
     with group(horizontal=True, tag=f'Battle_Params_Group_{card}', parent=f'Battle_Params_{card}'):
         add_text('Battle Params', tag=f'Battle_Params_Text_{card}', color=(255,50,50))
         add_combo(combo_list, tag=f'Battle_Param_Preset_Combo_{card}', width=String_Length.length[9], default_value='Presets', callback=Battle_Param_Presets)
-        add_text('(?)', tag='Battle_Params_Hints')
-        with tooltip('Battle_Params_Hints'):
+        add_text('(?)', tag=f'Battle_Params_Hints_Text_{card}')
+        with tooltip(f'Battle_Params_Hints_Text_{card}', tag=f'Battle_Params_Hints_Tooltip_{card}'):
             add_text('                                                             Rage & Giant Params')
             add_text('--------------------------------------------------------------------------------------------------------------------------------------------------------')
             add_text('idx 7 = The Effect Pack ID of the animated card icon that plays on the bottom right of the screen')
@@ -1952,6 +1960,8 @@ def Battle_Params_Widgets(card):
     Widget_Aliases.tags_to_delete.append(f'Transformation_Descriptions_Table_Separator_{card}')
     Widget_Aliases.tags_to_delete.append(f'Battle_Params_Text_{card}')
     Widget_Aliases.tags_to_delete.append(f'Battle_Param_Preset_Combo_{card}')
+    Widget_Aliases.tags_to_delete.append(f'Battle_Params_Hints_Text_{card}')
+    Widget_Aliases.tags_to_delete.append(f'Battle_Params_Hints_Tooltip_{card}')
     
     # Battle Param Section
     ######################################################################################################################################################################################
@@ -2116,6 +2126,8 @@ def Custom_Unit_Leader_Skill_Query(*, card=0):
         set_value(f'Leader_Desc_Text_Input_{card}', leader_skill_description)
         width, height = get_text_size(f'Leader_Desc_Text_Input_{card}', font='fonts/ARIAL.tff')
         newline_count = leader_skill_description.count('\n')
+
+        Define_Leader_Skill_Type(leader_skill_description)
         # if newline_count == 0:
         # set_item_height(f'Leader_Desc_Text_Input_{card}', 16.5)
         # else:
