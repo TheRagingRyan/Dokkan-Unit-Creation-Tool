@@ -443,62 +443,77 @@ def Optimal_Awakening_Growth_Output():
     card_awakening_routes_text = f'''\n\t\tINSERT OR REPLACE INTO card_awakening_routes ("id", "type", "card_id", "awaked_card_id", "num", "card_awakening_set_id", "optimal_awakening_step", "optimal_awakening_type", "description", "priority", "open_at", "created_at", "updated_at")
     \tVALUES'''
     cards = Card_Checker()
+
+    # Will check if the card is linked to a previous card and return that id to be used as the leader skill
+    def Resolve_Leader_Skill(card):
+        card_count = card
+        if not does_alias_exist(f'Leader_Name_Text_Input_{card_count}'):
+            while card_count >= 0:
+                if not does_alias_exist(f'Leader_Name_Text_Input_{card_count}'):
+                    card_count -= 1
+                else:
+                    return get_value(Card.row_names[0] + '_Card_' + str(card_count) + '_Row_' + '1')
+        else:
+            return get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '1')
+
     for card in range(cards):
         if get_value(f'EZA_Checkbox_{card}'):
-            CardID = get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '1')
+            CardID1 = get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '1')
+            CardID = Resolve_Leader_Skill(card)
             CardID0 = get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '0')
             if get_value(Card.row_names[5] + '_Card_' + str(card) + '_Row_' + '1') == '(LR)':
-                optimal_awakening_growth_sql = f'\n\t\t({CardID}, {CardID0}, 1, 150, 25, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 1)}, {CardID0}, 2, 150, 25, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 2)}, {CardID0}, 3, 150, 25, {CardID[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql = f'\n\t\t({CardID1}, {CardID0}, 1, 150, 25, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 1)}, {CardID0}, 2, 150, 25, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 2)}, {CardID0}, 3, 150, 25, {CardID1[:-1]}, {CardID}),'
                 optimal_awakening_growth_text += optimal_awakening_growth_sql
             else:
-                optimal_awakening_growth_sql = f'\n\t\t({CardID}, {CardID0}, 1, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 1)}, {CardID0}, 2, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 2)}, {CardID0}, 3, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 3)}, {CardID0}, 4, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 4)}, {CardID0}, 5, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 5)}, {CardID0}, 6, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 6)}, {CardID0}, 7, 140, 15, {CardID[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql = f'\n\t\t({CardID1}, {CardID0}, 1, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 1)}, {CardID0}, 2, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 2)}, {CardID0}, 3, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 3)}, {CardID0}, 4, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 4)}, {CardID0}, 5, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 5)}, {CardID0}, 6, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 6)}, {CardID0}, 7, 140, 15, {CardID1[:-1]}, {CardID}),'
                 optimal_awakening_growth_text += optimal_awakening_growth_sql
                 
             if cards - 1 == card:
                 optimal_awakening_growth_text = optimal_awakening_growth_text[:-1] + ';'
 
         elif get_value(f'Super_EZA_Checkbox_{card}'):
-            CardID = get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '1')
+            CardID1 = get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '1')
+            CardID = Resolve_Leader_Skill(card)
             CardID0 = get_value(Card.row_names[0] + '_Card_' + str(card) + '_Row_' + '0')
             if get_value(Card.row_names[5] + '_Card_' + str(card) + '_Row_' + '1') == '(LR)':
-                optimal_awakening_growth_sql = f'\n\t\t({CardID}, {CardID0}, 1, 150, 25, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 1)}, {CardID0}, 2, 150, 25, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 2)}, {CardID0}, 3, 150, 25, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 3)}, {CardID0}, 4, 150, 25, {CardID[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql = f'\n\t\t({CardID1}, {CardID0}, 1, 150, 25, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 1)}, {CardID0}, 2, 150, 25, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 2)}, {CardID0}, 3, 150, 25, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 3)}, {CardID0}, 4, 150, 25, {CardID1[:-1]}, {CardID}),'
                 optimal_awakening_growth_text += optimal_awakening_growth_sql
 
-                card_awakening_routes_sql = f'\n\t\t({str(int(CardID))}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1312, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1313, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 2)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 1314, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 3)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 4574, 4, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql = f'\n\t\t({str(int(CardID1))}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 1312, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 1313, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 2)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 1314, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 3)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 4574, 4, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                 card_awakening_routes_text += card_awakening_routes_sql
             else:
-                optimal_awakening_growth_sql = f'\n\t\t({CardID}, {CardID0}, 1, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 1)}, {CardID0}, 2, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 2)}, {CardID0}, 3, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 3)}, {CardID0}, 4, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 4)}, {CardID0}, 5, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 5)}, {CardID0}, 6, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 6)}, {CardID0}, 7, 140, 15, {CardID[:-1]}, {CardID}),'
-                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID) + 7)}, {CardID0}, 8, 140, 15, {CardID[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql = f'\n\t\t({CardID1}, {CardID0}, 1, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 1)}, {CardID0}, 2, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 2)}, {CardID0}, 3, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 3)}, {CardID0}, 4, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 4)}, {CardID0}, 5, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 5)}, {CardID0}, 6, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 6)}, {CardID0}, 7, 140, 15, {CardID1[:-1]}, {CardID}),'
+                optimal_awakening_growth_sql += f'\n\t\t({str(int(CardID1) + 7)}, {CardID0}, 8, 140, 15, {CardID1[:-1]}, {CardID}),'
                 optimal_awakening_growth_text += optimal_awakening_growth_sql
 
-                card_awakening_routes_sql = f'\n\t\t({str(int(CardID))}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 343, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 344, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 2)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 345, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 3)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 346, 4, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 4)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 347, 5, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 5)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 348, 6, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 6)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 349, 7, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
-                card_awakening_routes_sql += f'\n\t\t({str(int(CardID) + 7)}, \'CardAwakeningRoute::Optimal\', {CardID}, {CardID}, 1, 4184, 8, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql = f'\n\t\t({str(int(CardID1))}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 343, 1, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 1)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 344, 2, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 2)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 345, 3, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 3)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 346, 4, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 4)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 347, 5, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 5)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 348, 6, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 6)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 349, 7, 1, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
+                card_awakening_routes_sql += f'\n\t\t({str(int(CardID1) + 7)}, \'CardAwakeningRoute::Optimal\', {CardID1}, {CardID1}, 1, 4184, 8, 2, NULL, 0, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),'
                 card_awakening_routes_text += card_awakening_routes_sql
 
             # if cards - 1 == card:
