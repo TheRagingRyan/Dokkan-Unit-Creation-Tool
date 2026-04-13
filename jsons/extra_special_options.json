@@ -14,5 +14,7 @@
     "18651":	{"probability" : "30", "extra_special_type" :  "1", "bgm_id" : "508"},
     "18652":	{"probability" : "30", "extra_special_type" :  "1", "bgm_id" : "508"},
     "18602":	{"probability" : "70", "extra_special_type" :  "2", "bgm_id" : "508"},
-    "18603":	{"probability" : "70", "extra_special_type" :  "2", "bgm_id" : "508"}
+    "18603":	{"probability" : "70", "extra_special_type" :  "2", "bgm_id" : "508"},
+    "19117":	{"probability" : "60", "extra_special_type" :  "0", "bgm_id" : "513"},
+    "19118":	{"probability" : "60", "extra_special_type" :  "0", "bgm_id" : "513"}
 }
